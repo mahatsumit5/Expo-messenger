@@ -3,5 +3,6 @@ import message from "../assets/images/chat.png";
 import profile from "../assets/images/profile.png";
 import setting from "../assets/images/setting.png";
 import notification from "../assets/images/bell.png";
+import icon from "../assets/images/icon.png";
 
-export default { home, message, profile, setting, notification };
+export default { home, message, profile, setting, notification, icon };
