@@ -6,7 +6,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icons from "@/constants/Icons";
@@ -15,8 +15,12 @@ import { StatusBar } from "expo-status-bar";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import CustomButton from "@/components/CustomButton";
 import { useAppSelector } from "@/hooks/hooks";
+import { getToken } from "@/util/asyncStorage";
+import { useGetLoggedInUserQuery } from "@/redux";
 
 const index = () => {
+  useGetLoggedInUserQuery();
+
   const { isLoggedIn, user } = useAppSelector((store) => store.user);
   if (isLoggedIn && user) return <Redirect href={"/(tabs)/home"} />;
   return (
@@ -44,11 +48,6 @@ const index = () => {
             onPress={() => {
               router.push("/(auth)/sign-in");
             }}
-          />
-          <CustomButton
-            isLoading={false}
-            title="Get Started"
-            onPress={() => {}}
           />
         </View>
       </ScrollView>

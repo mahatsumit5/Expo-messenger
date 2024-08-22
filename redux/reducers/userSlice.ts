@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: {
-  user: unknown;
+  user: IUser | null;
   isLoggedIn: boolean;
-} = { user: {}, isLoggedIn: false };
+} = { user: null, isLoggedIn: false };
 const userSlice = createSlice({
   name: "user",
   initialState,

@@ -4,20 +4,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Inputfield from "@/components/Inputfield";
 import CustomButton from "@/components/CustomButton";
 import Icons from "@/constants/Icons";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useLoginMutation, useGetLoggedInUserQuery } from "../../redux/index";
 const SignIn = () => {
   const [login, { isError, isLoading }] = useLoginMutation();
+
   const [form, setForm] = useState({
     email: "mahatsumit5@gmail.com",
-    password: "Smith@0987",
+    password: "Smith0987@",
   });
 
   const handleSubmit = async () => {
     try {
       await login(form).unwrap();
+      router.replace("/(tabs)/home");
     } catch (error) {
-      console.log(error);
       const errorMessage = (error as Error).message;
       Alert.alert("error", errorMessage);
     }

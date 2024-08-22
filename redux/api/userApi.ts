@@ -1,3 +1,4 @@
+import { storeData } from "@/util/asyncStorage";
 import { setUser } from "../reducers/userSlice";
 import { emptySplitApi } from "./index";
 
@@ -14,6 +15,8 @@ export const userApi = emptySplitApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           if (data.token.accessJWT) {
+            await storeData("token", data.token.accessJWT);
+
             dispatch(userApi.endpoints.getLoggedInUser.initiate());
           }
         } catch (error) {
@@ -33,6 +36,7 @@ export const userApi = emptySplitApi.injectEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
+          console.log("this is data after user is called", data);
           dispatch(setUser({ user: data as IUser, isLoggedIn: true }));
         } catch (error) {
           throw new Error();
