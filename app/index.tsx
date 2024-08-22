@@ -7,15 +7,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { Link, router } from "expo-router";
+import { Link, Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icons from "@/constants/Icons";
 import { landingImage } from "@/constants/images";
 import { StatusBar } from "expo-status-bar";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import CustomButton from "@/components/CustomButton";
+import { useAppSelector } from "@/hooks/hooks";
 
-const NotFound = () => {
+const index = () => {
+  const { isLoggedIn, user } = useAppSelector((store) => store.user);
+  if (isLoggedIn && user) return <Redirect href={"/(tabs)/home"} />;
   return (
     <SafeAreaView className=" h-full items-center justify-center bg-slate-100">
       <ScrollView className="">
@@ -42,6 +45,11 @@ const NotFound = () => {
               router.push("/(auth)/sign-in");
             }}
           />
+          <CustomButton
+            isLoading={false}
+            title="Get Started"
+            onPress={() => {}}
+          />
         </View>
       </ScrollView>
       <CustomStatusBar style="dark" hidden={false} backgroundColor="#172554" />
@@ -49,4 +57,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default index;

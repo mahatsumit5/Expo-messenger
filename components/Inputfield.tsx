@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { FC } from "react";
 type props = {
+  value: string;
   placeholder: string;
   title: string;
   keyboardType: KeyboardTypeOptions;
@@ -16,6 +17,7 @@ type props = {
 };
 const Inputfield: FC<props> = ({
   placeholder,
+  value,
   title,
   keyboardType,
   onChange,
@@ -38,6 +40,7 @@ const Inputfield: FC<props> = ({
           placeholderTextColor={"gray"}
           keyboardType={keyboardType}
           onChangeText={onChange}
+          value={value}
         />
       </View>
     </View>

@@ -44,6 +44,7 @@ const SignUp = () => {
               title="First Name"
               keyboardType="default"
               onChange={(e) => setForm({ ...form, fName: e })}
+              value={form.fName}
             />
             <Inputfield
               placeholder="Enter your last name"
@@ -51,6 +52,7 @@ const SignUp = () => {
               keyboardType="default"
               onChange={(e) => setForm({ ...form, lName: e })}
               otherFields=" ml-2 "
+              value={form.lName}
             />
           </View>
           <Inputfield
@@ -58,12 +60,14 @@ const SignUp = () => {
             title="Email"
             keyboardType="email-address"
             onChange={(e) => setForm({ ...form, email: e })}
+            value={form.email}
           />
           <Inputfield
             placeholder="Enter your password"
             title="Password"
             keyboardType="visible-password"
             onChange={(e) => setForm({ ...form, password: e })}
+            value={form.password}
           />
 
           <CustomButton

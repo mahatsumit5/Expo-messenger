@@ -5,20 +5,21 @@ import Inputfield from "@/components/Inputfield";
 import CustomButton from "@/components/CustomButton";
 import Icons from "@/constants/Icons";
 import { Link } from "expo-router";
-
+import { useLoginMutation, useGetLoggedInUserQuery } from "../../redux/index";
 const SignIn = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [login, { isError, isLoading }] = useLoginMutation();
+  const [form, setForm] = useState({
+    email: "mahatsumit5@gmail.com",
+    password: "Smith@0987",
+  });
 
-  const [loading, setLoading] = useState(false);
-  const handleSubmit = () => {
-    Alert.alert("test", `${form.email}-${form.password}`);
-
+  const handleSubmit = async () => {
     try {
+      await login(form).unwrap();
     } catch (error) {
+      console.log(error);
       const errorMessage = (error as Error).message;
-      Alert.alert("Success", errorMessage);
-    } finally {
-      setLoading(false);
+      Alert.alert("error", errorMessage);
     }
   };
   return (
@@ -37,16 +38,18 @@ const SignIn = () => {
             title="Email"
             keyboardType="email-address"
             onChange={(e) => setForm({ ...form, email: e })}
+            value={form.email}
           />
           <Inputfield
             placeholder="Enter your password"
             title="Password"
             keyboardType="visible-password"
+            value={form.password}
             onChange={(e) => setForm({ ...form, password: e })}
           />
 
           <CustomButton
-            isLoading={false}
+            isLoading={isLoading}
             onPress={handleSubmit}
             title="Log in"
           />
