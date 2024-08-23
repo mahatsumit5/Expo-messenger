@@ -1,4 +1,4 @@
-import { storeData } from "@/util/asyncStorage";
+import { storeData } from "@/util";
 import { setUser } from "../reducers/userSlice";
 import { emptySplitApi } from "./index";
 

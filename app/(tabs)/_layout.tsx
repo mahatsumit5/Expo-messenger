@@ -5,7 +5,7 @@ import Icons from "@/constants/Icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import { useRoute } from "@react-navigation/native";
-import { removeToken } from "@/util/asyncStorage";
+import { removeToken } from "@/util";
 import TouchableIcon from "@/components/TouchableIcon";
 type props = {
   color: string;

@@ -24,3 +24,20 @@ declare interface IPost {
     comments: number;
   };
 }
+
+declare interface IComment {
+  id: string;
+  content: string;
+  postId: string;
+  authorId: string;
+  createdAt: string; // ISO 8601 string
+  updatedAt: string; // ISO 8601 string
+  author: {
+    id: string;
+    email: string;
+    fName: string;
+    lName: string;
+    profile: string | null; // assuming profile is a string or null
+  };
+  likes: string[]; // array of like IDs or identifiers (assuming likes are identified by strings)
+}

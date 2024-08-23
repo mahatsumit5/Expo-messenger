@@ -1,5 +1,5 @@
 // Or from '@reduxjs/toolkit/query' if not using the auto-generated hooks
-import { getToken } from "@/util/asyncStorage";
+import { getToken } from "@/util";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // initialize an empty api service that we'll inject endpoints into later as needed

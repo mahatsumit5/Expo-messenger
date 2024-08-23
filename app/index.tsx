@@ -15,7 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import CustomButton from "@/components/CustomButton";
 import { useAppSelector } from "@/hooks/hooks";
-import { getToken } from "@/util/asyncStorage";
+import { getToken } from "@/util";
 import { useGetLoggedInUserQuery } from "@/redux";
 
 const index = () => {

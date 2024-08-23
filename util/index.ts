@@ -26,3 +26,7 @@ export const removeToken = async () => {
     throw new Error();
   }
 };
+
+export const extractInitial = (fName: string, lName: string): string => {
+  return fName.slice(0, 1).toUpperCase() + lName.slice(0, 1).toUpperCase();
+};
