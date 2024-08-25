@@ -46,19 +46,20 @@ const Comment = () => {
           />
         );
       }}
+      scrollEnabled={true}
     />
   );
 };
 
 const SingleComment = ({ comment }: { comment: IComment }) => {
   return (
-    <View className="w-full   justify-between  p-4  gap-4">
+    <View className=" p-2 mx-auto  justify-between    gap-4 ">
       <View className="justify-between items-center w-full flex-row">
         <View className="flex-row gap-2  items-center justify-center ">
           <AvatarIcon
             initial={extractInitial(comment.author.fName, comment.author.lName)}
           />
-          <Text className="font-psemibold text-base mb-3">
+          <Text className="font-psemibold text-base ">
             {comment.author.fName} {comment.author.lName}
           </Text>
         </View>
