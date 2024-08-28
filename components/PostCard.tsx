@@ -16,7 +16,7 @@ const PostCard: FC<{ post: IPost }> = ({
   },
 }) => {
   return (
-    <View className="min-h-60 m-2 border-blue-300 border rounded-lg p-2 ">
+    <View className="min-h-60 m-2   shadow-primary shadow-md rounded-lg p-2 bg-card">
       {/* header */}
       <View className="flex justify-between items-center flex-row">
         <View className="justify-start flex flex-row gap-2">

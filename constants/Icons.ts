@@ -11,6 +11,8 @@ import threeDots from "../assets/images/three-dots.png";
 import red_heart from "../assets/images/red_heart.png";
 import comment from "../assets/images/comment.png";
 import emptyHeart from "../assets/images/empty_heart.png";
+import img from "../assets/images/img.png";
+import camera from "../assets/images/camera.png";
 
 export default {
   home,
@@ -26,4 +28,6 @@ export default {
   red_heart,
   comment,
   emptyHeart,
+  img,
+  camera,
 };

@@ -3,8 +3,8 @@ import React from "react";
 
 const profile = () => {
   return (
-    <View>
-      <Text>profile</Text>
+    <View className="h-full p-4">
+      <Text>profislsse</Text>
     </View>
   );
 };

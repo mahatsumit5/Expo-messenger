@@ -15,12 +15,14 @@ type props = {
 const CustomButton: FC<props> = ({ title, isLoading, onPress }) => {
   return (
     <TouchableOpacity
-      className="mt-5 w-full items-center  p-3 rounded-lg bg-blue-700 shadow-md shadow-black/75 hover:scale-110"
+      className="mt-5 w-full items-center  p-3 rounded-lg bg-primary shadow-md shadow-shadow hover:scale-110 flex flex-row justify-center"
       onPress={onPress}
       disabled={isLoading}
       activeOpacity={0.7}
     >
-      <Text className="text-white font-psemibold text-lg">{title}</Text>
+      <Text className="text-primary-foreground font-psemibold text-lg">
+        {title}
+      </Text>
 
       {isLoading && (
         <ActivityIndicator

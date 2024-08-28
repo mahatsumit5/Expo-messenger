@@ -14,6 +14,7 @@ type props = {
   keyboardType: KeyboardTypeOptions;
   onChange: (text: string) => void;
   otherFields?: string;
+  inputHeight?: string;
 };
 const Inputfield: FC<props> = ({
   placeholder,
@@ -22,20 +23,21 @@ const Inputfield: FC<props> = ({
   keyboardType,
   onChange,
   otherFields,
+  inputHeight = "h-12",
 }) => {
   return (
     <View
       className={`space-y-4 w-28 mt-8 ${otherFields} ${
         title === "First Name" || title === "Last Name" ? "w-1/2" : "w-full"
-      }`}
+      }  `}
     >
       <Text className="text-lg font-pmedium">{title}</Text>
 
       <View
-        className={`w-full h-12 px-2 bg-black-100 border border-blue-200 rounded-2xl focus:border-secondary items-center flex-row`}
+        className={`w-full ${inputHeight}  bg-input  focus:border-primary focus:border rounded-2xl  items-center flex-row focus:shadow-lg focus:shadow-shadow`}
       >
         <TextInput
-          className="  h-full w-full active:shadow-lg"
+          className="  h-full w-full p-2"
           placeholder={placeholder}
           placeholderTextColor={"gray"}
           keyboardType={keyboardType}

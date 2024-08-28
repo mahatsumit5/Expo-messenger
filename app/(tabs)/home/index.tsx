@@ -7,11 +7,13 @@ import { useGetPostsQuery } from "@/redux";
 import EmptyState from "@/components/EmptyState";
 
 const Home = () => {
-  const { data, isError } = useGetPostsQuery(0);
+  const { data: posts, isError } = useGetPostsQuery(0);
 
-  return (
+  return isError ? (
+    <Text>Error Occured</Text>
+  ) : (
     <FlatList
-      data={data?.posts}
+      data={posts?.posts}
       keyExtractor={(item: IPost) => item.id}
       renderItem={({ item }) => <PostCard post={item} />}
       ListEmptyComponent={() => (
