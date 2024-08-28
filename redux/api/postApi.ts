@@ -1,5 +1,6 @@
 import { ImagePickerAsset } from "expo-image-picker";
 import { emptySplitApi } from ".";
+import * as AWSS3 from "react-native-aws3";
 interface Response extends ServerResponse {
   posts: IPost[];
   totalNumberOfPosts: number;
@@ -9,7 +10,7 @@ export interface createPostParams {
   title: string;
   content: string;
   id: string;
-  images: ImagePickerAsset[];
+  images: string[];
 }
 
 export interface ICreatePostRes {
@@ -63,20 +64,13 @@ export const postApi = emptySplitApi.injectEndpoints({
 
     createPost: builder.mutation<ICreatePostRes, createPostParams>({
       query: (data) => {
-        const formData = new FormData();
-        for (const key in data) {
-          const value = key as keys;
-          if (value !== "images") formData.append(key, data[value]);
-        }
-        if (data.images) {
-          for (let index = 0; index < data.images.length; index++) {
-            const element = data.images[index];
-            formData.append("images", element);
-          }
-        }
-
-        return { url: "", method: "post", body: formData };
+        return {
+          url: "post",
+          method: "post",
+          body: data,
+        };
       },
+
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -89,7 +83,7 @@ export const postApi = emptySplitApi.injectEndpoints({
             })
           );
         } catch (error) {
-          console.log(error);
+          throw new Error();
         }
       },
     }),

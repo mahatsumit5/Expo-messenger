@@ -2,7 +2,6 @@ import { View, Text, FlatList, Image } from "react-native";
 import React, { FC } from "react";
 type props = { images: string[] };
 const HorizontalImageScroll: FC<props> = ({ images }) => {
-  console.log(images);
   return (
     <FlatList
       data={images}

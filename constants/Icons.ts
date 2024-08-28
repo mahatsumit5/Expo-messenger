@@ -7,7 +7,7 @@ import icon from "../assets/images/icon.png";
 import add from "../assets/images/add.png";
 import logout from "../assets/images/logout.png";
 import search from "../assets/images/search.png";
-import threeDots from "../assets/images/three-dots.png";
+import threeDots from "../assets/images/three-dots-2.png";
 import red_heart from "../assets/images/red_heart.png";
 import comment from "../assets/images/comment.png";
 import emptyHeart from "../assets/images/empty_heart.png";

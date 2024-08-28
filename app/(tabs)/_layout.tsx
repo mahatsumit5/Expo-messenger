@@ -35,7 +35,7 @@ const TabsHeader: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className=" w-full  px-2 h-28  shadow-lg border-blue-500/20 border">
+    <SafeAreaView className=" w-full  px-2 h-28  shadow-lg  ">
       <View className="flex flex-row justify-between  items-center gap-2">
         <Image source={Icons.icon} className="h-10 w-10" resizeMode="contain" />
 
@@ -64,7 +64,9 @@ const TabsHeader: React.FC = () => {
 const TabsLayout = () => {
   return (
     <>
-      <Tabs screenOptions={{ tabBarShowLabel: false }}>
+      <Tabs
+        screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}
+      >
         <Tabs.Screen
           name="home"
           options={{
