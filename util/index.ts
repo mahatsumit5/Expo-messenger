@@ -33,30 +33,43 @@ export const extractInitial = (fName: string, lName: string): string => {
   return fName.slice(0, 1).toUpperCase() + lName.slice(0, 1).toUpperCase();
 };
 
-export const uploadImageToS3 = async (data: ImagePickerAsset[]) => {
+export const uploadImageToS3 = async (
+  data: ImagePickerAsset[] | ImagePickerAsset
+) => {
   try {
     const options = {
       keyPrefix: "uploads/",
-      bucket: "cfw-image-bucket",
-      region: "ap-southeast-2",
-      accessKey: "AKIAZXN2JUQAIO76ADO2",
-      secretKey: "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",
+      bucket: process.env.EXPO_PUBLIC_BUCKET,
+      region: process.env.EXPO_PUBLIC_REGION,
+      accessKey: process.env.EXPO_PUBLIC_ACCESSKEY,
+      secretKey: process.env.EXPO_PUBLIC_SECRETKEY,
     };
-
-    const images = data.map(async (image) => {
+    if (Array.isArray(data)) {
+      const images = data.map(async (image) => {
+        const file = {
+          name: image.fileName as string,
+          type: image.mimeType as string,
+          uri: image.uri,
+        };
+        const { headers, status } = await RNS3.put(file, options);
+        if (status !== 201) {
+          throw new Error("Failed to upload image");
+        }
+        return headers.location;
+      });
+      return Promise.all(images);
+    } else {
       const file = {
-        name: image.fileName as string,
-        type: image.mimeType as string,
-        uri: image.uri,
+        name: data.fileName as string,
+        type: data.mimeType as string,
+        uri: data.uri,
       };
       const { headers, status } = await RNS3.put(file, options);
       if (status !== 201) {
         throw new Error("Failed to upload image");
       }
-      return headers.location;
-    });
-
-    return Promise.all(images);
+      return headers.location as string;
+    }
   } catch (error) {
     throw new Error("Unable tp upload image to s3");
   }

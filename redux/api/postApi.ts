@@ -17,6 +17,11 @@ export interface ICreatePostRes {
   status: boolean;
   result: IPost;
 }
+export interface IDeletePost {
+  status: boolean;
+  message: string;
+  post: IPost;
+}
 
 type keys = "title" | "id" | "content" | "images";
 
@@ -61,6 +66,9 @@ export const postApi = emptySplitApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
+    getPostsByUser: builder.query<Response, string>({
+      query: (userId) => `post/user/${userId}`,
+    }),
 
     createPost: builder.mutation<ICreatePostRes, createPostParams>({
       query: (data) => {
@@ -87,6 +95,90 @@ export const postApi = emptySplitApi.injectEndpoints({
         }
       },
     }),
+
+    deletePost: builder.mutation<IDeletePost, string>({
+      query: (postId) => {
+        return { url: `post/${postId}`, method: "delete" };
+      },
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.filter((post) => post.id !== data.post.id),
+              };
+            })
+          );
+        } catch (error) {
+          throw new Error();
+        }
+      },
+    }),
+    // likePost: builder.mutation<ILikedPost, string>({
+    //   query: (postId) => {
+    //     return { url: "like", method: "put", body: { postId } };
+    //   },
+    //   transformResponse: (res: ILikePostResponse) => res.likedPost,
+    //   onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+    //     try {
+    //       const { data } = await queryFulfilled;
+
+    //       dispatch(
+    //         postApi.util.updateQueryData("getPosts", 0, (draft) => {
+    //           return {
+    //             ...draft,
+    //             posts: draft.posts.map((post) => {
+    //               if (post.id === data.postId) {
+    //                 return { ...post, likes: [...post.likes, data] };
+    //               } else {
+    //                 return post;
+    //               }
+    //             }),
+    //           };
+    //         })
+    //       );
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   },
+    // }),
+    // removeLike: builder.mutation<ILikedPost, string>({
+    //   query: (likeId) => {
+    //     return {
+    //       url: `remove-like`,
+    //       method: "put",
+    //       body: { likeId },
+    //     };
+    //   },
+    //   transformResponse: (res: IRemovedLikeRes) => res.deletedLike,
+    //   onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+    //     try {
+    //       const { data } = await queryFulfilled;
+
+    //       dispatch(
+    //         postApi.util.updateQueryData("getPosts", 0, (draft) => {
+    //           return {
+    //             ...draft,
+    //             posts: draft.posts.map((post) => {
+    //               if (post.id === data.postId) {
+    //                 return {
+    //                   ...post,
+    //                   likes: post.likes.filter((like) => like.id !== data.id),
+    //                 };
+    //               } else {
+    //                 return post;
+    //               }
+    //             }),
+    //           };
+    //         })
+    //       );
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   },
+    // }),
   }),
   overrideExisting: true,
 });

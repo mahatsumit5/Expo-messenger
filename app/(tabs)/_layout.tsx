@@ -68,6 +68,15 @@ const TabsLayout = () => {
         screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}
       >
         <Tabs.Screen
+          name="profile"
+          options={{
+            headerShown: false,
+            header: () => <TabsHeader />,
+
+            href: null,
+          }}
+        />
+        <Tabs.Screen
           name="home"
           options={{
             headerShown: true,
@@ -82,7 +91,6 @@ const TabsLayout = () => {
             header: () => <TabsHeader />,
           }}
         />
-
         <Tabs.Screen
           name="message"
           options={{
@@ -147,18 +155,7 @@ const TabsLayout = () => {
             ),
           }}
         />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            headerShown: true,
-            header: () => <TabsHeader />,
-
-            href: null,
-          }}
-        />
       </Tabs>
-
-      <CustomStatusBar backgroundColor="white" style="dark" hidden={false} />
     </>
   );
 };

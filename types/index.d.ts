@@ -9,6 +9,8 @@ declare interface IUser {
   profile: string | null;
   email: string;
   isActive: boolean;
+  bio: string;
+  coverPicture: string | null;
 }
 declare interface IPost {
   id: string;

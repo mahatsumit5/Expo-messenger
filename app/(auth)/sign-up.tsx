@@ -5,6 +5,7 @@ import Inputfield from "@/components/Inputfield";
 import CustomButton from "@/components/CustomButton";
 import Icons from "@/constants/Icons";
 import { Link } from "expo-router";
+import { useSignUpMutation } from "@/redux";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -14,17 +15,13 @@ const SignUp = () => {
     lName: "",
   });
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const handleSubmit = () => {
-    Alert.alert("test", `${form.email}-${form.password}`);
-    setLoading(true);
+  const [signUp, { isError, isLoading }] = useSignUpMutation();
+  const handleSubmit = async () => {
     try {
-      // todo call api do your thingy
+      await signUp(form).unwrap();
     } catch (error) {
       const errorMessage = (error as Error).message;
       Alert.alert("Success", errorMessage);
-    } finally {
-      setLoading(false);
     }
   };
   return (
@@ -71,9 +68,9 @@ const SignUp = () => {
           />
 
           <CustomButton
-            isLoading={false}
+            isLoading={isLoading}
             onPress={handleSubmit}
-            title="Log in"
+            title="Sign Up"
           />
           <View className="justify-center gap-2 flex-row pt-5">
             <Text className="text-lg  font-pregular ">

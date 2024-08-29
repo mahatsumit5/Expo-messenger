@@ -12,16 +12,23 @@ type props = {
   isLoading: boolean;
   onPress: (event: GestureResponderEvent) => void;
   disabled?: boolean;
+  buttonColor?: string;
 };
-const CustomButton: FC<props> = ({ title, isLoading, onPress, disabled }) => {
+const CustomButton: FC<props> = ({
+  title,
+  isLoading,
+  onPress,
+  disabled,
+  buttonColor = "bg-primary",
+}) => {
   return (
     <TouchableOpacity
-      className="mt-5 w-full items-center  p-3 rounded-lg bg-primary shadow-md shadow-shadow hover:scale-110 flex flex-row justify-center disabled:bg-primary/40"
+      className={`mt-5 w-full items-center  p-2 rounded-lg ${buttonColor} shadow-md shadow-shadow hover:scale-110 flex flex-row justify-center disabled:bg-primary/40`}
       onPress={onPress}
       disabled={isLoading || disabled}
       activeOpacity={0.7}
     >
-      <Text className="text-primary-foreground font-psemibold text-lg">
+      <Text className="text-primary-foreground font-psemibold text-base">
         {!isLoading ? title : "Please wait..."}
       </Text>
 

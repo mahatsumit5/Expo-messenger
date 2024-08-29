@@ -4,7 +4,7 @@ import { StatusBar, StatusBarStyle } from "expo-status-bar";
 type props = {
   style: StatusBarStyle;
   hidden: boolean;
-  backgroundColor: string;
+  backgroundColor?: string;
 };
 const CustomStatusBar: React.FC<props> = ({
   hidden,

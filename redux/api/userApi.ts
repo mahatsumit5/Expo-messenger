@@ -7,6 +7,7 @@ interface Response extends ServerResponse {
     accessJWT: string;
   };
 }
+
 export const userApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<Response, { email: string; password: string }>({
@@ -41,6 +42,27 @@ export const userApi = emptySplitApi.injectEndpoints({
         } catch (error) {
           throw new Error();
         }
+      },
+    }),
+    signUp: builder.mutation<ServerResponse, Object>({
+      query: (data) => {
+        return { url: "user/sign-up", method: "post", body: data, timeout: 10 };
+      },
+    }),
+
+    updateUser: builder.mutation<
+      ServerResponse,
+      {
+        fName: string;
+        lName: string;
+        bio?: string;
+        profile?: string | null;
+        coverPicture?: string | null;
+      }
+    >({
+      query: (data) => {
+        console.log(data);
+        return { url: "user/update-user", method: "put", body: data };
       },
     }),
   }),

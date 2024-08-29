@@ -22,11 +22,11 @@ const index = () => {
   useGetLoggedInUserQuery();
 
   const { isLoggedIn, user } = useAppSelector((store) => store.user);
-  if (isLoggedIn && user) return <Redirect href={"/(tabs)/home"} />;
+  if (isLoggedIn && user) return <Redirect href={"/(tabs)/profile"} />;
   return (
     <SafeAreaView className=" h-full items-center justify-center bg-slate-100">
       <ScrollView className="">
-        <View className="items-center justify-center  gap-5 px-4">
+        <View className="items-center justify-center  px-4">
           <Image
             source={Icons.icon}
             className="h-24 w-24"
