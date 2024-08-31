@@ -14,9 +14,13 @@ import emptyHeart from "../assets/images/empty_heart.png";
 import img from "../assets/images/img.png";
 import camera from "../assets/images/camera.png";
 import deleteIcon from "../assets/images/delete.png";
+import friends from "../assets/images/friends.png";
+import addFriend from "../assets/images/add_friend.png";
 
 export default {
+  addFriend,
   home,
+  friends,
   message,
   profile,
   setting,

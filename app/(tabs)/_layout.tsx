@@ -16,7 +16,7 @@ type props = {
 const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
   return (
     <View className="items-center justify-center gap-1 ">
-      <Image source={icon} resizeMode="contain" className="w-8 h-7" />
+      <Image source={icon} resizeMode="contain" className="w-6 h-6" />
       <Text
         className={`${focused ? " font-pbold" : "font-pregular"} text-xs `}
         style={{ color: color }}
@@ -46,7 +46,7 @@ const TabsHeader: React.FC = () => {
             <TouchableIcon
               icon={Icons.search}
               onPress={() => router.navigate("/search/test")}
-              className="mr-3"
+              iconClassName="w-7 h-7 mr-5"
             />
 
             <TouchableIcon
@@ -124,7 +124,7 @@ const TabsLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="notification"
+          name="friends"
           options={{
             headerShown: true,
             header: () => <TabsHeader />,
@@ -133,8 +133,8 @@ const TabsLayout = () => {
               <TabIcon
                 color={color}
                 focused={focused}
-                icon={Icons.notification}
-                name="Notification"
+                icon={Icons.friends}
+                name="Friends"
               />
             ),
           }}

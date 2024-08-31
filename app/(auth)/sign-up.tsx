@@ -1,11 +1,12 @@
 import { View, Text, ScrollView, Image, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Inputfield from "@/components/Inputfield";
 import CustomButton from "@/components/CustomButton";
 import Icons from "@/constants/Icons";
 import { Link } from "expo-router";
 import { useSignUpMutation } from "@/redux";
+import { test_data } from "@/test_data";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -24,6 +25,11 @@ const SignUp = () => {
       Alert.alert("Success", errorMessage);
     }
   };
+  // useEffect(() => {
+  //   test_data.map(({ profile, bio, ...rest }) => {
+  //     signUp(rest);
+  //   });
+  // }, []);
   return (
     <SafeAreaView className="bg-slate-100 h-full">
       <ScrollView>
