@@ -2,6 +2,23 @@ declare interface ServerResponse {
   status: boolean;
   message: string;
 }
+declare interface IFriendReq {
+  status: string;
+  from: {
+    fName: string;
+    lName: string;
+    profile: string | null;
+    email: string;
+    id: string;
+  };
+  to: {
+    fName: string;
+    lName: string;
+    profile: string | null;
+    email: string;
+    id: string;
+  };
+}
 declare interface IUser {
   id: string;
   fName: string;

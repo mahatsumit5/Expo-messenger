@@ -25,11 +25,7 @@ const SignUp = () => {
       Alert.alert("Success", errorMessage);
     }
   };
-  // useEffect(() => {
-  //   test_data.map(({ profile, bio, ...rest }) => {
-  //     signUp(rest);
-  //   });
-  // }, []);
+
   return (
     <SafeAreaView className="bg-slate-100 h-full">
       <ScrollView>

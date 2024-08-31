@@ -1,6 +1,7 @@
 import { ImagePickerAsset } from "expo-image-picker";
 import { emptySplitApi } from ".";
 import * as AWSS3 from "react-native-aws3";
+import { Alert } from "react-native";
 interface Response extends ServerResponse {
   posts: IPost[];
   totalNumberOfPosts: number;
@@ -34,15 +35,20 @@ export const postApi = emptySplitApi.injectEndpoints({
       },
       number
     >({
-      query: (skip) => `post?skip=${skip}&&take=6`,
+      query: (skip) => `post?skip=${skip}&&take=10`,
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved }
       ) => {
         try {
-          await cacheDataLoaded;
+          const { data } = await cacheDataLoaded;
+          console.log(data);
         } catch (error) {
-          throw new Error();
+          if (error instanceof Error) {
+            Alert.alert("error", error.message);
+          } else {
+            throw new Error("Unknown error occured");
+          }
         }
         await cacheEntryRemoved;
       },
@@ -57,6 +63,7 @@ export const postApi = emptySplitApi.injectEndpoints({
         };
       },
       merge: (cacheData, incomingData) => {
+        console.log("this is cache data");
         cacheData.posts.push(...incomingData.posts);
         cacheData.totalNumberOfPosts =
           cacheData.totalNumberOfPosts + incomingData.posts.length;
@@ -91,7 +98,11 @@ export const postApi = emptySplitApi.injectEndpoints({
             })
           );
         } catch (error) {
-          throw new Error();
+          if (error instanceof Error) {
+            Alert.alert("error", error.message);
+          } else {
+            throw new Error("Unknown error occured");
+          }
         }
       },
     }),
@@ -112,7 +123,11 @@ export const postApi = emptySplitApi.injectEndpoints({
             })
           );
         } catch (error) {
-          throw new Error();
+          if (error instanceof Error) {
+            Alert.alert("error", error.message);
+          } else {
+            throw new Error("Unknown error occured");
+          }
         }
       },
     }),

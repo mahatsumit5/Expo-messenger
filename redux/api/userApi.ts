@@ -7,7 +7,17 @@ interface Response extends ServerResponse {
     accessJWT: string;
   };
 }
-
+interface IGetAllUsersParams {
+  take: number;
+  page: number;
+  order: "asc" | "desc";
+  search?: string;
+}
+interface IAllUsersResponse {
+  status: boolean;
+  data: IUser[];
+  totalUsers: number;
+}
 export const userApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<Response, { email: string; password: string }>({
@@ -47,6 +57,23 @@ export const userApi = emptySplitApi.injectEndpoints({
     signUp: builder.mutation<ServerResponse, Object>({
       query: (data) => {
         return { url: "user/sign-up", method: "post", body: data, timeout: 10 };
+      },
+    }),
+
+    getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams | null>({
+      query: (params) =>
+        `user/all-users?order=${params?.order}&&page=${params?.page}&&take=${params?.take}&&search=${params?.search}`,
+
+      onCacheEntryAdded: async (
+        arg,
+        { cacheDataLoaded, cacheEntryRemoved }
+      ) => {
+        try {
+          await cacheDataLoaded;
+        } catch (error) {
+          console.log(error);
+        }
+        await cacheEntryRemoved;
       },
     }),
 

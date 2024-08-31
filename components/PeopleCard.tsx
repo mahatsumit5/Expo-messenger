@@ -1,16 +1,44 @@
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import React, { FC } from "react";
 import PeopleAvatar from "./PeopleAvatar";
 import TouchableIcon from "./TouchableIcon";
 import Icons from "@/constants/Icons";
-
-const PeopleCard: FC<{ user: IUser }> = ({ user }) => {
-  function handleAddFriend() {}
+import * as Animatable from "react-native-animatable";
+import { router } from "expo-router";
+import SmallIconButton from "./SmallconButton";
+import { useSendFriendRequestMutation } from "@/redux";
+type Keys = "Friend" | "NewUser";
+const PeopleCard: FC<{ user: IUser; isInView: boolean; type: Keys }> = ({
+  user,
+  isInView,
+  type,
+}) => {
+  const dynamicButton: Record<Keys, React.ReactNode> = {
+    NewUser: <NewUser user={user} />,
+    Friend: <Friend />,
+  };
   return (
-    <View className="min-h-[300px] border border-slate-300 p-2 w-full rounded-md items-center justify-start flex py-8">
+    <Animatable.View
+      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-background`}
+      animation={
+        isInView
+          ? {
+              easing: "linear",
+              from: { transform: [{ scale: 0.9 }] },
+              to: { transform: [{ scale: 1 }] },
+            }
+          : {
+              easing: "linear",
+              from: { transform: [{ scale: 1 }] },
+              to: { transform: [{ scale: 0.9 }] },
+            }
+      }
+    >
       <PeopleAvatar initial="SM" profilePicture={user.profile} />
-      <Text className="mt-3 text-lg font-pmedium uppercase">Sumit Mahat</Text>
-      <Text className="mt-1 text-sm font-pregular">mahatsumit5@gmail.com</Text>
+      <Text className="mt-3 text-lg font-pmedium uppercase">
+        {user.fName} {user.lName}
+      </Text>
+      <Text className="mt-1 text-sm font-pregular">{user.email}</Text>
       <View className="flex flex-row">
         <View className="flex flex-row mt-2">
           <Text className="font-pbold text-base">200 </Text>
@@ -23,23 +51,54 @@ const PeopleCard: FC<{ user: IUser }> = ({ user }) => {
       </View>
       <View className="mt-2 ">
         <Text className="text-sm font-plight text-gray-500 text-center">
-          Add your social media bio here to let people know what you do{" "}
+          Add your social media bio here to let people know what you do.
         </Text>
       </View>
       {/* to do customise according to your needs */}
-      <View className="mt-4 w-full items-center">
-        <View className="bg-primary w-1/2 items-center p-2 rounded-2xl flex flex-row justify-center">
-          <TouchableIcon
-            icon={Icons.addFriend}
-            onPress={handleAddFriend}
-            className=""
-          />
-          <Text className="text-primary-foreground text-md font-pmedium ml-2">
-            Add friend
-          </Text>
-        </View>
-        {/* <TouchableIcon /> */}
-      </View>
+      {dynamicButton[type]}
+    </Animatable.View>
+  );
+};
+
+const NewUser: FC<{ user: IUser }> = ({ user }) => {
+  const [sendFriendRequest, { isError, isLoading }] =
+    useSendFriendRequestMutation();
+  async function handleAddFriend() {
+    const { data } = await sendFriendRequest({
+      to: user.id,
+      page: 1,
+    });
+    if (data) {
+      Alert.alert(
+        "success",
+        `Your request has been sent to ${data.data.to.email}`
+      );
+    }
+  }
+
+  return (
+    <View className="mt-4 w-full items-center">
+      <SmallIconButton
+        icon={Icons.addFriend}
+        onPress={handleAddFriend}
+        title="Add Friend"
+        disabled={isLoading}
+      />
+    </View>
+  );
+};
+const Friend = () => {
+  function handleSendMessage() {
+    router.navigate("/(tabs)/message");
+  }
+
+  return (
+    <View className="mt-4 w-full items-center">
+      <SmallIconButton
+        icon={Icons.message}
+        onPress={handleSendMessage}
+        title="Message"
+      />
     </View>
   );
 };
