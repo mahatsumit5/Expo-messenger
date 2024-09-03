@@ -10,6 +10,7 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import { useDeletePostMutation } from "@/redux";
+import PeopleAvatar from "./PeopleAvatar";
 
 function LegacyLeftAction(prog: any, drag: any, id: string) {
   prog.addListener((value: any) => {
@@ -63,7 +64,7 @@ function LegacyRightAction(prog: any, drag: any, id: string) {
 }
 const PostCard: FC<{ post: IPost }> = ({
   post: {
-    author: { fName, lName },
+    author: { fName, lName, profile },
     id,
     images,
     likes,
@@ -92,8 +93,13 @@ const PostCard: FC<{ post: IPost }> = ({
         userSelect="auto"
       >
         {/* header */}
-        <View className="flex justify-between items-center flex-row  ">
+        <View className="flex justify-between items-center flex-row  p-2">
           <View className="justify-start flex flex-row gap-2">
+            <PeopleAvatar
+              profilePicture={profile}
+              size="h-10 w-10"
+              initial="sm"
+            />
             <Text className="font-pmedium">
               {fName} {lName}
             </Text>

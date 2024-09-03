@@ -1,12 +1,15 @@
 import { View, Text, Image } from "react-native";
 import React, { FC } from "react";
 
-const PeopleAvatar: FC<{ profilePicture: string | null; initial: string }> = ({
-  profilePicture,
-  initial,
-}) => {
+const PeopleAvatar: FC<{
+  profilePicture: string | null;
+  initial: string;
+  size?: string;
+}> = ({ profilePicture, size = "h-28 w-28", initial }) => {
   return (
-    <View className="w-24 rounded-full h-24  bg-slate-300 items-center justify-center">
+    <View
+      className={`${size} rounded-full   bg-slate-300 items-center justify-center`}
+    >
       {profilePicture ? (
         <Image
           source={{ uri: profilePicture }}

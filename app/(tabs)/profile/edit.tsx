@@ -84,8 +84,8 @@ const Edit = () => {
     }
   }
   return (
-    <ScrollView>
-      <View className="px-4">
+    <ScrollView className="mb-7 ">
+      <View className="px-4 mb-5">
         {/* Avatar */}
 
         <View className="flex mt-5 flex-row  justify-between items-center">
@@ -139,6 +139,17 @@ const Edit = () => {
           onChangeText={(e) => {
             setForm({ ...form, email: e });
           }}
+        />
+        <InputFieldComponent
+          keyboardType="default"
+          title="Bio"
+          placeholder="Enter your bio"
+          value={form.bio ?? ""}
+          editable={true}
+          onChangeText={(e) => {
+            setForm({ ...form, bio: e });
+          }}
+          inputHeight="h-28"
         />
         <InputFieldComponent
           keyboardType="default"
@@ -204,17 +215,23 @@ type props = {
   keyboardType: KeyboardTypeOptions;
   placeholder: string;
   value: string;
+  inputHeight?: string;
   onChangeText: (e: string) => void;
   editable: boolean;
   secureTextEntry?: boolean;
 };
-const InputFieldComponent: FC<props> = ({ title, ...rest }) => {
+const InputFieldComponent: FC<props> = ({
+  title,
+  inputHeight = "h-8",
+  ...rest
+}) => {
   return (
     <View className="mt-5 flex flex-row items-center justify-between">
       <Text className="w-fit  text-sm font-psemibold">{title}</Text>
       <TextInput
-        className=" bg-background border p-2 rounded-md border-primary flex-1 max-w-[220px]"
+        className={` bg-background border p-2 rounded-md border-primary flex-1 max-w-[220px] ${inputHeight} placeholder:text-black `}
         {...rest}
+        placeholderTextColor={"gray"}
       />
     </View>
   );

@@ -7,7 +7,7 @@ import * as Animatable from "react-native-animatable";
 import { router } from "expo-router";
 import SmallIconButton from "./SmallconButton";
 import { useSendFriendRequestMutation } from "@/redux";
-type Keys = "Friend" | "NewUser";
+type Keys = "Friends" | "NewUser" | "Request" | "Sent Request";
 const PeopleCard: FC<{ user: IUser; isInView: boolean; type: Keys }> = ({
   user,
   isInView,
@@ -15,7 +15,9 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: Keys }> = ({
 }) => {
   const dynamicButton: Record<Keys, React.ReactNode> = {
     NewUser: <NewUser user={user} />,
-    Friend: <Friend />,
+    Friends: <Friend />,
+    "Sent Request": <></>,
+    Request: <></>,
   };
   return (
     <Animatable.View
@@ -24,15 +26,16 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: Keys }> = ({
         isInView
           ? {
               easing: "linear",
-              from: { transform: [{ scale: 0.9 }] },
-              to: { transform: [{ scale: 1 }] },
+              from: { transform: [{ scale: 0.8 }] },
+              to: { transform: [{ scale: 0.9 }] },
             }
           : {
               easing: "linear",
-              from: { transform: [{ scale: 1 }] },
-              to: { transform: [{ scale: 0.9 }] },
+              from: { transform: [{ scale: 0.9 }] },
+              to: { transform: [{ scale: 0.8 }] },
             }
       }
+      duration={200}
     >
       <PeopleAvatar initial="SM" profilePicture={user.profile} />
       <Text className="mt-3 text-lg font-pmedium uppercase">

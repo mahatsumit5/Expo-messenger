@@ -1,10 +1,7 @@
 import { Alert } from "react-native";
 import { emptySplitApi } from ".";
 import { userApi } from "./userApi";
-export interface ISendReqRes {
-  status: boolean;
-  data: IFriendReq;
-}
+
 export const friendApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     sendFriendRequest: builder.mutation<
@@ -54,5 +51,38 @@ export const friendApi = emptySplitApi.injectEndpoints({
         }
       },
     }),
+    // get sent request  by the current logged in user
+    getSentFriendRequest: builder.query<
+      ISentReq,
+      { page?: number; search?: string } | null
+    >({
+      query: (data) =>
+        `friend/sent-request?take=7&&page=${data?.page}&&search=${data?.search}`,
+      onCacheEntryAdded: async (
+        argument,
+        { cacheDataLoaded, cacheEntryRemoved, dispatch, updateCachedData }
+      ) => {
+        try {
+          await cacheDataLoaded;
+        } catch (error) {
+          if (error instanceof Error) {
+            Alert.alert("error", error.message);
+          } else {
+            throw new Error("Unknown error occured");
+          }
+        } finally {
+          await cacheEntryRemoved;
+        }
+      },
+    }),
   }),
 });
+interface ISentReq {
+  status: boolean;
+  data: IFriendReq[];
+  count: number;
+}
+interface ISendReqRes {
+  status: boolean;
+  data: IFriendReq;
+}

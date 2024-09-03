@@ -6,11 +6,9 @@ const EmptyState: FC<{ title: string; subtitle: string }> = ({
   title,
 }) => {
   return (
-    <View className="">
-      <Text className="text-lg font-pmedium text-center">{title} </Text>
-      <Text className="text-sm text-center text-gray-700  mt-2">
-        {subtitle}{" "}
-      </Text>
+    <View className="mt-5">
+      <Text className="text-lg font-pmedium ">{title} </Text>
+      <Text className="text-sm  text-gray-700  ">{subtitle} </Text>
     </View>
   );
 };

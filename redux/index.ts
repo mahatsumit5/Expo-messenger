@@ -16,4 +16,5 @@ export const {
   useGetPostsByUserQuery,
 } = postApi;
 export const { useGetCommentsQuery } = commentApi;
-export const { useSendFriendRequestMutation } = friendApi;
+export const { useSendFriendRequestMutation, useGetSentFriendRequestQuery } =
+  friendApi;
