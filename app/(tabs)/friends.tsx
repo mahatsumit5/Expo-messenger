@@ -1,34 +1,15 @@
-import {
-  View,
-  Text,
-  FlatList,
-  ScrollView,
-  RefreshControl,
-  ViewToken,
-  Pressable,
-} from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useRef, useState } from "react";
-import PeopleCard from "@/components/PeopleCard";
-import { useGetAllUsersQuery, useGetSentFriendRequestQuery } from "@/redux";
-import LoadingPeopleCard from "@/components/LoadingPeopleCard";
+import {
+  useGetAllUsersQuery,
+  useGetFriendRequestQuery,
+  useGetSentFriendRequestQuery,
+} from "@/redux";
 import HorizontalLoadingScroll from "@/components/HorizontalLoadingScroll";
-import EmptyState from "@/components/EmptyState";
+import CustomFlatlist from "@/components/CustomFlatlist";
 
-const tabs = ["Friends", "Request", "Sent Request"] as const;
-const emptyTitle: Record<
-  (typeof tabs)[number],
-  { title: string; subtitle: string }
-> = {
-  Request: { title: "You do not have any friend request.", subtitle: "" },
-  Friends: {
-    title: "No friends available",
-    subtitle: "Please try gain later",
-  },
-  "Sent Request": {
-    title: "No request sent",
-    subtitle: "",
-  },
-} as const;
+export const tabs = ["Friends", "Request", "Sent Request", "allUsers"] as const;
+
 const Friends = () => {
   const {
     data: allUsers,
@@ -45,24 +26,32 @@ const Friends = () => {
     page: 1,
     search: "",
   });
-  console.log(sentReq?.data);
+  console.log(sentReq);
+  const { data: friendReq } = useGetFriendRequestQuery();
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(tabs[0]);
-  const [activeCard, setActiveCard] = useState(allUsers?.data[0]);
-
-  const data: Record<(typeof tabs)[number], IUser[] | IFriendReq[]> = {
-    Request: [],
-    "Sent Request": sentReq?.data!,
-    Friends: [],
-  };
-
-  const onViewableItemsChanged = ({
-    viewableItems,
-  }: {
-    viewableItems: ViewToken<IUser>[];
-  }) => {
-    if (viewableItems.length > 0) {
-      setActiveCard(viewableItems[0].item);
-    }
+  const data: Record<(typeof tabs)[number], React.ReactNode> = {
+    Request: (
+      <CustomFlatlist
+        type="Request"
+        activeTab={activeTab}
+        data={friendReq?.data.result ?? []}
+      />
+    ),
+    "Sent Request": (
+      <CustomFlatlist
+        type="Sent Request"
+        activeTab={activeTab}
+        data={sentReq?.data!}
+      />
+    ),
+    Friends: <CustomFlatlist type="Friends" activeTab={activeTab} data={[]} />,
+    allUsers: (
+      <CustomFlatlist
+        type="allUsers"
+        activeTab={"allUsers"}
+        data={allUsers?.data!}
+      />
+    ),
   };
 
   return isError ? (
@@ -97,54 +86,11 @@ const Friends = () => {
           </Pressable>
         ))}
       </View>
-      <FlatList
-        data={data[activeTab] as IFriendReq[] 
-        keyExtractor={(item) => (item.id ? item.id : item.id)}
-        renderItem={({ item }) => {
-          return (
-            <View className="w-96 items-center justify-center">
-              <PeopleCard
-                user={item?item:item.}
-                isInView={item.id === activeCard?.id}
-                type={activeTab}
-              />
-            </View>
-          );
-        }}
-        ListEmptyComponent={() => (
-          <EmptyState
-            title={emptyTitle[activeTab].title}
-            subtitle={emptyTitle[activeTab].subtitle}
-          />
-        )}
-        onViewableItemsChanged={({ viewableItems }) => {
-          if (viewableItems.length > 0) {
-            setActiveCard(viewableItems[0].item);
-          }
-        }}
-        viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-        horizontal
-      />
+      {data[activeTab]}
       <View className="mt-5">
         <Text className="font-pmedium text-xl">Peoples</Text>
       </View>
-      <FlatList
-        data={allUsers?.data}
-        keyExtractor={({ id }) => id}
-        renderItem={({ item }) => (
-          <View className="w-80  mt-5">
-            <PeopleCard
-              user={item}
-              isInView={item.id === activeCard?.id}
-              type="NewUser"
-            />
-          </View>
-        )}
-        ListEmptyComponent={() => <Text>Empty friends</Text>}
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-        horizontal
-      />
+      {data.allUsers}
     </ScrollView>
   );
 };

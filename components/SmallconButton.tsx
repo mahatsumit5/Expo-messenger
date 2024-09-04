@@ -7,16 +7,18 @@ const SmallIconButton: FC<{
   iconClassName?: string;
   title: string;
   disabled?: boolean;
+  variant?: "bg-primary" | "bg-destructive" | "bg-success";
 }> = ({
   onPress,
   icon,
   iconClassName = "h-7 w-7",
   title,
   disabled = false,
+  variant = "bg-primary",
 }) => {
   return (
     <View
-      className={` bg-primary w-1/2 rounded-lg items-center justify-center`}
+      className={` ${variant} w-1/2 rounded-lg items-center justify-center`}
     >
       <TouchableOpacity
         className="gap-2 flex-row items-center p-2"

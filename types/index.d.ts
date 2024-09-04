@@ -4,20 +4,8 @@ declare interface ServerResponse {
 }
 declare interface IFriendReq {
   status: string;
-  from: {
-    fName: string;
-    lName: string;
-    profile: string | null;
-    email: string;
-    id: string;
-  };
-  to: {
-    fName: string;
-    lName: string;
-    profile: string | null;
-    email: string;
-    id: string;
-  };
+  from: IUser;
+  to: IUser;
 }
 declare interface IUser {
   id: string;
@@ -51,12 +39,6 @@ declare interface IComment {
   authorId: string;
   createdAt: string; // ISO 8601 string
   updatedAt: string; // ISO 8601 string
-  author: {
-    id: string;
-    email: string;
-    fName: string;
-    lName: string;
-    profile: string | null; // assuming profile is a string or null
-  };
+  author: IUser;
   likes: string[]; // array of like IDs or identifiers (assuming likes are identified by strings)
 }

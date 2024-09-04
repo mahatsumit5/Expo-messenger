@@ -6,17 +6,21 @@ import Icons from "@/constants/Icons";
 import * as Animatable from "react-native-animatable";
 import { router } from "expo-router";
 import SmallIconButton from "./SmallconButton";
-import { useSendFriendRequestMutation } from "@/redux";
-type Keys = "Friends" | "NewUser" | "Request" | "Sent Request";
-const PeopleCard: FC<{ user: IUser; isInView: boolean; type: Keys }> = ({
+import {
+  useDeleteSentRequestMutation,
+  useSendFriendRequestMutation,
+} from "@/redux";
+import { keys } from "./CustomFlatlist";
+import { useAppSelector } from "@/hooks/hooks";
+const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   user,
   isInView,
   type,
 }) => {
-  const dynamicButton: Record<Keys, React.ReactNode> = {
-    NewUser: <NewUser user={user} />,
+  const dynamicButton: Record<keys, React.ReactNode> = {
+    allUsers: <NewUser user={user} />,
     Friends: <Friend />,
-    "Sent Request": <></>,
+    "Sent Request": <SentReq receiver={user} />,
     Request: <></>,
   };
   return (
@@ -101,6 +105,43 @@ const Friend = () => {
         icon={Icons.message}
         onPress={handleSendMessage}
         title="Message"
+      />
+    </View>
+  );
+};
+
+const SentReq = ({ receiver }: { receiver: IUser }) => {
+  const { user } = useAppSelector((store) => store.user);
+  const [deleteRequest, { isError, isLoading }] =
+    useDeleteSentRequestMutation();
+
+  async function handleDeleteRequest() {
+    try {
+      const { data } = await deleteRequest({
+        type: "sent",
+        fromId: user?.id!,
+        toId: receiver.id,
+        receiverId: receiver.id,
+      });
+      if (data?.status) {
+        Alert.alert("Success", data?.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("error", error.message);
+      } else {
+        throw new Error("Unknown error occured");
+      }
+    }
+  }
+  return (
+    <View className="mt-8 w-full items-center">
+      <SmallIconButton
+        icon={Icons.deleteIcon}
+        onPress={handleDeleteRequest}
+        title="Cancel Request"
+        disabled={isLoading}
+        variant="bg-destructive"
       />
     </View>
   );

@@ -75,8 +75,52 @@ export const friendApi = emptySplitApi.injectEndpoints({
         }
       },
     }),
+
+    acceptFriendReq: builder.mutation<IFriendReqAccRes, { fromId: string }>({
+      query: (data) => ({
+        url: "friend",
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    getFriendRequest: builder.query<IFriendReqRes, void>({
+      query: () => "friend/friend-request",
+      onCacheEntryAdded: async (
+        arg,
+        { dispatch, cacheDataLoaded, cacheEntryRemoved, updateCachedData }
+      ) => {
+        try {
+          // wait for inital query to load before procedding
+          await cacheDataLoaded;
+
+          // listen to the socket event
+        } catch (error) {
+          console.log(error);
+        }
+        await cacheEntryRemoved;
+      },
+    }),
+
+    deleteSentRequest: builder.mutation<IDeleteReqRes, IdeleteReqParams>({
+      query: (data) => ({
+        method: "DELETE",
+        url: `friend/${data.fromId}/${data.toId}`,
+      }),
+    }),
   }),
 });
+
+interface IdeleteReqParams {
+  fromId: string;
+  toId: string;
+  receiverId: string;
+  type: "received" | "sent";
+}
+interface IDeleteReqRes {
+  status: boolean;
+  data: IFriendReq;
+  message: string;
+}
 interface ISentReq {
   status: boolean;
   data: IFriendReq[];
@@ -85,4 +129,15 @@ interface ISentReq {
 interface ISendReqRes {
   status: boolean;
   data: IFriendReq;
+}
+interface IFriendReqRes {
+  status: boolean;
+  data: { result: IFriendReq[]; friendReqCount: number };
+}
+interface IFriendReqAccRes {
+  status: string;
+  friendRequest: IFriendReq;
+  data: {
+    id: string;
+  };
 }
