@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 import { emptySplitApi } from ".";
 import { userApi } from "./userApi";
+import { ErrorAlert } from "@/util";
 
 export const friendApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,21 +19,20 @@ export const friendApi = emptySplitApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
 
-          // dispatch(
-          //   friendApi.util.updateQueryData(
-          //     "getSentFriendRequest",
-          //     { search: "", page: 1 },
-          //     (draft) => {
-          //       draft.data = [...draft.data, data.data];
-          //       draft.count = ++draft.count;
-          //     },
-          //     true
-          //   )
-          // );
+          dispatch(
+            friendApi.util.updateQueryData(
+              "getSentFriendRequest",
+              { page: 1, search: "" },
+              (draft) => {
+                draft.data.push(data.data);
+              },
+              true
+            )
+          );
           dispatch(
             userApi.util.updateQueryData(
               "getAllUsers",
-              { order: "asc", page: arg.page, take: 8, search: "" },
+              { order: "asc", page: arg.page, take: 10, search: "" },
               (draft) => {
                 // Filter out the user with the matching ID from getAllUsers data
                 draft.data = draft.data.filter(
@@ -65,11 +65,7 @@ export const friendApi = emptySplitApi.injectEndpoints({
         try {
           await cacheDataLoaded;
         } catch (error) {
-          if (error instanceof Error) {
-            Alert.alert("error", error.message);
-          } else {
-            throw new Error("Unknown error occured");
-          }
+          ErrorAlert(error);
         } finally {
           await cacheEntryRemoved;
         }
@@ -82,6 +78,13 @@ export const friendApi = emptySplitApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+      async onQueryStarted(arg, api) {
+        try {
+          const { data } = await api.queryFulfilled;
+        } catch (error) {
+          ErrorAlert(error);
+        }
+      },
     }),
     getFriendRequest: builder.query<IFriendReqRes, void>({
       query: () => "friend/friend-request",
@@ -95,7 +98,7 @@ export const friendApi = emptySplitApi.injectEndpoints({
 
           // listen to the socket event
         } catch (error) {
-          console.log(error);
+          ErrorAlert(error);
         }
         await cacheEntryRemoved;
       },
@@ -106,8 +109,30 @@ export const friendApi = emptySplitApi.injectEndpoints({
         method: "DELETE",
         url: `friend/${data.fromId}/${data.toId}`,
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            friendApi.util.updateQueryData(
+              "getSentFriendRequest",
+              { page: 1, search: "" },
+              (draft) => {
+                draft.data = draft.data.filter(
+                  (item) => item.to.id !== arg.toId
+                );
+                draft.count = --draft.count;
+              },
+              true
+            )
+          );
+        } catch (error) {
+          ErrorAlert(error);
+        }
+      },
     }),
   }),
+  overrideExisting: true,
 });
 
 interface IdeleteReqParams {

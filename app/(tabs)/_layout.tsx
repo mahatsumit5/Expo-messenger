@@ -64,9 +64,7 @@ const TabsHeader: React.FC = () => {
 const TabsLayout = () => {
   return (
     <>
-      <Tabs
-        screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}
-      >
+      <Tabs screenOptions={{ tabBarShowLabel: false }}>
         <Tabs.Screen
           name="profile"
           options={{
@@ -95,7 +93,7 @@ const TabsLayout = () => {
           name="message"
           options={{
             title: "Messages",
-            headerShown: true,
+            headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={color}

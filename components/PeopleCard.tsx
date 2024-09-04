@@ -7,6 +7,7 @@ import * as Animatable from "react-native-animatable";
 import { router } from "expo-router";
 import SmallIconButton from "./SmallconButton";
 import {
+  useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
   useSendFriendRequestMutation,
 } from "@/redux";
@@ -21,7 +22,7 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
     allUsers: <NewUser user={user} />,
     Friends: <Friend />,
     "Sent Request": <SentReq receiver={user} />,
-    Request: <></>,
+    Request: <FriendRequest sender={user} />,
   };
   return (
     <Animatable.View
@@ -142,6 +143,62 @@ const SentReq = ({ receiver }: { receiver: IUser }) => {
         title="Cancel Request"
         disabled={isLoading}
         variant="bg-destructive"
+      />
+    </View>
+  );
+};
+
+const FriendRequest = ({ sender }: { sender: IUser }) => {
+  const { user } = useAppSelector((store) => store.user);
+  const [acceptRequest, {}] = useAcceptFriendReqMutation();
+  const [deleteRequest, { isError, isLoading }] =
+    useDeleteSentRequestMutation();
+  async function handleDeleteRequest() {
+    try {
+      const { data } = await deleteRequest({
+        type: "received",
+        fromId: sender.id,
+        toId: user?.id!,
+        receiverId: user?.id!,
+      });
+      if (data?.status) {
+        Alert.alert("Success", data?.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("error", error.message);
+      } else {
+        throw new Error("Unknown error occured");
+      }
+    }
+  }
+  async function handleAcceptRequest() {
+    const { data, error } = await acceptRequest({ fromId: sender.id });
+    if (data) {
+      Alert.alert(
+        "Success",
+        `You are now friend with ${data.friendRequest.from.email}`
+      );
+    }
+  }
+  return (
+    <View className="mt-8 w-full items-center flex-row px-16 justify-between">
+      <SmallIconButton
+        icon={Icons.check}
+        onPress={handleAcceptRequest}
+        title="Accept "
+        disabled={false}
+        variant="bg-success"
+        className=""
+      />
+
+      <SmallIconButton
+        icon={Icons.deleteIcon}
+        onPress={handleDeleteRequest}
+        title="Cancel "
+        disabled={false}
+        variant="bg-destructive"
+        className=""
       />
     </View>
   );

@@ -7,6 +7,20 @@ declare interface IFriendReq {
   from: IUser;
   to: IUser;
 }
+
+declare interface IChatRoom {
+  id: string;
+  userId: string;
+  fName: string;
+  lName: string;
+  profile: string | null;
+  email: string;
+  isActive: boolean;
+  lastMessage: string;
+  isLastMessageSeen: boolean;
+  lastmessageAuthor: string;
+  unSeenMessageCount: number;
+}
 declare interface IUser {
   id: string;
   fName: string;

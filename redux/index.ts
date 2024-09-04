@@ -2,6 +2,9 @@ import { userApi } from "./api/userApi";
 import { postApi } from "./api/postApi";
 import { commentApi } from "./api/commentApi";
 import { friendApi } from "./api/friend";
+import { roomApi } from "./api/room";
+
+export const { useGetAllChatRoomQuery } = roomApi;
 export const {
   useLoginMutation,
   useGetLoggedInUserQuery,

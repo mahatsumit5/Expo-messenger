@@ -78,7 +78,9 @@ const profile = () => {
                   )}
                 </View>
                 <View>
-                  <Text className="font-pmedium text-lg">Sumit Mahat</Text>
+                  <Text className="font-pmedium text-lg">
+                    {user?.fName} {user?.lName}
+                  </Text>
                 </View>
                 <View className="flex flex-row  items-center justify-center ">
                   <Text className="font-pregular text-base">20 posts</Text>

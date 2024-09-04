@@ -1,4 +1,3 @@
-import { IChatRoom } from "@/types";
 import { emptySplitApi } from ".";
 type GetChatRoomParams = {
   page: number;

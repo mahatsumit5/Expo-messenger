@@ -1,6 +1,7 @@
 import { storeData } from "@/util";
 import { setUser } from "../reducers/userSlice";
 import { emptySplitApi } from "./index";
+import { Alert } from "react-native";
 
 interface Response extends ServerResponse {
   token: {
@@ -71,7 +72,11 @@ export const userApi = emptySplitApi.injectEndpoints({
         try {
           await cacheDataLoaded;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Alert.alert("error", error.message);
+          } else {
+            throw new Error("Unknown error occured");
+          }
         }
         await cacheEntryRemoved;
       },

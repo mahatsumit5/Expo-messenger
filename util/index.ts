@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ImagePickerAsset } from "expo-image-picker";
+import { Alert } from "react-native";
 import { RNS3 } from "react-native-aws3";
 
 export const storeData = async (key: string, value: string) => {
@@ -96,5 +97,13 @@ export const dateConverter = (timestamp: string): string => {
       return `${Math.floor(diffInMinutes)} minutes ago`;
     default:
       return "Just now";
+  }
+};
+
+export const ErrorAlert = (error: unknown) => {
+  if (error instanceof Error) {
+    Alert.alert("error", error.message);
+  } else {
+    throw new Error("Unknown error occured");
   }
 };

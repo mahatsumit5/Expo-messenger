@@ -26,7 +26,7 @@ const Friends = () => {
     page: 1,
     search: "",
   });
-  console.log(sentReq);
+
   const { data: friendReq } = useGetFriendRequestQuery();
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(tabs[0]);
   const data: Record<(typeof tabs)[number], React.ReactNode> = {

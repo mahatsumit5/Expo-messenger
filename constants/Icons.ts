@@ -16,8 +16,16 @@ import camera from "../assets/images/camera.png";
 import deleteIcon from "../assets/images/delete.png";
 import friends from "../assets/images/friends.png";
 import addFriend from "../assets/images/add_friend.png";
+import check from "../assets/images/check.png";
+import back from "../assets/images/back.png";
+import back2 from "../assets/images/back2.png";
+import send from "../assets/images/send.png";
 
 export default {
+  send,
+  back2,
+  back,
+  check,
   addFriend,
   home,
   friends,

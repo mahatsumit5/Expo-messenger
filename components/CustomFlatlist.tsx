@@ -1,4 +1,4 @@
-import { View, Text, FlatList, ViewToken } from "react-native";
+import { View, Text, FlatList, ViewToken, Alert } from "react-native";
 import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import { tabs } from "@/app/(tabs)/friends";
 import EmptyState from "./EmptyState";
@@ -130,10 +130,11 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
           horizontal
+          onEndReached={() => {
+            Alert.alert("Todo", "re call data ");
+          }}
         />
       );
-    default:
-      return <Text>Item 3</Text>;
   }
 };
 
