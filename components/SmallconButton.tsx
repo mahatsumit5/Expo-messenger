@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import React, { FC } from "react";
 
 const SmallIconButton: FC<{
@@ -9,6 +15,7 @@ const SmallIconButton: FC<{
   disabled?: boolean;
   variant?: "bg-primary" | "bg-destructive" | "bg-success" | "bg-base";
   className?: string;
+  loading?: boolean;
 }> = ({
   onPress,
   icon,
@@ -17,6 +24,7 @@ const SmallIconButton: FC<{
   disabled = false,
   variant = "bg-primary",
   className,
+  loading = false,
 }) => {
   return (
     <View
@@ -28,7 +36,11 @@ const SmallIconButton: FC<{
         onPress={onPress}
         disabled={disabled}
       >
-        <Image source={icon} className={iconClassName} resizeMode="contain" />
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Image source={icon} className={iconClassName} resizeMode="contain" />
+        )}
         <Text className="text-white font-pmedium text-sm">{title}</Text>
       </TouchableOpacity>
     </View>

@@ -8,7 +8,7 @@ export type keys = (typeof tabs)[number];
 interface props {
   type: keys;
   activeTab: keys;
-  data: IFriendReq[] | IUser[];
+  data: IFriendReq[] | IUser[] | IChatRoom[];
 }
 
 const emptyTitle: Record<
@@ -75,7 +75,44 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
         />
       );
     case "Friends":
-      return <Text>Friends</Text>;
+      return (
+        <FlatList
+          data={data as IChatRoom[]}
+          renderItem={({ item }) => {
+            return (
+              <View className="w-96 items-center justify-center">
+                <PeopleCard
+                  user={{
+                    id: item.userId,
+                    email: item.email,
+                    fName: item.fName,
+                    lName: item.lName,
+                    profile: item.profile,
+                    bio: "",
+                    coverPicture: "",
+                    isActive: true,
+                  }}
+                  isInView={item.id === activeCardId}
+                  type={"Friends"}
+                />
+              </View>
+            );
+          }}
+          ListEmptyComponent={() => (
+            <EmptyState
+              title={emptyTitle[activeTab].title}
+              subtitle={emptyTitle[activeTab].subtitle}
+            />
+          )}
+          onViewableItemsChanged={({ viewableItems }) => {
+            if (viewableItems.length > 0) {
+              setActiveCard(viewableItems[0].item.id);
+            }
+          }}
+          viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
+          horizontal
+        />
+      );
     case "Sent Request":
       return (
         <FlatList

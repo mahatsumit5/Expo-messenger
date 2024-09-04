@@ -97,7 +97,7 @@ const NewUser: FC<{ user: IUser }> = ({ user }) => {
 };
 const Friend = () => {
   function handleSendMessage() {
-    router.navigate("/(tabs)/message");
+    router.navigate("/message");
   }
 
   return (

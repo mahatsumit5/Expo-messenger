@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, Alert } from "react-native";
+import { View, Text, ScrollView, Image, Alert, Pressable } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Inputfield from "@/components/Inputfield";

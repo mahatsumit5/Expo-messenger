@@ -22,7 +22,7 @@ const Message = () => {
   const handleOnPress = (item: IChatRoom) => {
     dispatch(setCurrentRoom(item));
     router.navigate({
-      pathname: "/(tabs)/message/[room]",
+      pathname: "/message/[room]",
       params: {
         room: item.id,
       },

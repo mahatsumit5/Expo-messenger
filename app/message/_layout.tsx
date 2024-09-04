@@ -1,6 +1,6 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Alert } from "react-native";
 import React from "react";
-import { router, Stack } from "expo-router";
+import { Redirect, router, Stack } from "expo-router";
 import PeopleAvatar from "@/components/PeopleAvatar";
 import { useAppSelector } from "@/hooks/hooks";
 import TouchableIcon from "@/components/TouchableIcon";
@@ -8,8 +8,11 @@ import Icons from "@/constants/Icons";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 
 const MessageLayout = () => {
-  const { user } = useAppSelector((store) => store.user);
+  const { user, isLoggedIn } = useAppSelector((store) => store.user);
   const { room } = useAppSelector((store) => store.room);
+
+  if (!isLoggedIn && !user?.id) return <Redirect href={"/(auth)/sign-in"} />;
+
   const header = ({ type }: { type: "index" | "room" }) => {
     switch (type) {
       case "index":
@@ -18,7 +21,7 @@ const MessageLayout = () => {
             <View className="p-2 px-4">
               <View className="flex-row items-center">
                 <TouchableIcon
-                  onPress={() => router.back()}
+                  onPress={() => router.navigate("/(tabs)/home")}
                   icon={Icons.back2}
                   iconClassName="w-5 h-5"
                 />
@@ -42,7 +45,7 @@ const MessageLayout = () => {
       case "room":
         return room?.id ? (
           <SafeAreaView className="bg-background">
-            <View className="p-2 px-4">
+            <View className="p-2 px-4 flex-row justify-between items-center">
               <View className="flex-row items-center">
                 <TouchableIcon
                   onPress={() => router.back()}
@@ -62,6 +65,15 @@ const MessageLayout = () => {
                     {room?.email}
                   </Text>
                 </View>
+              </View>
+              <View>
+                <TouchableIcon
+                  icon={Icons.phone}
+                  onPress={() => {
+                    Alert.alert("Calling", "Calling now.Please wait....");
+                  }}
+                  iconClassName="w-8 h-8"
+                />
               </View>
             </View>
             <CustomStatusBar

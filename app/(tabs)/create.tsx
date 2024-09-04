@@ -60,7 +60,7 @@ const Profile = () => {
     let imgurl;
     try {
       if (form.images) {
-        imgurl = await uploadImageToS3(form.images);
+        imgurl = (await uploadImageToS3(form.images)) as string[];
       }
 
       const { status } = await createPost({

@@ -50,9 +50,9 @@ const TabsHeader: React.FC = () => {
             />
 
             <TouchableIcon
-              icon={Icons.profile}
+              icon={Icons.message}
               onPress={() => {
-                router.replace("/(tabs)/profile");
+                router.replace("/message");
               }}
             />
           </View>
@@ -64,16 +64,12 @@ const TabsHeader: React.FC = () => {
 const TabsLayout = () => {
   return (
     <>
-      <Tabs screenOptions={{ tabBarShowLabel: false }}>
-        <Tabs.Screen
-          name="profile"
-          options={{
-            headerShown: false,
-            header: () => <TabsHeader />,
-
-            href: null,
-          }}
-        />
+      <Tabs
+        screenOptions={{
+          tabBarShowLabel: false,
+          unmountOnBlur: true,
+        }}
+      >
         <Tabs.Screen
           name="home"
           options={{
@@ -84,38 +80,6 @@ const TabsLayout = () => {
                 focused={focused}
                 icon={Icons.home}
                 name="Home"
-              />
-            ),
-            header: () => <TabsHeader />,
-          }}
-        />
-        <Tabs.Screen
-          name="message"
-          options={{
-            title: "Messages",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                color={color}
-                focused={focused}
-                icon={Icons.message}
-                name="Messages"
-              />
-            ),
-            header: (item) => <TabsHeader />,
-          }}
-        />
-        <Tabs.Screen
-          name="create"
-          options={{
-            headerShown: true,
-
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                color={color}
-                focused={focused}
-                icon={Icons.add}
-                name="Create"
               />
             ),
             header: () => <TabsHeader />,
@@ -135,6 +99,37 @@ const TabsLayout = () => {
                 name="Friends"
               />
             ),
+          }}
+        />
+        <Tabs.Screen
+          name="create"
+          options={{
+            headerShown: true,
+
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                color={color}
+                focused={focused}
+                icon={Icons.add}
+                name="Create"
+              />
+            ),
+            header: () => <TabsHeader />,
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                color={color}
+                focused={focused}
+                icon={Icons.profile}
+                name="Profile"
+              />
+            ),
+            header: () => <TabsHeader />,
           }}
         />
         <Tabs.Screen

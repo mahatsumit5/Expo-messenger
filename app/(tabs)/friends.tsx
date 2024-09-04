@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useRef, useState } from "react";
 import {
+  useGetAllChatRoomQuery,
   useGetAllUsersQuery,
   useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
@@ -28,6 +29,11 @@ const Friends = () => {
   });
 
   const { data: friendReq } = useGetFriendRequestQuery();
+  const { data: rooms } = useGetAllChatRoomQuery({
+    page: 1,
+    search: "",
+    take: 10,
+  });
   const [activeTab, setActiveTab] = useState<(typeof tabs)[number]>(tabs[0]);
   const data: Record<(typeof tabs)[number], React.ReactNode> = {
     Request: (
@@ -44,7 +50,13 @@ const Friends = () => {
         data={sentReq?.data!}
       />
     ),
-    Friends: <CustomFlatlist type="Friends" activeTab={activeTab} data={[]} />,
+    Friends: (
+      <CustomFlatlist
+        type="Friends"
+        activeTab={activeTab}
+        data={rooms?.data!}
+      />
+    ),
     allUsers: (
       <CustomFlatlist
         type="allUsers"
