@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { io } from "socket.io-client";
 import { setSocket, setTyping } from "@/redux/reducers/socket.slice";
 import { messageApi } from "@/redux/api/messageApi";
+import { schedulePushNotification } from "@/hooks/useNotification.hook";
 type props = {
   color: string;
   focused: boolean;
@@ -73,8 +74,7 @@ const TabsLayout = () => {
     });
 
     socket.on("send_message_client", (message: IMessage) => {
-      console.log(message);
-      Alert.alert("new message", message.content);
+      schedulePushNotification("New message incoming.", message.content);
       dispatch(
         messageApi.util.updateQueryData(
           "getMessages",
