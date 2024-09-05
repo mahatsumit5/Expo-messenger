@@ -34,6 +34,7 @@ export const messageApi = emptySplitApi.injectEndpoints({
               {
                 take: arg.numOfMessages,
                 roomId: arg.roomId,
+                skip: 10,
               },
               (draft) => {
                 draft.result._count.messages = draft.result._count.messages + 1;
@@ -51,10 +52,11 @@ export const messageApi = emptySplitApi.injectEndpoints({
 
     getMessages: builder.query<
       IMessageResponse,
-      { roomId: string; take: number }
+      { roomId: string; skip: number; take: number }
     >({
-      query: ({ roomId, take }) =>
-        `message?id=${roomId}&&take=${take}&&platform=mobile`,
+      query: ({ roomId, skip, take }) =>
+        `message?id=${roomId}&&take=${take}&&skip=${skip}&&platform=mobile`,
+
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
@@ -70,6 +72,26 @@ export const messageApi = emptySplitApi.injectEndpoints({
           ErrorAlert(error);
         }
         await cacheEntryRemoved;
+      }, // Serialize the query args to ensure correct cacheKey generation
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (cacheData, incomingData, {}) => {
+        console.log(incomingData);
+        if (
+          cacheData.result.messages[0].id === incomingData.result.messages[0].id
+        ) {
+          cacheData = cacheData;
+          return;
+        }
+        cacheData.result.messages = [
+          ...incomingData.result.messages,
+          ...cacheData.result.messages,
+        ];
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.skip !== previousArg?.skip;
       },
     }),
   }),

@@ -11,10 +11,11 @@ import {
   RefreshControl,
   Image,
   Pressable,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { useAppSelector } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import SmallIconButton from "@/components/SmallconButton";
 import Icons from "@/constants/Icons";
 import { useGetMessagesQuery } from "@/redux";
@@ -22,17 +23,24 @@ import PeopleAvatar from "@/components/PeopleAvatar";
 import { extractInitial } from "@/util";
 import EmptyState from "@/components/EmptyState";
 import MessageInputField from "@/components/Message/MessageInputField";
+import { setSkipNumberOfMessages } from "@/redux/reducers/querySlice";
 
 const Message = () => {
+  const dispatch = useAppDispatch();
   const { room } = useAppSelector((store) => store.room);
   const { user } = useAppSelector((store) => store.user);
-  const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] =
-    useState<number>(5);
+  const { skipNumberOfMessages, numberOfMessageToDisplay } = useAppSelector(
+    (store) => store.query
+  );
 
-  const { data, isError, isLoading, refetch } = useGetMessagesQuery({
-    roomId: room?.id ?? "",
-    take: numberOfMessageToDisplay,
-  });
+  const { data, isError, isLoading, refetch } = useGetMessagesQuery(
+    {
+      roomId: room?.id ?? "",
+      take: numberOfMessageToDisplay,
+      skip: skipNumberOfMessages,
+    },
+    {}
+  );
   return room?.id ? (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -97,12 +105,12 @@ const Message = () => {
                 subtitle="Be the first one to message"
               />
             )}
-            inverted
             onEndReached={() => {
               if (
-                numberOfMessageToDisplay < Number(data?.result._count.messages)
+                skipNumberOfMessages + 10 <
+                Number(data?.result._count.messages)
               ) {
-                setNumberOfMessageToDisplay((prev) => prev + 5);
+                dispatch(setSkipNumberOfMessages(skipNumberOfMessages + 10));
               }
             }}
             refreshControl={
@@ -113,11 +121,12 @@ const Message = () => {
                 }}
               />
             }
+            inverted
           />
         </View>
         <MessageInputField
           author={user?.id!}
-          numOfMessages={numberOfMessageToDisplay}
+          numOfMessages={skipNumberOfMessages}
           roomId={room.id}
           email={user?.email!}
         />

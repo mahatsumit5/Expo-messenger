@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userSlice";
 import roomReducer from "./reducers/roomSlice";
 import socketReducer from "./reducers/socket.slice";
+import queryReducer from "./reducers/querySlice";
 import { emptySplitApi } from "./api/index";
 export const store = configureStore({
   reducer: {
+    query: queryReducer,
     user: userReducer,
     room: roomReducer,
     socket: socketReducer,

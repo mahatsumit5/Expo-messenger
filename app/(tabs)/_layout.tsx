@@ -27,6 +27,9 @@ type props = {
 
 const TabsLayout = () => {
   const { user } = useAppSelector((store) => store.user);
+  const { numberOfMessageToDisplay, skipNumberOfMessages } = useAppSelector(
+    (store) => store.query
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -77,7 +80,8 @@ const TabsLayout = () => {
           "getMessages",
           {
             roomId: message.chatRoomId,
-            take: 10,
+            take: numberOfMessageToDisplay,
+            skip: skipNumberOfMessages,
           },
           (draft) => {
             draft.result._count.messages = ++draft.result._count.messages;
