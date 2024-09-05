@@ -5,22 +5,28 @@ import Test from "@/components/Test";
 import { useGetAllChatRoomQuery } from "@/redux";
 import PeopleAvatar from "@/components/PeopleAvatar";
 import { router } from "expo-router";
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { setCurrentRoom } from "@/redux/reducers/roomSlice";
 import TouchableIcon from "@/components/TouchableIcon";
 import Icons from "@/constants/Icons";
+import { Socket } from "socket.io-client";
 
 const Message = () => {
+  const { socket } = useAppSelector((store) => store.socket);
   const { data, isLoading, isError } = useGetAllChatRoomQuery({
     page: 1,
     search: "",
     take: 10,
   });
   const dispatch = useAppDispatch();
+
   const [hover, setHover] = useState(false);
 
   const handleOnPress = (item: IChatRoom) => {
     dispatch(setCurrentRoom(item));
+    if (socket) {
+      socket.emit("join-room", item.id);
+    }
     router.navigate({
       pathname: "/message/[room]",
       params: {

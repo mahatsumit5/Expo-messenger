@@ -35,10 +35,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="message"
-            options={{ headerShown: false, presentation: "card" }}
-          />
+
           <Stack.Screen
             name="search/[query]"
             options={{ headerShown: false, presentation: "modal" }}

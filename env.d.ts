@@ -8,6 +8,7 @@ declare global {
         EXPO_PUBLIC_REGION: string;
         EXPO_PUBLIC_ACCESSKEY: string;
         EXPO_PUBLIC_SECRETKEY: string;
+        EXPO_PUBLIC_API_URL: string;
       };
     }
   }

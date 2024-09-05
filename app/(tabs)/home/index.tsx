@@ -1,11 +1,13 @@
 import { View, Text, ScrollView, FlatList, RefreshControl } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import PostCard from "@/components/PostCard";
 import { useGetPostsQuery } from "@/redux";
 import EmptyState from "@/components/EmptyState";
 import { postApi } from "@/redux/api/postApi";
+import { io } from "socket.io-client";
+import { setSocket, setTyping } from "@/redux/reducers/socket.slice";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +18,7 @@ const Home = () => {
     await dispatch(postApi.endpoints.getPosts.initiate(0));
     setRefresh(false);
   };
+
   return isError ? (
     <Text>Error Occured</Text>
   ) : (

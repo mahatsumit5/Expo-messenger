@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userSlice";
 import roomReducer from "./reducers/roomSlice";
+import socketReducer from "./reducers/socket.slice";
 import { emptySplitApi } from "./api/index";
 export const store = configureStore({
   reducer: {
     user: userReducer,
     room: roomReducer,
+    socket: socketReducer,
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

@@ -1,5 +1,6 @@
 import { ErrorAlert } from "@/util";
 import { emptySplitApi } from ".";
+import { Socket } from "socket.io-client";
 type sendMessagePArams = {
   content: string | File;
   roomId: string;
@@ -40,6 +41,7 @@ export const messageApi = emptySplitApi.injectEndpoints({
               }
             )
           );
+          // arg.socket.emit("send_message", data.result, arg.roomId);
         } catch (error) {
           // display error or do something else
           ErrorAlert(error);

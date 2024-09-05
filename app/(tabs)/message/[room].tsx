@@ -119,6 +119,7 @@ const Message = () => {
           author={user?.id!}
           numOfMessages={numberOfMessageToDisplay}
           roomId={room.id}
+          email={user?.email!}
         />
       </View>
     </KeyboardAvoidingView>

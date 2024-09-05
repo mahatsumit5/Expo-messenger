@@ -25,11 +25,11 @@ const MessageLayout = () => {
                   icon={Icons.back2}
                   iconClassName="w-5 h-5"
                 />
-                <PeopleAvatar
+                {/* <PeopleAvatar
                   initial="SM"
                   size="w-12 h-12 mx-2"
                   profilePicture={user?.profile ?? null}
-                />
+                /> */}
                 <View>
                   <Text className="mx-2 font-psemibold text-lg underline ">
                     {user?.fName} {user?.lName}

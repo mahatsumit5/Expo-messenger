@@ -6,24 +6,29 @@ import { useSendMessageMutation } from "@/redux";
 import ImagePickerandCamera from "../ImagePicker&Camera";
 import { uploadImageToS3 } from "@/util";
 import { ImagePickerAsset } from "expo-image-picker";
+import { useAppSelector } from "@/hooks/hooks";
+import { Socket } from "socket.io-client";
 
 const MessageInputField: FC<{
   author: string;
   roomId: string;
   numOfMessages: number;
-}> = ({ author, roomId, numOfMessages }) => {
+  email: string;
+}> = ({ author, roomId, numOfMessages, email }) => {
+  const { socket } = useAppSelector((store) => store.socket);
   const [message, setMessage] = useState("");
   const [sendMessage, { isError, isLoading }] = useSendMessageMutation();
   const { component, form } = ImagePickerandCamera();
 
-  async function handleSendMessage() {
+  async function handleSendMessage(content: string) {
     const { data } = await sendMessage({
-      content: message,
+      content,
       author,
       numOfMessages,
       roomId,
     });
     if (data?.status) {
+      socket?.emit("send_message", data.result, roomId);
       setMessage("");
     }
   }
@@ -33,12 +38,7 @@ const MessageInputField: FC<{
     if (url.length) {
       for (let index = 0; index < url.length; index++) {
         const imageUrl = url[index];
-        sendMessage({
-          content: imageUrl,
-          author,
-          numOfMessages,
-          roomId,
-        });
+        handleSendMessage(imageUrl);
       }
     }
   };
@@ -55,13 +55,19 @@ const MessageInputField: FC<{
         placeholderTextColor={"gray"}
         onChangeText={(e) => setMessage(e)}
         value={message}
+        onFocus={() => {
+          socket?.emit("typing", roomId, email);
+        }}
+        onBlur={() => {
+          socket?.emit("stopped_typing", roomId, email);
+        }}
       />
       {component}
       <View className="ml-2">
         <SmallIconButton
           icon={Icons.send}
           title="Send"
-          onPress={handleSendMessage}
+          onPress={() => handleSendMessage(message)}
           variant="bg-primary"
           disabled={isLoading}
           loading={isLoading}

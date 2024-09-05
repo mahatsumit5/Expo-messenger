@@ -28,7 +28,7 @@ export const userApi = emptySplitApi.injectEndpoints({
           const { data } = await queryFulfilled;
           if (data.token.accessJWT) {
             await storeData("token", data.token.accessJWT);
-
+            await storeData("email", arg.email);
             dispatch(userApi.endpoints.getLoggedInUser.initiate());
           }
         } catch (error) {
