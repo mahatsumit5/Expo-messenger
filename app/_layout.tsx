@@ -36,12 +36,12 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      authenticate();
+      // authenticate();
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  return loaded && authenticated ? (
+  return loaded ? (
     <GestureHandlerRootView>
       <Provider store={store}>
         <Stack>

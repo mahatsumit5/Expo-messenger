@@ -26,33 +26,18 @@ const profile = () => {
     router.navigate("/(tabs)/profile/edit");
   }
   return (
-    <View className="h-full ">
-      <View className="h-56 relative">
-        {user?.coverPicture ? (
-          <Image
-            source={{ uri: user?.coverPicture }}
-            className="h-full w-full"
-            resizeMode="cover"
-          />
-        ) : (
-          <Image
-            source={coverImg}
-            className="h-full w-full"
-            resizeMode="cover"
-          />
-        )}
-        <View className="absolute top-5 right-5">
-          <TouchableIcon icon={Icons.logout} onPress={logout} />
-        </View>
-      </View>
-
+    <View className="h-full  ">
       {/* Avatar */}
 
-      <View className="mt-2 items-center p-2">
+      <View className=" items-center">
         <FlatList
           data={posts?.posts}
           keyExtractor={(item: IPost) => item.id}
-          renderItem={({ item }) => <PostCard post={item} />}
+          renderItem={({ item }) => (
+            <View className="">
+              <PostCard post={item} />
+            </View>
+          )}
           ListEmptyComponent={() => (
             <EmptyState
               title="No posts available"
@@ -60,44 +45,72 @@ const profile = () => {
             />
           )}
           ListHeaderComponent={() => (
-            <View className="items-center">
-              <View className="w-full  p-2 items-center gap-2">
-                <View className="w-32 rounded-full bg-black h-32">
-                  {user?.profile ? (
-                    <Image
-                      source={{ uri: user.profile }}
-                      resizeMode="cover"
-                      className="w-full h-full rounded-full"
-                    />
-                  ) : (
-                    <Image
-                      source={avatar}
-                      resizeMode="cover"
-                      className="w-full h-full rounded-full"
-                    />
-                  )}
+            <View className="  relative h-[420px]">
+              {user?.coverPicture ? (
+                <View className="h-56">
+                  <Image
+                    source={{ uri: user?.coverPicture }}
+                    className="h-full w-full"
+                    resizeMode="cover"
+                  />
                 </View>
-                <View>
-                  <Text className="font-pmedium text-lg">
-                    {user?.fName} {user?.lName}
-                  </Text>
+              ) : (
+                <View className="h-56">
+                  <Image
+                    source={coverImg}
+                    className="h-full w-full"
+                    resizeMode="cover"
+                  />
                 </View>
-                <View className="flex flex-row  items-center justify-center ">
-                  <Text className="font-pregular text-base">20 posts</Text>
-                  <Text className="px-2 text-base font-pregular">
-                    120 friends
-                  </Text>
-                </View>
+              )}
+              <View className="absolute top-5 right-5">
+                <TouchableIcon icon={Icons.logout} onPress={logout} />
               </View>
-              <View className="flex flex-row px-5            ">
-                <CustomButton
-                  isLoading={false}
-                  title="Edit"
-                  disabled={false}
-                  onPress={handleOnEdit}
+              {/* information */}
+              <View className="items-center absolute top-1/3 w-full">
+                <View className="w-full  p-2 items-center gap-2">
+                  <View className="w-32 rounded-full bg-black h-32">
+                    {user?.profile ? (
+                      <Image
+                        source={{ uri: user.profile }}
+                        resizeMode="cover"
+                        className="w-full h-full rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        source={avatar}
+                        resizeMode="cover"
+                        className="w-full h-full rounded-full"
+                      />
+                    )}
+                  </View>
+                  <View>
+                    <Text className="font-pmedium text-lg">
+                      {user?.fName} {user?.lName}
+                    </Text>
+                  </View>
+
+                  <View className="flex flex-row  items-center justify-center ">
+                    <Text className="font-pregular text-base">20 posts</Text>
+                    <Text className="px-2 text-base font-pregular">
+                      120 friends
+                    </Text>
+                  </View>
+                </View>
+
+                <Text className="mt-2 text-xl font-pbold">My Posts</Text>
+              </View>
+              {/* edit button */}
+              <View className="  mt-2  items-end px-4">
+                <TouchableIcon
+                  icon={Icons.edit}
+                  onPress={() => {
+                    router.navigate("/profile/edit");
+                  }}
+                  className=""
+                  iconClassName="w-7 h-7  rounded-full"
                 />
               </View>
-              <Text className="mt-10 text-lg font-pmedium">My Posts</Text>
             </View>
           )}
         />

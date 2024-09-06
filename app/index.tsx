@@ -13,7 +13,7 @@ const index = () => {
   useGetLoggedInUserQuery();
 
   const { isLoggedIn, user } = useAppSelector((store) => store.user);
-  if (isLoggedIn && user) return <Redirect href={"/(tabs)/home"} />;
+  if (isLoggedIn && user) return <Redirect href={"/(tabs)/profile"} />;
   return (
     <SafeAreaView className=" h-full items-center justify-center bg-slate-100">
       <ScrollView className="">

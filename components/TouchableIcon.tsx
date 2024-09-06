@@ -10,7 +10,11 @@ const TouchableIcon: FC<{
   return (
     <View className={`${className} `}>
       <TouchableOpacity className="gap-2" activeOpacity={0.7} onPress={onPress}>
-        <Image source={icon} className={iconClassName} resizeMode="contain" />
+        <Image
+          source={icon}
+          className={`${iconClassName}`}
+          resizeMode="contain"
+        />
       </TouchableOpacity>
     </View>
   );

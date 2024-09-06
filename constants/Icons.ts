@@ -21,8 +21,10 @@ import back from "../assets/images/back.png";
 import back2 from "../assets/images/back2.png";
 import send from "../assets/images/send.png";
 import phone from "../assets/images/phone.png";
+import edit from "../assets/images/edit.png";
 export default {
   send,
+  edit,
   phone,
   back2,
   back,
