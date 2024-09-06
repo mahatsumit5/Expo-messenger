@@ -1,21 +1,12 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
-import React, { useEffect } from "react";
-import { Link, Redirect, router } from "expo-router";
+import { View, Text, ScrollView, Image } from "react-native";
+import React from "react";
+import { Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icons from "@/constants/Icons";
 import { landingImage } from "@/constants/images";
-import { StatusBar } from "expo-status-bar";
-import CustomStatusBar from "@/components/CustomStatusBAr";
+
 import CustomButton from "@/components/CustomButton";
 import { useAppSelector } from "@/hooks/hooks";
-import { getToken } from "@/util";
 import { useGetLoggedInUserQuery } from "@/redux";
 
 const index = () => {
@@ -51,7 +42,6 @@ const index = () => {
           />
         </View>
       </ScrollView>
-      <CustomStatusBar style="dark" hidden={false} backgroundColor="#172554" />
     </SafeAreaView>
   );
 };

@@ -192,6 +192,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
+      <CustomStatusBar style="dark" hidden={false} />
     </>
   );
 };

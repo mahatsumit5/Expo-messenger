@@ -7,6 +7,7 @@ import Icons from "@/constants/Icons";
 import { Link, router } from "expo-router";
 import { useLoginMutation, useGetLoggedInUserQuery } from "../../redux/index";
 import { ErrorAlert } from "@/util";
+import CustomStatusBar from "@/components/CustomStatusBAr";
 const SignIn = () => {
   const [login, { isError, isLoading }] = useLoginMutation();
 
@@ -67,6 +68,7 @@ const SignIn = () => {
           </View>
         </View>
       </ScrollView>
+      <CustomStatusBar style="dark" hidden={false} />
     </SafeAreaView>
   );
 };

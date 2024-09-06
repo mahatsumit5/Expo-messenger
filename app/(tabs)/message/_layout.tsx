@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Alert } from "react-native";
+import { View, Text, SafeAreaView, Alert, TextInput } from "react-native";
 import React from "react";
 import { Redirect, router, Stack } from "expo-router";
 import PeopleAvatar from "@/components/PeopleAvatar";
@@ -18,18 +18,18 @@ const MessageLayout = () => {
       case "index":
         return (
           <SafeAreaView className="bg-background">
-            <View className="p-2 px-4">
+            <View className="p-2 ">
               <View className="flex-row items-center">
                 <TouchableIcon
                   onPress={() => router.navigate("/(tabs)/home")}
                   icon={Icons.back2}
                   iconClassName="w-5 h-5"
                 />
-                {/* <PeopleAvatar
+                <PeopleAvatar
                   initial="SM"
                   size="w-12 h-12 mx-2"
                   profilePicture={user?.profile ?? null}
-                /> */}
+                />
                 <View>
                   <Text className="mx-2 font-psemibold text-lg underline ">
                     {user?.fName} {user?.lName}
@@ -37,6 +37,20 @@ const MessageLayout = () => {
                   <Text className="text-sm font-plight mx-2">
                     {user?.email}
                   </Text>
+                </View>
+              </View>
+              <View className="bg-gray-300/40 h-10 mt-3 rounded-full px-3 relative">
+                <TextInput
+                  className=" h-full  font-pregular"
+                  placeholder="Ask AI or Search"
+                  placeholderTextColor={"gray"}
+                />
+                <View className="absolute right-2 top-2 -translate-y-1/2">
+                  <TouchableIcon
+                    icon={Icons.search}
+                    onPress={() => {}}
+                    iconClassName="w-6 h-6 rounded-full"
+                  />
                 </View>
               </View>
             </View>
@@ -86,23 +100,26 @@ const MessageLayout = () => {
     }
   };
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: true,
-          headerTitle: "Message",
-          header: () => header({ type: "index" }),
-        }}
-      />
-      <Stack.Screen
-        name="[room]"
-        options={{
-          headerShown: true,
-          header: () => header({ type: "room" }),
-        }}
-      />
-    </Stack>
+    <>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: true,
+            headerTitle: "Message",
+            header: () => header({ type: "index" }),
+          }}
+        />
+        <Stack.Screen
+          name="[room]"
+          options={{
+            headerShown: true,
+            header: () => header({ type: "room" }),
+          }}
+        />
+      </Stack>
+      <CustomStatusBar style="dark" hidden={false} />
+    </>
   );
 };
 

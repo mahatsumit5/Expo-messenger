@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  Pressable,
+  TextInput,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Test from "@/components/Test";

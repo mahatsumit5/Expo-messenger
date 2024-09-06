@@ -1,23 +1,18 @@
 import {
   View,
   Text,
-  ScrollView,
-  Image,
-  FlatList,
   Alert,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Inputfield from "@/components/Inputfield";
 import CustomButton from "@/components/CustomButton";
 import TouchableIcon from "@/components/TouchableIcon";
 import Icons from "@/constants/Icons";
 import * as ImagePicker from "expo-image-picker";
-import EmptyState from "@/components/EmptyState";
 import ImageSlider from "@/components/ImageSlider";
-import CustomStatusBar from "@/components/CustomStatusBAr";
 import { useAppSelector } from "@/hooks/hooks";
 import { useCreatePostMutation } from "@/redux";
 import { uploadImageToS3 } from "@/util";
@@ -132,11 +127,6 @@ const Profile = () => {
                 disabled={!form.title || !form.content}
               />
             </View>
-            <CustomStatusBar
-              backgroundColor="white"
-              style="dark"
-              hidden={false}
-            />
           </View>
         </View>
       </TouchableWithoutFeedback>
