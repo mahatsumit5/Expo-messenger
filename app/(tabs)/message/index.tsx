@@ -63,7 +63,11 @@ const Message = () => {
               </View>
             </View>
             <View>
-              <TouchableIcon icon={Icons.camera} onPress={() => {}} />
+              <TouchableIcon
+                icon={Icons.camera}
+                onPress={() => {}}
+                iconClassName="w-5 h-5"
+              />
             </View>
           </View>
         </Pressable>

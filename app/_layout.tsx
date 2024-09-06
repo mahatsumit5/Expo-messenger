@@ -2,14 +2,15 @@ import { store } from "@/redux/store";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
-
+import * as LocalAuthentication from "expo-local-authentication";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [authenticated, setAuthenticated] = useState(false);
   const [loaded] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -22,13 +23,25 @@ export default function RootLayout() {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
+  async function authenticate() {
+    const { success } = await LocalAuthentication.authenticateAsync({
+      biometricsSecurityLevel: "strong",
+      requireConfirmation: true,
+      cancelLabel: "exit",
+      fallbackLabel: "",
+      promptMessage: "Enter your password to enter",
+    });
+    setAuthenticated(success);
+  }
+
   useEffect(() => {
     if (loaded) {
+      authenticate();
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  return loaded ? (
+  return loaded && authenticated ? (
     <GestureHandlerRootView>
       <Provider store={store}>
         <Stack>

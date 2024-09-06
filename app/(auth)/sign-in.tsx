@@ -6,6 +6,7 @@ import CustomButton from "@/components/CustomButton";
 import Icons from "@/constants/Icons";
 import { Link, router } from "expo-router";
 import { useLoginMutation, useGetLoggedInUserQuery } from "../../redux/index";
+import { ErrorAlert } from "@/util";
 const SignIn = () => {
   const [login, { isError, isLoading }] = useLoginMutation();
 
@@ -19,8 +20,7 @@ const SignIn = () => {
       await login(form).unwrap();
       router.replace("/(tabs)/home");
     } catch (error) {
-      const errorMessage = (error as Error).message;
-      Alert.alert("error", errorMessage);
+      ErrorAlert(error);
     }
   };
   return (
