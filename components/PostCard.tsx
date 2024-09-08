@@ -79,7 +79,7 @@ const PostCard: FC<{ post: IPost }> = ({
         containerStyle={{
           height: "auto",
           backgroundColor: "white",
-          padding: 8,
+          padding: 12,
           marginTop: 5,
           minHeight: 180,
           alignContent: "space-between",
@@ -118,13 +118,13 @@ const PostCard: FC<{ post: IPost }> = ({
         </View>
         {/* content */}
         <View className="mt-2 mb-5 flex-1">
-          <Text className="font-pmedium text-lg">{title}</Text>
+          <Text className="font-pmedium text-xl">{title}</Text>
           <Text className="font-pregular text-sm mt-2">{content}</Text>
         </View>
         {/* Image */}
         <HorizontalImageScroll images={images} />
         {/* comment Section */}
-        <View className="mt-10 flex flex-row w-full items-center justify-start">
+        <View className="mt-5 flex flex-row w-full items-center justify-start">
           <Text className="font-pmedium text-md">1.2K likes</Text>
           <TouchableIcon
             onPress={() => {}}

@@ -6,6 +6,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import TouchableIcon from "@/components/TouchableIcon";
 import Icons from "@/constants/Icons";
 import CustomStatusBar from "@/components/CustomStatusBAr";
+import SearchField from "@/components/Message/SearchField";
 
 const MessageLayout = () => {
   const { user, isLoggedIn } = useAppSelector((store) => store.user);
@@ -39,20 +40,7 @@ const MessageLayout = () => {
                   </Text>
                 </View>
               </View>
-              <View className="bg-gray-300/40 h-10 mt-3 rounded-full px-3 relative">
-                <TextInput
-                  className=" h-full  font-pregular"
-                  placeholder="Ask AI or Search"
-                  placeholderTextColor={"gray"}
-                />
-                <View className="absolute right-2 top-2 -translate-y-1/2">
-                  <TouchableIcon
-                    icon={Icons.search}
-                    onPress={() => {}}
-                    iconClassName="w-6 h-6 rounded-full"
-                  />
-                </View>
-              </View>
+              <SearchField />
             </View>
           </SafeAreaView>
         );
