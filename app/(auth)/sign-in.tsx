@@ -1,15 +1,22 @@
-import { View, Text, ScrollView, Image, Alert, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Inputfield from "@/components/Inputfield";
-import CustomButton from "@/components/CustomButton";
 import Icons from "@/constants/Icons";
 import { Link, router } from "expo-router";
-import { useLoginMutation, useGetLoggedInUserQuery } from "../../redux/index";
+import { useLoginMutation } from "../../redux/index";
 import { ErrorAlert } from "@/util";
-import CustomStatusBar from "@/components/CustomStatusBAr";
+import { Button } from "@/components/ui/button";
+import { useColorScheme } from "@/lib/useColorScheme";
+import { H2 } from "@/components/ui/typography";
 const SignIn = () => {
-  const [login, { isError, isLoading }] = useLoginMutation();
+  const { toggleColorScheme } = useColorScheme();
+  const [login, { isLoading }] = useLoginMutation();
 
   const [form, setForm] = useState({
     email: "mahatsumit5@gmail.com",
@@ -25,16 +32,16 @@ const SignIn = () => {
     }
   };
   return (
-    <SafeAreaView className="bg-slate-100 h-full">
-      <ScrollView>
+    <KeyboardAvoidingView behavior="padding">
+      <View className="bg-background h-full  justify-center ">
         <View className="px-4 my-6 w-full justify-center mx-auto">
           <Image
             source={Icons.icon}
             resizeMode="contain"
             className="w-12 h-20"
           />
-          <Text className="text-2xl font-psemibold mt-5">Login</Text>
 
+          <H2>Login</H2>
           <Inputfield
             placeholder="Enter your email"
             title="Email"
@@ -49,27 +56,51 @@ const SignIn = () => {
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e })}
           />
-
-          <CustomButton
+          {/* <CustomButton
             isLoading={isLoading}
             onPress={handleSubmit}
             title="Log in"
-          />
+          /> */}
+          <Button
+            className="mt-5 bg-primary flex flex-row"
+            onPress={handleSubmit}
+            disabled={isLoading}
+            variant={"default"}
+          >
+            <Text className="text-primary-foreground text-lg">
+              {isLoading ? "Please wait..." : "Log in"}
+            </Text>
+            {isLoading && (
+              <ActivityIndicator
+                animating={isLoading}
+                color="#fff"
+                size="small"
+                className="ml-2"
+              />
+            )}
+          </Button>
           <View className="justify-center gap-2 flex-row pt-5">
-            <Text className="text-lg  font-pregular ">
+            <Text className="text-lg  font-pregular text-foreground">
               Dont have an account?
             </Text>
             <Link
               href={"/sign-up"}
-              className="text-lg font-psemibold text-secondary-100"
+              className="text-lg font-psemibold text-secondary-100 text-foreground"
             >
               Sign up
             </Link>
           </View>
         </View>
-      </ScrollView>
-      <CustomStatusBar style="dark" hidden={false} />
-    </SafeAreaView>
+        <Button
+          variant={"ghost"}
+          onPress={() => {
+            toggleColorScheme();
+          }}
+        >
+          <Text className="text-foreground">change</Text>
+        </Button>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

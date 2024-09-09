@@ -1,25 +1,19 @@
-import { View, Text, Image } from "react-native";
+import { Text } from "react-native";
 import React, { FC } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const PeopleAvatar: FC<{
-  profilePicture: string | null;
+  profilePicture: string;
   initial: string;
   size?: string;
-}> = ({ profilePicture, size = "h-28 w-28", initial }) => {
+}> = ({ profilePicture, initial }) => {
   return (
-    <View
-      className={`${size} rounded-full   bg-slate-300 items-center justify-center`}
-    >
-      {profilePicture ? (
-        <Image
-          source={{ uri: profilePicture }}
-          className="h-full w-full rounded-full"
-          resizeMode="cover"
-        />
-      ) : (
-        <Text className=" font-pregular text-xl">{initial}</Text>
-      )}
-    </View>
+    <Avatar alt=" Avatar">
+      <AvatarImage source={{ uri: profilePicture }} />
+      <AvatarFallback>
+        <Text>{initial}</Text>
+      </AvatarFallback>
+    </Avatar>
   );
 };
 

@@ -1,10 +1,9 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import { useGetCommentsQuery } from "@/redux";
 import Inputfield from "@/components/Inputfield";
 import EmptyState from "@/components/EmptyState";
-import TouchableIcon from "@/components/TouchableIcon";
 import AvatarIcon from "@/components/AvatarIcon";
 import { extractInitial } from "@/util";
 
@@ -42,7 +41,6 @@ const Comment = () => {
             keyboardType="default"
             value=""
             onChange={() => {}}
-            otherFields=" mx-auto p-2"
           />
         );
       }}

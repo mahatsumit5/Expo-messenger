@@ -1,7 +1,6 @@
-import { View, Text, TextInput } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import TouchableIcon from "@/components/TouchableIcon";
-import Icons from "@/constants/Icons";
+
 import SearchField from "@/components/Message/SearchField";
 
 const Search = () => {

@@ -1,11 +1,6 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
-import React, { useRef, useState } from "react";
-import {
-  useGetAllChatRoomQuery,
-  useGetAllUsersQuery,
-  useGetFriendRequestQuery,
-  useGetSentFriendRequestQuery,
-} from "@/redux";
+import { View, Text } from "react-native";
+import React from "react";
+import { useGetAllChatRoomQuery } from "@/redux";
 import HorizontalLoadingScroll from "@/components/HorizontalLoadingScroll";
 import CustomFlatlist from "@/components/CustomFlatlist";
 
@@ -27,7 +22,7 @@ const Friends = () => {
       <Text>Error occured</Text>
     </View>
   ) : isLoading ? (
-    <ScrollView className=" p-2  ">
+    <View className=" p-2  ">
       <View>
         <Text className="font-pmedium text-xl">Find New Friends</Text>
       </View>
@@ -36,15 +31,15 @@ const Friends = () => {
         <Text className="font-pmedium text-xl mt-5"> Friends</Text>
       </View>
       <HorizontalLoadingScroll />
-    </ScrollView>
+    </View>
   ) : (
-    <ScrollView className="px-2">
+    <View className="px-2 h-full items-center  bg-background pt-5">
       <CustomFlatlist
         type="Friends"
         activeTab={"Friends"}
         data={rooms?.data!}
       />
-    </ScrollView>
+    </View>
   );
 };
 

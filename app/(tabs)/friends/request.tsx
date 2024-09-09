@@ -1,9 +1,8 @@
-import { View, Text } from "react-native";
 import React from "react";
 import CustomFlatlist from "@/components/CustomFlatlist";
 import { useGetFriendRequestQuery } from "@/redux";
 
-const request = () => {
+const Request = () => {
   const { data: friendReq } = useGetFriendRequestQuery();
   return (
     <CustomFlatlist
@@ -14,4 +13,4 @@ const request = () => {
   );
 };
 
-export default request;
+export default Request;

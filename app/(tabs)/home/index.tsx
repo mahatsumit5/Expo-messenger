@@ -1,13 +1,10 @@
-import { View, Text, ScrollView, FlatList, RefreshControl } from "react-native";
-import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { Text, FlatList, RefreshControl, View } from "react-native";
+import React, { useState } from "react";
+import { useAppDispatch } from "@/hooks/hooks";
 import PostCard from "@/components/PostCard";
 import { useGetPostsQuery } from "@/redux";
 import EmptyState from "@/components/EmptyState";
 import { postApi } from "@/redux/api/postApi";
-import { io } from "socket.io-client";
-import { setSocket, setTyping } from "@/redux/reducers/socket.slice";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -22,23 +19,25 @@ const Home = () => {
   return isError ? (
     <Text>Error Occured</Text>
   ) : (
-    <FlatList
-      data={posts?.posts}
-      keyExtractor={(item: IPost) => item.id}
-      renderItem={({ item }) => <PostCard post={item} />}
-      ListEmptyComponent={() => (
-        <EmptyState
-          title="No posts available"
-          subtitle="Please try again later"
-        />
-      )}
-      refreshControl={
-        <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
-      }
-      bouncesZoom
-      bounces
-      refreshing
-    />
+    <View className="bg-background">
+      <FlatList
+        data={posts?.posts}
+        keyExtractor={(item: IPost) => item.id}
+        renderItem={({ item }) => <PostCard post={item} />}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title="No posts available"
+            subtitle="Please try again later"
+          />
+        )}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
+        bouncesZoom
+        bounces
+        refreshing
+      />
+    </View>
   );
 };
 

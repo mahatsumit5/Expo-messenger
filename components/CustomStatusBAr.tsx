@@ -1,21 +1,14 @@
 import React from "react";
-import { StatusBar, StatusBarStyle } from "expo-status-bar";
-type props = {
-  style: StatusBarStyle;
-  hidden: boolean;
-  backgroundColor?: string;
-};
-const CustomStatusBar: React.FC<props> = ({
-  hidden,
-  style,
-  backgroundColor,
-}) => {
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "@/lib/useColorScheme";
+
+const CustomStatusBar = () => {
+  const { isDarkColorScheme } = useColorScheme();
+  console.log(isDarkColorScheme);
   return (
     <StatusBar
-      backgroundColor={`${backgroundColor}`}
-      style={`${style as StatusBarStyle}`}
-      hidden={hidden}
-      hideTransitionAnimation="fade"
+      style={isDarkColorScheme ? "light" : "dark"}
+      backgroundColor={isDarkColorScheme ? "#232528" : "#EAF6FF"}
     />
   );
 };

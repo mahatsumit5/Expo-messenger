@@ -1,22 +1,18 @@
-import { View, Text, TextInput } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import TouchableIcon from "../TouchableIcon";
-import Icons from "@/constants/Icons";
 
+import LucidIcon from "../icon/LucidIcon";
+import { Search } from "@/lib/icons/Search";
+import { Input } from "../ui/input";
 const SearchField = () => {
   return (
-    <View className="bg-gray-300/40 h-10 mt-3 rounded-full px-3 relative">
-      <TextInput
-        className=" h-full  font-pregular"
-        placeholder="Ask AI or Search"
-        placeholderTextColor={"gray"}
+    <View className="h-20 py-4  relative">
+      <Input
+        className="bg-input h-12 rounded-full border border-input "
+        placeholder="Search..."
       />
-      <View className="absolute right-2 top-2 -translate-y-1/2">
-        <TouchableIcon
-          icon={Icons.search}
-          onPress={() => {}}
-          iconClassName="w-6 h-6 rounded-full"
-        />
+      <View className="absolute right-4 top-9 -translate-y-1/2">
+        <LucidIcon icon={Search} onPress={() => {}} />
       </View>
     </View>
   );

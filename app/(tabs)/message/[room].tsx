@@ -1,23 +1,15 @@
 import {
   View,
   Text,
-  SafeAreaView,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
   FlatList,
   RefreshControl,
   Image,
   Pressable,
-  Alert,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import SmallIconButton from "@/components/SmallconButton";
-import Icons from "@/constants/Icons";
 import { useGetMessagesQuery } from "@/redux";
 import PeopleAvatar from "@/components/PeopleAvatar";
 import { extractInitial } from "@/util";
@@ -33,7 +25,7 @@ const Message = () => {
     (store) => store.query
   );
 
-  const { data, isError, isLoading, refetch } = useGetMessagesQuery(
+  const { data, isLoading, refetch } = useGetMessagesQuery(
     {
       roomId: room?.id ?? "",
       take: numberOfMessageToDisplay,
@@ -44,9 +36,10 @@ const Message = () => {
   return room?.id ? (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="bg-background"
     >
       <View className=" flex-col h-full justify-between pb-4">
-        <View className="p-2 flex-1 bg-red">
+        <View className="p-2 flex-1 bg-red h-[90%]">
           <FlatList
             data={data?.result.messages}
             keyExtractor={(item) => item.id}
@@ -63,7 +56,7 @@ const Message = () => {
                     initial={extractInitial(room.fName, room.lName)}
                     profilePicture={
                       item.author === room.userId
-                        ? room.profile
+                        ? room.profile ?? ""
                         : user?.profile!
                     }
                     size="w-10 h-10"

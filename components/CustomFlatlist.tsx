@@ -1,5 +1,5 @@
-import { View, Text, FlatList, ViewToken, Alert } from "react-native";
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import { View, FlatList, ViewToken, Alert } from "react-native";
+import React, { FC, useState } from "react";
 import EmptyState from "./EmptyState";
 import PeopleCard from "./PeopleCard";
 import { tabs } from "@/app/(tabs)/friends";
@@ -71,7 +71,6 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
             }
           }}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-          horizontal
         />
       );
     case "Friends":
@@ -110,7 +109,6 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
             }
           }}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-          horizontal
         />
       );
     case "Sent Request":
@@ -141,7 +139,6 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
             }
           }}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-          horizontal
         />
       );
     case "allUsers":
@@ -166,7 +163,6 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           )}
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-          horizontal
           onEndReached={() => {
             Alert.alert("Todo", "re call data ");
           }}

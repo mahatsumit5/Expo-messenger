@@ -7,8 +7,10 @@ const EmptyState: FC<{ title: string; subtitle: string }> = ({
 }) => {
   return (
     <View className="mt-5">
-      <Text className="text-lg font-pmedium ">{title} </Text>
-      <Text className="text-sm  text-gray-700  ">{subtitle} </Text>
+      <Text className="text-lg font-pmedium text-foreground">{title} </Text>
+      <Text className="text-sm  text-gray-700  text-foreground">
+        {subtitle}{" "}
+      </Text>
     </View>
   );
 };

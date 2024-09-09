@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import React from "react";
 import LoadingPeopleCard from "./LoadingPeopleCard";
 
@@ -12,7 +12,6 @@ const HorizontalLoadingScroll = () => {
           <LoadingPeopleCard />
         </View>
       )}
-      horizontal
     />
   );
 };

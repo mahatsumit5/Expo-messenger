@@ -3,18 +3,20 @@ import React from "react";
 import CustomFlatlist from "@/components/CustomFlatlist";
 import { useGetSentFriendRequestQuery } from "@/redux";
 
-const sentRequest = () => {
+const SentRequest = () => {
   const { data: sentReq } = useGetSentFriendRequestQuery({
     page: 1,
     search: "",
   });
   return (
-    <CustomFlatlist
-      type="Sent Request"
-      activeTab={"Sent Request"}
-      data={sentReq?.data!}
-    />
+    <View className="items-center bg-background h-full pt-5">
+      <CustomFlatlist
+        type="Sent Request"
+        activeTab={"Sent Request"}
+        data={sentReq?.data!}
+      />
+    </View>
   );
 };
 
-export default sentRequest;
+export default SentRequest;

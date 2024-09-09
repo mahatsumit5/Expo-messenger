@@ -4,9 +4,8 @@ import { schedulePushNotification } from "@/hooks/useNotification.hook";
 import * as Location from "expo-location";
 import { ErrorAlert } from "@/util";
 import { useColorScheme } from "nativewind";
-const settings = () => {
+const Settings = () => {
   const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme();
-  console.log(colorScheme);
   // schedulePushNotification("You have a new notification", "hello");
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
@@ -29,10 +28,12 @@ const settings = () => {
     }
   }, []);
   return (
-    <View className="dark:bg-slate-600 h-full ">
-      <Text className="dark:bg-red-600">{location?.coords.latitude}</Text>
+    <View className="bg-background h-full ">
+      <Text className="bg-background text-foreground border border-border">
+        {location?.coords.latitude}
+      </Text>
     </View>
   );
 };
 
-export default settings;
+export default Settings;

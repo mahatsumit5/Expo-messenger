@@ -7,7 +7,11 @@ import TouchableIcon from "@/components/TouchableIcon";
 import Icons from "@/constants/Icons";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import SearchField from "@/components/Message/SearchField";
-
+import LucidIcon from "@/components/icon/LucidIcon";
+import { ChevronLeft } from "@/lib/icons/Back";
+import { extractInitial } from "@/util";
+import { P } from "@/components/ui/typography";
+import { Phone } from "@/lib/icons/index";
 const MessageLayout = () => {
   const { user, isLoggedIn } = useAppSelector((store) => store.user);
   const { room } = useAppSelector((store) => store.room);
@@ -21,23 +25,20 @@ const MessageLayout = () => {
           <SafeAreaView className="bg-background">
             <View className="p-2 ">
               <View className="flex-row items-center">
-                <TouchableIcon
+                <LucidIcon
+                  icon={ChevronLeft}
                   onPress={() => router.navigate("/(tabs)/home")}
-                  icon={Icons.back2}
-                  iconClassName="w-5 h-5"
+                  size={30}
                 />
                 <PeopleAvatar
-                  initial="SM"
-                  size="w-12 h-12 mx-2"
-                  profilePicture={user?.profile ?? null}
+                  initial={extractInitial(user?.fName ?? "", user?.lName ?? "")}
+                  profilePicture={user?.profile ?? ""}
                 />
                 <View>
-                  <Text className="mx-2 font-psemibold text-lg underline ">
+                  <P className="mx-2 font-psemibold  underline ">
                     {user?.fName} {user?.lName}
-                  </Text>
-                  <Text className="text-sm font-plight mx-2">
-                    {user?.email}
-                  </Text>
+                  </P>
+                  <P className=" font-plight mx-2">{user?.email}</P>
                 </View>
               </View>
               <SearchField />
@@ -46,43 +47,37 @@ const MessageLayout = () => {
         );
       case "room":
         return room?.id ? (
-          <SafeAreaView className="bg-background">
+          <SafeAreaView className="bg-muted">
             <View className="p-2 px-4 flex-row justify-between items-center">
               <View className="flex-row items-center">
-                <TouchableIcon
-                  onPress={() => router.back()}
-                  icon={Icons.back2}
-                  iconClassName="w-5 h-5 mx-2"
+                <LucidIcon
+                  icon={ChevronLeft}
+                  onPress={() => router.navigate("/(tabs)/home")}
+                  size={30}
                 />
                 <PeopleAvatar
                   initial="SM"
                   size="w-12 h-12"
-                  profilePicture={room?.profile ?? null}
+                  profilePicture={room?.profile ?? ""}
                 />
                 <View>
-                  <Text className="mx-2 font-psemibold text-lg underline ">
+                  <P className="mx-2 font-psemibold  underline ">
                     {room.fName} {room.lName}
-                  </Text>
-                  <Text className="text-sm font-plight mx-2">
-                    {room?.email}
-                  </Text>
+                  </P>
+                  <P className=" font-plight mx-2">{room?.email}</P>
                 </View>
               </View>
               <View>
-                <TouchableIcon
-                  icon={Icons.phone}
+                <LucidIcon
+                  icon={Phone}
                   onPress={() => {
                     Alert.alert("Calling", "Calling now.Please wait....");
                   }}
-                  iconClassName="w-8 h-8"
+                  className="text-secondary"
                 />
               </View>
             </View>
-            <CustomStatusBar
-              hidden={false}
-              backgroundColor="white"
-              style="dark"
-            />
+            <CustomStatusBar />
           </SafeAreaView>
         ) : null;
     }
@@ -106,7 +101,7 @@ const MessageLayout = () => {
           }}
         />
       </Stack>
-      <CustomStatusBar style="dark" hidden={false} />
+      <CustomStatusBar />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack } from "expo-router";
-import CustomStatusBar from "@/components/CustomStatusBAr";
 
 const HomeLayout = () => {
   return (
@@ -12,7 +11,6 @@ const HomeLayout = () => {
           options={{ headerShown: false, presentation: "modal" }}
         />
       </Stack>
-      <CustomStatusBar hidden={false} style="dark" />
     </>
   );
 };

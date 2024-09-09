@@ -1,16 +1,7 @@
-import {
-  View,
-  Text,
-  Image,
-  Pressable,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { View, Text, Image } from "react-native";
 import React, { useEffect } from "react";
 import { router, Tabs } from "expo-router";
 import Icons from "@/constants/Icons";
-import { SafeAreaView } from "react-native-safe-area-context";
-import CustomStatusBar from "@/components/CustomStatusBAr";
 import { useRoute } from "@react-navigation/native";
 import { removeToken } from "@/util";
 import TouchableIcon from "@/components/TouchableIcon";
@@ -19,11 +10,27 @@ import { io } from "socket.io-client";
 import { setSocket, setTyping } from "@/redux/reducers/socket.slice";
 import { messageApi } from "@/redux/api/messageApi";
 import { schedulePushNotification } from "@/hooks/useNotification.hook";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "@/lib/useColorScheme";
+import { Sun, Moon, Search, MessageCircleIcon } from "@/lib/icons/index";
+import { PortalHost } from "@rn-primitives/portal";
+import CustomStatusBar from "@/components/CustomStatusBAr";
+import LucidIcon from "@/components/icon/LucidIcon";
+import { Button } from "@/components/ui/button";
+import { Large } from "@/components/ui/typography";
+import { LucideIcon } from "lucide-react-native";
+import {
+  House,
+  Users,
+  Settings,
+  User2,
+  PlusCircleIcon,
+} from "@/lib/icons/index";
 type props = {
   color: string;
   focused: boolean;
   name: string;
-  icon: number;
+  icon: LucideIcon;
 };
 
 const TabsLayout = () => {
@@ -95,7 +102,7 @@ const TabsLayout = () => {
     return () => {
       socket.close();
     };
-  }, [user]);
+  }, [user, dispatch, numberOfMessageToDisplay, skipNumberOfMessages]);
   return (
     <>
       <Tabs
@@ -114,7 +121,7 @@ const TabsLayout = () => {
               <TabIcon
                 color={color}
                 focused={focused}
-                icon={Icons.home}
+                icon={House}
                 name="Home"
               />
             ),
@@ -131,7 +138,7 @@ const TabsLayout = () => {
               <TabIcon
                 color={color}
                 focused={focused}
-                icon={Icons.friends}
+                icon={Users}
                 name="Friends"
               />
             ),
@@ -146,7 +153,7 @@ const TabsLayout = () => {
               <TabIcon
                 color={color}
                 focused={focused}
-                icon={Icons.add}
+                icon={PlusCircleIcon}
                 name="Create"
               />
             ),
@@ -161,7 +168,7 @@ const TabsLayout = () => {
               <TabIcon
                 color={color}
                 focused={focused}
-                icon={Icons.profile}
+                icon={User2}
                 name="Profile"
               />
             ),
@@ -174,11 +181,11 @@ const TabsLayout = () => {
             headerShown: true,
             header: () => <TabsHeader />,
 
-            tabBarIcon: ({ color, focused }) => (
+            tabBarIcon: ({ color, focused, size }) => (
               <TabIcon
                 color={color}
                 focused={focused}
-                icon={Icons.setting}
+                icon={Settings}
                 name="Settings"
               />
             ),
@@ -192,7 +199,10 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
-      <CustomStatusBar style="dark" hidden={false} />
+      {/* Default Portal Host (one per app) */}
+      <PortalHost />
+
+      <CustomStatusBar />
     </>
   );
 };
@@ -200,11 +210,14 @@ const TabsLayout = () => {
 export default TabsLayout;
 
 const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
+  const Icon = icon;
   return (
     <View className="items-center justify-center gap-1 ">
-      <Image source={icon} resizeMode="contain" className="w-6 h-6" />
+      <Icon />
       <Text
-        className={`${focused ? " font-pbold" : "font-pregular"} text-xs `}
+        className={`${
+          focused ? " font-pbold text-primary" : "font-pregular"
+        } text-xs `}
         style={{ color: color }}
       >
         {name}
@@ -215,28 +228,31 @@ const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
 
 const TabsHeader: React.FC = () => {
   const route = useRoute();
+  const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
+
   const logout = async () => {
     await removeToken();
     router.push("/(auth)/sign-in");
   };
-
+  const SunIcon = Sun;
   return (
-    <SafeAreaView className=" w-full  px-2  bg-primary  shadow-lg  " style={{}}>
-      <View className="flex flex-row justify-between  items-center gap-2">
+    <>
+      <View className="flex flex-row justify-between  items-center gap-2 bg-background h-fit px-2 pt-16 pb-2">
         <Image source={Icons.icon} className="h-10 w-10" resizeMode="contain" />
-        <Text className="font-pmedium text-xl">Messenger</Text>
+        <Large>Messenger</Large>
         {route.name === "profile" ? (
           <TouchableIcon icon={Icons.logout} onPress={logout} />
         ) : (
-          <View className="flex flex-row gap-5">
-            <TouchableIcon
-              icon={Icons.search}
+          <View className="flex flex-row items-center">
+            <LucidIcon
+              icon={Search}
               onPress={() => router.navigate("/search/test")}
-              iconClassName="w-7 h-7 mr-5"
             />
-
-            <TouchableIcon
-              icon={Icons.message}
+            <Button variant={"ghost"} onPress={toggleColorScheme}>
+              {!isDarkColorScheme ? <SunIcon size={25} /> : <Moon size={25} />}
+            </Button>
+            <LucidIcon
+              icon={MessageCircleIcon}
               onPress={() => {
                 router.replace("/(tabs)/message");
               }}
@@ -244,6 +260,10 @@ const TabsHeader: React.FC = () => {
           </View>
         )}
       </View>
-    </SafeAreaView>
+      <StatusBar
+        style={isDarkColorScheme ? "light" : "dark"}
+        backgroundColor={isDarkColorScheme ? "white" : "#EAF6FF"}
+      />
+    </>
   );
 };

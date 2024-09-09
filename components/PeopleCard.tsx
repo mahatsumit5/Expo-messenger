@@ -1,7 +1,6 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ActivityIndicator } from "react-native";
 import React, { FC } from "react";
 import PeopleAvatar from "./PeopleAvatar";
-import TouchableIcon from "./TouchableIcon";
 import Icons from "@/constants/Icons";
 import * as Animatable from "react-native-animatable";
 import { router } from "expo-router";
@@ -13,6 +12,12 @@ import {
 } from "@/redux";
 import { keys } from "./CustomFlatlist";
 import { useAppSelector } from "@/hooks/hooks";
+import { Muted, P, Small } from "./ui/typography";
+
+import { MessageCircleIcon, Trash2, UserPlus } from "@/lib/icons/index";
+import { Button } from "./ui/button";
+import LucidIcon from "./icon/LucidIcon";
+
 const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   user,
   isInView,
@@ -26,41 +31,41 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   };
   return (
     <Animatable.View
-      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-background`}
+      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-card`}
       animation={
         isInView
           ? {
               easing: "linear",
               from: { transform: [{ scale: 0.8 }] },
-              to: { transform: [{ scale: 0.9 }] },
+              to: { transform: [{ scale: 1 }] },
             }
           : {
               easing: "linear",
-              from: { transform: [{ scale: 0.9 }] },
+              from: { transform: [{ scale: 1 }] },
               to: { transform: [{ scale: 0.8 }] },
             }
       }
       duration={200}
     >
-      <PeopleAvatar initial="SM" profilePicture={user.profile} />
-      <Text className="mt-3 text-lg font-pmedium uppercase">
+      <PeopleAvatar initial="SM" profilePicture={user.profile ?? ""} />
+      <Text className="mt-3 text-lg font-pmedium uppercase text-card-foreground">
         {user.fName} {user.lName}
       </Text>
-      <Text className="mt-1 text-sm font-pregular">{user.email}</Text>
+      <Muted className="mt-2 text-lg">{user.email}</Muted>
       <View className="flex flex-row">
         <View className="flex flex-row mt-2">
-          <Text className="font-pbold text-base">200 </Text>
-          <Text className="font-pregular text-base"> followers</Text>
+          <Small>200</Small>
+          <Small> followers</Small>
         </View>
         <View className="flex flex-row mt-2 ml-4">
-          <Text className="font-pbold text-base">50 </Text>
-          <Text className="font-pregular text-base"> posts</Text>
+          <Small>50</Small>
+          <Small> posts</Small>
         </View>
       </View>
       <View className="mt-2 ">
-        <Text className="text-sm font-plight text-gray-500 text-center">
+        <Muted className="text-sm font-plight  text-center">
           Add your social media bio here to let people know what you do.
-        </Text>
+        </Muted>
       </View>
       {/* to do customise according to your needs */}
       {dynamicButton[type]}
@@ -69,8 +74,7 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
 };
 
 const NewUser: FC<{ user: IUser }> = ({ user }) => {
-  const [sendFriendRequest, { isError, isLoading }] =
-    useSendFriendRequestMutation();
+  const [sendFriendRequest, { isLoading }] = useSendFriendRequestMutation();
   async function handleAddFriend() {
     const { data } = await sendFriendRequest({
       to: user.id,
@@ -86,12 +90,26 @@ const NewUser: FC<{ user: IUser }> = ({ user }) => {
 
   return (
     <View className="mt-4 w-full items-center">
-      <SmallIconButton
-        icon={Icons.addFriend}
+      <Button
         onPress={handleAddFriend}
-        title="Add Friend"
+        className="flex flex-row gap-2"
+        variant={"default"}
         disabled={isLoading}
-      />
+      >
+        <LucidIcon
+          icon={UserPlus}
+          onPress={handleAddFriend}
+          className="text-primary-foreground"
+        />
+        {isLoading && (
+          <ActivityIndicator
+            animating={isLoading}
+            size="small"
+            className="ml-2 text-primary-foreground"
+          />
+        )}
+        <P className="text-primary-foreground font-pbold">Add</P>
+      </Button>
     </View>
   );
 };
@@ -102,19 +120,25 @@ const Friend = () => {
 
   return (
     <View className="mt-4 w-full items-center">
-      <SmallIconButton
-        icon={Icons.message}
+      <Button
         onPress={handleSendMessage}
-        title="Message"
-      />
+        className="flex flex-row gap-2"
+        variant={"default"}
+      >
+        <LucidIcon
+          icon={MessageCircleIcon}
+          onPress={handleSendMessage}
+          className="text-primary-foreground"
+        />
+        <P className="text-primary-foreground font-pbold">Message</P>
+      </Button>
     </View>
   );
 };
 
 const SentReq = ({ receiver }: { receiver: IUser }) => {
   const { user } = useAppSelector((store) => store.user);
-  const [deleteRequest, { isError, isLoading }] =
-    useDeleteSentRequestMutation();
+  const [deleteRequest, { isLoading }] = useDeleteSentRequestMutation();
 
   async function handleDeleteRequest() {
     try {
@@ -137,22 +161,37 @@ const SentReq = ({ receiver }: { receiver: IUser }) => {
   }
   return (
     <View className="mt-8 w-full items-center">
-      <SmallIconButton
-        icon={Icons.deleteIcon}
+      <Button
+        variant={"destructive"}
+        className="flex flex-row gap-2"
+        size={"sm"}
         onPress={handleDeleteRequest}
-        title="Cancel Request"
         disabled={isLoading}
-        variant="bg-destructive"
-      />
+      >
+        <LucidIcon
+          icon={Trash2}
+          onPress={() => {}}
+          className="text-destructive-foreground"
+          size={18}
+        />
+        {isLoading && (
+          <ActivityIndicator
+            animating={isLoading}
+            size="small"
+            className="ml-2 text-primary-foreground"
+          />
+        )}
+
+        <P className="font-psemibold text-destructive-foreground">Delete</P>
+      </Button>
     </View>
   );
 };
 
 const FriendRequest = ({ sender }: { sender: IUser }) => {
   const { user } = useAppSelector((store) => store.user);
-  const [acceptRequest, {}] = useAcceptFriendReqMutation();
-  const [deleteRequest, { isError, isLoading }] =
-    useDeleteSentRequestMutation();
+  const [acceptRequest] = useAcceptFriendReqMutation();
+  const [deleteRequest] = useDeleteSentRequestMutation();
   async function handleDeleteRequest() {
     try {
       const { data } = await deleteRequest({
@@ -173,7 +212,7 @@ const FriendRequest = ({ sender }: { sender: IUser }) => {
     }
   }
   async function handleAcceptRequest() {
-    const { data, error } = await acceptRequest({ fromId: sender.id });
+    const { data } = await acceptRequest({ fromId: sender.id });
     if (data) {
       Alert.alert(
         "Success",

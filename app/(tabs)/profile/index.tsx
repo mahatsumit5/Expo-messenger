@@ -1,32 +1,28 @@
-import { View, Text, ScrollView, Image, FlatList } from "react-native";
+import { View, Text, Image, FlatList } from "react-native";
 import React from "react";
-import CustomStatusBar from "@/components/CustomStatusBAr";
 import { avatar, coverImg } from "@/constants/images";
-import AvatarIcon from "@/components/AvatarIcon";
-import TouchableIcon from "@/components/TouchableIcon";
-import Icons from "@/constants/Icons";
+
 import { removeToken } from "@/util";
 import { router } from "expo-router";
-import CustomButton from "@/components/CustomButton";
-import { useGetPostsByUserQuery, useGetPostsQuery } from "@/redux";
+import { useGetPostsByUserQuery } from "@/redux";
 import PostCard from "@/components/PostCard";
 import EmptyState from "@/components/EmptyState";
 import { StatusBar } from "expo-status-bar";
 import { useAppSelector } from "@/hooks/hooks";
-const profile = () => {
+import LucidIcon from "@/components/icon/LucidIcon";
+import { Edit } from "@/lib/icons/Edit";
+import { LogOutIcon } from "@/lib/icons/Logout";
+const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
-  const { data: posts, isError } = useGetPostsByUserQuery(user?.id as string);
+  const { data: posts } = useGetPostsByUserQuery(user?.id as string);
 
   const logout = async () => {
     await removeToken();
     router.push("/(auth)/sign-in");
   };
 
-  function handleOnEdit() {
-    router.navigate("/(tabs)/profile/edit");
-  }
   return (
-    <View className="h-full  ">
+    <View className="h-full  bg-background">
       {/* Avatar */}
 
       <View className=" items-center">
@@ -45,7 +41,7 @@ const profile = () => {
             />
           )}
           ListHeaderComponent={() => (
-            <View className="  relative h-[420px]">
+            <View className="  relative h-[310px]">
               {user?.coverPicture ? (
                 <View className="h-56">
                   <Image
@@ -64,7 +60,7 @@ const profile = () => {
                 </View>
               )}
               <View className="absolute top-5 right-5">
-                <TouchableIcon icon={Icons.logout} onPress={logout} />
+                <LucidIcon icon={LogOutIcon} onPress={logout} />
               </View>
               {/* information */}
               <View className="items-center absolute top-1/3 w-full">
@@ -91,24 +87,26 @@ const profile = () => {
                   </View>
 
                   <View className="flex flex-row  items-center justify-center ">
-                    <Text className="font-pregular text-base">20 posts</Text>
-                    <Text className="px-2 text-base font-pregular">
+                    <Text className="font-pregular text-base text-foreground">
+                      20 posts
+                    </Text>
+                    <Text className="px-2 text-base font-pregular text-foreground">
                       120 friends
                     </Text>
                   </View>
                 </View>
 
-                <Text className="mt-2 text-xl font-pbold">My Posts</Text>
+                <Text className="mt-2 text-xl font-pbold text-foreground">
+                  My Posts
+                </Text>
               </View>
               {/* edit button */}
-              <View className="  mt-2  items-end px-4">
-                <TouchableIcon
-                  icon={Icons.edit}
+              <View className="  items-end px-4">
+                <LucidIcon
                   onPress={() => {
                     router.navigate("/profile/edit");
                   }}
-                  className=""
-                  iconClassName="w-7 h-7  rounded-full"
+                  icon={Edit}
                 />
               </View>
             </View>
@@ -120,4 +118,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;

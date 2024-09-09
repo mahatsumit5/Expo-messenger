@@ -17,6 +17,8 @@ import { useAppSelector } from "@/hooks/hooks";
 import { useCreatePostMutation } from "@/redux";
 import { uploadImageToS3 } from "@/util";
 import { router } from "expo-router";
+import { Button } from "@/components/ui/button";
+import { P } from "@/components/ui/typography";
 const initialState: {
   images: ImagePicker.ImagePickerAsset[];
   title: string;
@@ -77,9 +79,9 @@ const Profile = () => {
     }
   }
   return !isError ? (
-    <KeyboardAvoidingView behavior="padding" className="">
+    <KeyboardAvoidingView behavior="padding" className="mt-1">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View className="px-2 relative bg-background">
+        <View className="px-2 relative bg-background h-full">
           <View className="my-10">
             <View className="mb-10">
               <Inputfield
@@ -102,7 +104,7 @@ const Profile = () => {
                 inputHeight="h-[150px]"
               />
             </View>
-            <View className="absolute top-8 right-0 flex flex-row">
+            <View className="absolute top-6 right-0 flex flex-row">
               <TouchableIcon
                 onPress={openCamera}
                 iconClassName="mr-5 h-8 w-8"
@@ -120,12 +122,13 @@ const Profile = () => {
             </View>
 
             <View>
-              <CustomButton
-                title="Create a post"
-                isLoading={isLoading}
+              <Button
                 onPress={handleSubmit}
                 disabled={!form.title || !form.content}
-              />
+                className="mt-5"
+              >
+                <P className="font-pbold text-primary-foreground">Create</P>
+              </Button>
             </View>
           </View>
         </View>
