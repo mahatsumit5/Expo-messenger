@@ -31,12 +31,6 @@ const settings = () => {
   return (
     <View className="dark:bg-slate-600 h-full ">
       <Text className="dark:bg-red-600">{location?.coords.latitude}</Text>
-      <Button
-        title={colorScheme}
-        onPress={() => {
-          setColorScheme("dark");
-        }}
-      />
     </View>
   );
 };

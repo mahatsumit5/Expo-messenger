@@ -1,3 +1,4 @@
+import "@/global.css";
 import { store } from "@/redux/store";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";

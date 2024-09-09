@@ -221,7 +221,7 @@ const TabsHeader: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className=" w-full  px-2 h-28  shadow-lg  ">
+    <SafeAreaView className=" w-full  px-2  bg-primary  shadow-lg  " style={{}}>
       <View className="flex flex-row justify-between  items-center gap-2">
         <Image source={Icons.icon} className="h-10 w-10" resizeMode="contain" />
         <Text className="font-pmedium text-xl">Messenger</Text>
@@ -232,7 +232,7 @@ const TabsHeader: React.FC = () => {
             <TouchableIcon
               icon={Icons.search}
               onPress={() => router.navigate("/search/test")}
-              iconClassName="w-7 h-7 mr-5 rounded-full"
+              iconClassName="w-7 h-7 mr-5"
             />
 
             <TouchableIcon

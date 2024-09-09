@@ -1,8 +1,8 @@
 import { View, Text, FlatList, ViewToken, Alert } from "react-native";
 import React, { Dispatch, FC, SetStateAction, useState } from "react";
-import { tabs } from "@/app/(tabs)/friends";
 import EmptyState from "./EmptyState";
 import PeopleCard from "./PeopleCard";
+import { tabs } from "@/app/(tabs)/friends";
 
 export type keys = (typeof tabs)[number];
 interface props {
