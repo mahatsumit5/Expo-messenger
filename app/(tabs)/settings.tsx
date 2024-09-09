@@ -27,13 +27,7 @@ const Settings = () => {
       ErrorAlert(error);
     }
   }, []);
-  return (
-    <View className="bg-background h-full ">
-      <Text className="bg-background text-foreground border border-border">
-        {location?.coords.latitude}
-      </Text>
-    </View>
-  );
+  return <View className="bg-background h-full "></View>;
 };
 
 export default Settings;

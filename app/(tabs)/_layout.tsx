@@ -213,12 +213,11 @@ const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
   const Icon = icon;
   return (
     <View className="items-center justify-center gap-1 ">
-      <Icon />
+      <Icon size={25} className={focused ? "text-primary" : ""} />
       <Text
         className={`${
-          focused ? " font-pbold text-primary" : "font-pregular"
+          focused ? " font-pbold text-primary" : "font-pregular text-foreground"
         } text-xs `}
-        style={{ color: color }}
       >
         {name}
       </Text>
@@ -237,7 +236,7 @@ const TabsHeader: React.FC = () => {
   const SunIcon = Sun;
   return (
     <>
-      <View className="flex flex-row justify-between  items-center gap-2 bg-background h-fit px-2 pt-16 pb-2">
+      <View className="flex flex-row justify-between  items-center gap-2 bg-background h-fit px-2 pt-16 pb-2 border-b border-border">
         <Image source={Icons.icon} className="h-10 w-10" resizeMode="contain" />
         <Large>Messenger</Large>
         {route.name === "profile" ? (

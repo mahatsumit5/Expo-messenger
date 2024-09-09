@@ -1,9 +1,11 @@
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Image, FlatList } from "react-native";
 import React, { FC } from "react";
-import EmptyState from "./EmptyState";
 import { ImagePickerAsset } from "expo-image-picker";
-
-const ImageSlider: FC<{ images: ImagePickerAsset[]; onPress: () => void }> = ({
+import { Large } from "./ui/typography";
+import LucidIcon from "./icon/LucidIcon";
+import { PlusCircleIcon } from "@/lib/icons/index";
+import { Button } from "./ui/button";
+const ImageSlider: FC<{ images: ImagePickerAsset[]; onPress?: () => void }> = ({
   images,
   onPress,
 }) => {
@@ -18,7 +20,12 @@ const ImageSlider: FC<{ images: ImagePickerAsset[]; onPress: () => void }> = ({
         </View>
       )}
       ListEmptyComponent={() => (
-        <EmptyState title="No Images selected" subtitle="" />
+        <View className=" h-48  justify-center ">
+          <Button variant={"ghost"} className="gap-2">
+            <LucidIcon icon={PlusCircleIcon} size={30} onPress={onPress} />
+            <Large>Select image</Large>
+          </Button>
+        </View>
       )}
     />
   );

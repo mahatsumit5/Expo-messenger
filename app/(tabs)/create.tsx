@@ -8,14 +8,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Inputfield from "@/components/Inputfield";
-import CustomButton from "@/components/CustomButton";
 import TouchableIcon from "@/components/TouchableIcon";
 import Icons from "@/constants/Icons";
 import * as ImagePicker from "expo-image-picker";
 import ImageSlider from "@/components/ImageSlider";
 import { useAppSelector } from "@/hooks/hooks";
 import { useCreatePostMutation } from "@/redux";
-import { uploadImageToS3 } from "@/util";
+import { ErrorAlert, uploadImageToS3 } from "@/util";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
 import { P } from "@/components/ui/typography";
@@ -73,7 +72,7 @@ const Profile = () => {
         router.navigate("/(tabs)/home");
       }
     } catch (error) {
-      Alert.alert("error", "Unexpected error occured");
+      ErrorAlert(error);
     } finally {
       setForm({ content: "", images: [], title: "" });
     }
@@ -104,7 +103,7 @@ const Profile = () => {
                 inputHeight="h-[150px]"
               />
             </View>
-            <View className="absolute top-6 right-0 flex flex-row">
+            <View className="absolute top-4 right-0 flex flex-row">
               <TouchableIcon
                 onPress={openCamera}
                 iconClassName="mr-5 h-8 w-8"
@@ -117,8 +116,8 @@ const Profile = () => {
               />
             </View>
 
-            <View className="">
-              <ImageSlider images={form.images} onPress={() => {}} />
+            <View className="w-96 bg-card items-center rounded-lg mx-auto">
+              <ImageSlider images={form.images} onPress={pickImage} />
             </View>
 
             <View>

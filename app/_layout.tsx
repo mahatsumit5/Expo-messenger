@@ -4,16 +4,13 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import * as LocalAuthentication from "expo-local-authentication";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { NAV_THEME } from "@/lib/constants";
 import { useColorScheme } from "@/lib/useColorScheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Platform } from "react-native";
-import { setAndroidNavigationBar } from "@/lib/android-navigation-bar";
-import { StatusBar } from "expo-status-bar";
+
 import CustomStatusBar from "@/components/CustomStatusBAr";
 
 const LIGHT_THEME: Theme = {
