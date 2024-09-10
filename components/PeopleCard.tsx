@@ -12,7 +12,7 @@ import {
 } from "@/redux";
 
 import { useAppSelector } from "@/hooks/hooks";
-import { H1, Lead, Muted, P, Small } from "./ui/typography";
+import { Muted, P, Small } from "./ui/typography";
 
 import { MessageCircleIcon, Trash2, UserPlus } from "@/lib/icons/index";
 import { Button } from "./ui/button";

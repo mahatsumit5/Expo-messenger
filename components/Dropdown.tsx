@@ -15,14 +15,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Text } from "@/components/ui/text";
-import LucidIcon from "./icon/LucidIcon";
 import { EllipsisVertical } from "@/lib/icons/index";
 export function Dropdown() {
+  const Icon = EllipsisVertical;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
-          <LucidIcon icon={EllipsisVertical} onPress={() => {}} />
+        <Button variant="outline" size={"icon"}>
+          <Icon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64 native:w-72">

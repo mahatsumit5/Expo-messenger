@@ -6,10 +6,9 @@ import PeopleAvatar from "@/components/PeopleAvatar";
 import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { setCurrentRoom } from "@/redux/reducers/roomSlice";
-import TouchableIcon from "@/components/TouchableIcon";
-import Icons from "@/constants/Icons";
 import { P } from "@/components/ui/typography";
-
+import { CameraIcon } from "@/lib/icons/index";
+import LucidIcon from "@/components/icon/LucidIcon";
 const Message = () => {
   const { socket } = useAppSelector((store) => store.socket);
   const { data } = useGetAllChatRoomQuery({
@@ -39,7 +38,7 @@ const Message = () => {
         data={data?.data}
         renderItem={({ item }) => (
           <Pressable
-            className={`bg-muted`}
+            className={`${hover ? "bg-card" : "bg-muted"}`}
             onPressIn={() => setHover(true)}
             onPressOut={() => setHover(false)}
             onPress={() => handleOnPress(item)}
@@ -61,11 +60,7 @@ const Message = () => {
                 </View>
               </View>
               <View>
-                <TouchableIcon
-                  icon={Icons.camera}
-                  onPress={() => {}}
-                  iconClassName="w-5 h-5"
-                />
+                <LucidIcon icon={CameraIcon} />
               </View>
             </View>
           </Pressable>

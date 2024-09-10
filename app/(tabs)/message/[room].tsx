@@ -12,7 +12,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { useGetMessagesQuery } from "@/redux";
 import PeopleAvatar from "@/components/PeopleAvatar";
-import { extractInitial } from "@/util";
+import { extractInitial } from "@/lib/utils";
 import EmptyState from "@/components/EmptyState";
 import MessageInputField from "@/components/Message/MessageInputField";
 import { setSkipNumberOfMessages } from "@/redux/reducers/querySlice";
@@ -39,7 +39,7 @@ const Message = () => {
       className="bg-background"
     >
       <View className=" flex-col h-full justify-between pb-4">
-        <View className="p-2 flex-1 bg-red h-[90%]">
+        <View className="p-2 flex-1 bg-background h-[90%]">
           <FlatList
             data={data?.result.messages}
             keyExtractor={(item) => item.id}

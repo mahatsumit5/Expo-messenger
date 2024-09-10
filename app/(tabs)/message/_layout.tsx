@@ -1,15 +1,14 @@
-import { View, Text, SafeAreaView, Alert, TextInput } from "react-native";
+import { View, SafeAreaView, Alert } from "react-native";
 import React from "react";
 import { Redirect, router, Stack } from "expo-router";
 import PeopleAvatar from "@/components/PeopleAvatar";
 import { useAppSelector } from "@/hooks/hooks";
-import TouchableIcon from "@/components/TouchableIcon";
-import Icons from "@/constants/Icons";
+
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import SearchField from "@/components/Message/SearchField";
 import LucidIcon from "@/components/icon/LucidIcon";
 import { ChevronLeft } from "@/lib/icons/Back";
-import { extractInitial } from "@/util";
+import { extractInitial } from "@/lib/utils";
 import { P } from "@/components/ui/typography";
 import { Phone } from "@/lib/icons/index";
 const MessageLayout = () => {

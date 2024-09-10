@@ -18,9 +18,11 @@ import { PlusCircleIcon } from "./Create";
 import { User2 } from "./Profile";
 import { Settings } from "./Setting";
 import { Rows3 } from "./Rows";
+import { CameraIcon } from "./Camera";
 import { IdCard } from "./card";
 
 export {
+  CameraIcon,
   IdCard,
   Rows3,
   Settings,

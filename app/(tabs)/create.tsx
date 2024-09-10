@@ -19,6 +19,7 @@ import { uploadImageToS3 } from "@/lib/amszonS3";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
 import { P } from "@/components/ui/typography";
+
 const initialState: {
   images: ImagePicker.ImagePickerAsset[];
   title: string;
