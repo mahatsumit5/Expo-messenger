@@ -12,7 +12,7 @@ import { H1 } from "@/components/ui/typography";
 const Index = () => {
   useGetLoggedInUserQuery();
   const { isLoggedIn, user } = useAppSelector((store) => store.user);
-  if (isLoggedIn && user) return <Redirect href={"/(tabs)/settings"} />;
+  if (isLoggedIn && user) return <Redirect href={"/(tabs)/home"} />;
   return (
     <View className="items-center justify-center  p-2 h-full bg-background">
       <Image source={Icons.icon} className="h-24 w-24" resizeMode="contain" />

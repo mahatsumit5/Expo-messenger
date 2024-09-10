@@ -32,13 +32,15 @@ export default function MaterialTopTabsLayout() {
           textTransform: "capitalize",
           fontWeight: "bold",
         },
-        tabBarIndicatorStyle: {
-          backgroundColor: colors.notification,
-        },
+
         tabBarScrollEnabled: true,
-        tabBarItemStyle: { width: "auto", minWidth: 100 },
+        tabBarItemStyle: {
+          width: "auto",
+          minWidth: 100,
+          padding: 0,
+          // backgroundColor: colors.card,
+        },
       }}
-      className="bg-background"
     >
       <MaterialTopTabs.Screen
         name="index"

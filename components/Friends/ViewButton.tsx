@@ -5,6 +5,7 @@ import LucidIcon from "../icon/LucidIcon";
 import { IdCard, Rows3 } from "@/lib/icons/index";
 import { useAppDispatch } from "@/hooks/hooks";
 import { setView } from "@/redux/reducers/firendView.slice";
+import { SelectMenu } from "../Select/Select";
 const ViewButton = () => {
   const dispatch = useAppDispatch();
 
@@ -13,6 +14,7 @@ const ViewButton = () => {
   }
   return (
     <View className=" w-full items-end  flex-row justify-end gap-4">
+      <SelectMenu />
       <Button size={"icon"} variant={"outline"}>
         <LucidIcon
           icon={IdCard}

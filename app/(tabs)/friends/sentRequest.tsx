@@ -5,7 +5,11 @@ import { useGetSentFriendRequestQuery } from "@/redux";
 import ViewButton from "@/components/Friends/ViewButton";
 
 const SentRequest = () => {
-  const { data: sentReq } = useGetSentFriendRequestQuery({
+  const {
+    data: sentReq,
+    isLoading,
+    refetch,
+  } = useGetSentFriendRequestQuery({
     page: 1,
     search: "",
   });
@@ -16,6 +20,8 @@ const SentRequest = () => {
         type="Sent Request"
         activeTab={"Sent Request"}
         data={sentReq?.data!}
+        refreshing={isLoading}
+        onRefresh={refetch}
       />
     </View>
   );

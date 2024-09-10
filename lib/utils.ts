@@ -41,3 +41,14 @@ export const ErrorAlert = (error: unknown) => {
     throw new Error("Unknown error occured");
   }
 };
+
+export function doesItemExistInCache(
+  cacheData: IUser[],
+  incomingData: IUser[]
+): boolean {
+  // Create a Set of IDs from the cache data for fast lookup
+  const cacheIds = new Set(cacheData.map((user) => user.id));
+
+  // Check if any incoming data ID exists in the cache IDs
+  return incomingData.some((user) => cacheIds.has(user.id));
+}

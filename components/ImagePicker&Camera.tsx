@@ -28,11 +28,11 @@ const ImagePickerandCamera = () => {
   return {
     form,
     component: (
-      <View className="absolute top-4 right-28 flex flex-row z-50 ">
+      <View className="absolute top-6 right-28 flex flex-row z-50 ">
         <LucidIcon
           icon={CameraIcon}
           onPress={openCamera}
-          className="text-secondary mr-2"
+          className="text-secondary mr-4"
         />
         <LucidIcon
           icon={ImagePlus}

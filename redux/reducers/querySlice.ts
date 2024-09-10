@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Alert } from "react-native";
 
 interface InitialState {
   numberOfPostToDisplay: number;
@@ -7,6 +6,9 @@ interface InitialState {
   skipNumberOfMessages: number;
   searchQuery: string;
   pageForAllUsers: number;
+  takeNumberOfPeopleToDisplay: number;
+  totalNumberOfUsers: number;
+  order: "asc" | "desc";
 }
 const initialState: InitialState = {
   numberOfMessageToDisplay: 20,
@@ -14,6 +16,9 @@ const initialState: InitialState = {
   skipNumberOfMessages: 0,
   searchQuery: "",
   pageForAllUsers: 1,
+  takeNumberOfPeopleToDisplay: 5,
+  totalNumberOfUsers: 0,
+  order: "asc",
 };
 export const querySlice = createSlice({
   name: "query",
@@ -23,19 +28,25 @@ export const querySlice = createSlice({
       state.skipNumberOfMessages = payload;
     },
 
-    setPageForAllUsers: (
+    setPageForAllUsers: (state, { payload }: PayloadAction<number>) => {
+      state.pageForAllUsers = payload;
+    },
+
+    setTotalNumberOfUsers: (state, { payload }: PayloadAction<number>) => {
+      state.totalNumberOfUsers = payload;
+    },
+    setOrder: (
       state,
-      { payload }: PayloadAction<{ numberOfpages: number }>
+      { payload }: PayloadAction<(typeof initialState)["order"]>
     ) => {
-      console.log(payload);
-      if (payload.numberOfpages === state.pageForAllUsers) {
-        Alert.alert("info", "End reached remove later");
-        return;
-      }
-      state.pageForAllUsers = state.pageForAllUsers + 1;
+      state.order = payload;
     },
   },
 });
 export default querySlice.reducer;
-export const { setSkipNumberOfMessages, setPageForAllUsers } =
-  querySlice.actions;
+export const {
+  setOrder,
+  setSkipNumberOfMessages,
+  setPageForAllUsers,
+  setTotalNumberOfUsers,
+} = querySlice.actions;

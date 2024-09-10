@@ -5,18 +5,22 @@ import { View } from "react-native";
 import ViewButton from "@/components/Friends/ViewButton";
 import { useAppSelector } from "@/hooks/hooks";
 
-export const takeNumberOfPeopleToDisplay = 5;
 const Peoples = () => {
-  const { searchQuery, pageForAllUsers } = useAppSelector(
-    (store) => store.query
+  const { searchQuery, pageForAllUsers, takeNumberOfPeopleToDisplay, order } =
+    useAppSelector((store) => store.query);
+  const {
+    data: allUsers,
+    refetch,
+    isLoading,
+  } = useGetAllUsersQuery(
+    {
+      page: pageForAllUsers,
+      take: takeNumberOfPeopleToDisplay,
+      order: order,
+      search: searchQuery,
+    },
+    { refetchOnMountOrArgChange: true }
   );
-  const { data: allUsers } = useGetAllUsersQuery({
-    page: pageForAllUsers,
-    take: takeNumberOfPeopleToDisplay,
-    order: "asc",
-    search: searchQuery,
-  });
-  console.log("numberof users", allUsers?.totalUsers);
   return (
     <View className="items-center w-full bg-background pt-5 h-full">
       <ViewButton />
@@ -25,7 +29,8 @@ const Peoples = () => {
         type="allUsers"
         activeTab={"allUsers"}
         data={allUsers?.data!}
-        totalNumberOfUsers={allUsers?.totalUsers ?? 0}
+        refreshing={isLoading}
+        onRefresh={refetch}
       />
     </View>
   );

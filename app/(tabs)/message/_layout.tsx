@@ -10,7 +10,7 @@ import LucidIcon from "@/components/icon/LucidIcon";
 import { ChevronLeft } from "@/lib/icons/Back";
 import { extractInitial } from "@/lib/utils";
 import { P } from "@/components/ui/typography";
-import { Phone } from "@/lib/icons/index";
+import { Phone, MailPlus } from "@/lib/icons/index";
 const MessageLayout = () => {
   const { user, isLoggedIn } = useAppSelector((store) => store.user);
   const { room } = useAppSelector((store) => store.room);
@@ -22,23 +22,30 @@ const MessageLayout = () => {
       case "index":
         return (
           <SafeAreaView className="bg-header ">
-            <View className="p-2 ">
-              <View className="flex-row items-center">
-                <LucidIcon
-                  icon={ChevronLeft}
-                  onPress={() => router.navigate("/(tabs)/home")}
-                  size={30}
-                />
-                <PeopleAvatar
-                  initial={extractInitial(user?.fName ?? "", user?.lName ?? "")}
-                  profilePicture={user?.profile ?? ""}
-                />
-                <View>
-                  <P className="mx-2 font-psemibold  underline ">
-                    {user?.fName} {user?.lName}
-                  </P>
-                  <P className=" font-plight mx-2">{user?.email}</P>
+            <View className="px-2">
+              <View className="flex-row justify-between items-center ">
+                <View className="flex-row items-center">
+                  <LucidIcon
+                    icon={ChevronLeft}
+                    onPress={() => router.navigate("/(tabs)/home")}
+                    size={30}
+                  />
+                  <PeopleAvatar
+                    initial={extractInitial(
+                      user?.fName ?? "",
+                      user?.lName ?? ""
+                    )}
+                    profilePicture={user?.profile ?? ""}
+                    size="w-14 h-14"
+                  />
+                  <View>
+                    <P className="mx-2 font-psemibold  underline ">
+                      {user?.fName} {user?.lName}
+                    </P>
+                    <P className=" font-plight mx-2">{user?.email}</P>
+                  </View>
                 </View>
+                <LucidIcon icon={MailPlus} size={25} />
               </View>
               <SearchField />
             </View>

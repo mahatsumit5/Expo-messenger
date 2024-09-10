@@ -10,6 +10,7 @@ const Friends = () => {
     data: rooms,
     isError,
     isLoading,
+    refetch,
   } = useGetAllChatRoomQuery({
     page: 1,
     search: "",
@@ -31,6 +32,8 @@ const Friends = () => {
         type="Friends"
         activeTab={"Friends"}
         data={rooms?.data!}
+        refreshing={isLoading}
+        onRefresh={refetch}
       />
     </View>
   );

@@ -1,30 +1,36 @@
 import { View, FlatList, ViewToken, RefreshControl } from "react-native";
 import React, { FC, useState } from "react";
 
-import { tabs } from "@/app/(tabs)/friends";
 import PeopleCard from "../PeopleCard";
 import EmptyState from "../EmptyState";
-import { useAppDispatch } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { setPageForAllUsers } from "@/redux/reducers/querySlice";
-import { takeNumberOfPeopleToDisplay } from "@/app/(tabs)/friends/peoples";
-import { emptyTitle } from "@/lib/constants";
+import { emptyTitle, tabs } from "@/lib/constants";
 
 export type keys = (typeof tabs)[number];
 interface props {
   type: keys;
   activeTab: keys;
   data: IFriendReq[] | IUser[] | IChatRoom[];
-  totalNumberOfUsers?: number;
+  refreshing: boolean;
+  onRefresh: () => void;
 }
 
 const CustomFlatlist: FC<props> = ({
   type,
   activeTab,
   data,
-  totalNumberOfUsers,
+  onRefresh,
+  refreshing,
 }) => {
+  const { takeNumberOfPeopleToDisplay, totalNumberOfUsers, pageForAllUsers } =
+    useAppSelector((store) => store.query);
+  const totalNumberOfPages = Math.ceil(
+    totalNumberOfUsers / takeNumberOfPeopleToDisplay
+  );
   const dispatch = useAppDispatch();
   const [activeCardId, setActiveCard] = useState<string>("");
+
   const onViewableItemsChanged = ({
     viewableItems,
   }: {
@@ -157,19 +163,15 @@ const CustomFlatlist: FC<props> = ({
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
           onEndReached={() => {
-            dispatch(
-              setPageForAllUsers({
-                numberOfpages: Math.ceil(
-                  totalNumberOfUsers! / takeNumberOfPeopleToDisplay
-                ),
-              })
-            );
+            if (totalNumberOfPages > pageForAllUsers) {
+              dispatch(setPageForAllUsers(pageForAllUsers + 1));
+            }
           }}
           refreshControl={
             <RefreshControl
-              refreshing={false}
+              refreshing={refreshing}
               onRefresh={() => {
-                // todo cannot refetch as fetching causes multiple items with same ids to be insered in cached data
+                onRefresh();
               }}
             />
           }

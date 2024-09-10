@@ -25,7 +25,6 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   type,
 }) => {
   const { view } = useAppSelector((store) => store.view);
-  console.log(view);
   const dynamicButton: Record<keys, React.ReactNode> = {
     allUsers: <NewUser user={user} />,
     Friends: <Friend />,

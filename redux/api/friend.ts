@@ -1,7 +1,6 @@
-import { Alert } from "react-native";
 import { emptySplitApi } from ".";
 import { userApi } from "./userApi";
-import { ErrorAlert } from "@/util";
+import { ErrorAlert } from "@/lib/utils";
 
 export const friendApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -43,11 +42,7 @@ export const friendApi = emptySplitApi.injectEndpoints({
             )
           );
         } catch (error) {
-          if (error instanceof Error) {
-            Alert.alert("error", error.message);
-          } else {
-            throw new Error("Unknown error occured");
-          }
+          ErrorAlert(error);
         }
       },
     }),
@@ -111,7 +106,7 @@ export const friendApi = emptySplitApi.injectEndpoints({
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          const { data } = await queryFulfilled;
+          await queryFulfilled;
 
           dispatch(
             friendApi.util.updateQueryData(

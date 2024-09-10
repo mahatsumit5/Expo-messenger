@@ -1,7 +1,9 @@
 import { storeData } from "@/util";
 import { setUser } from "../reducers/userSlice";
 import { emptySplitApi } from "./index";
+import { doesItemExistInCache, ErrorAlert } from "@/lib/utils";
 import { Alert } from "react-native";
+import { setTotalNumberOfUsers } from "../reducers/querySlice";
 
 interface Response extends ServerResponse {
   token: {
@@ -32,7 +34,7 @@ export const userApi = emptySplitApi.injectEndpoints({
             dispatch(userApi.endpoints.getLoggedInUser.initiate());
           }
         } catch (error) {
-          throw new Error();
+          ErrorAlert(error);
         }
       },
       transformErrorResponse(baseQueryReturnValue, meta, arg) {
@@ -48,14 +50,13 @@ export const userApi = emptySplitApi.injectEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          console.log("this is data after user is called", data);
           dispatch(setUser({ user: data as IUser, isLoggedIn: true }));
         } catch (error) {
-          throw new Error();
+          ErrorAlert(error);
         }
       },
     }),
-    signUp: builder.mutation<ServerResponse, Object>({
+    signUp: builder.mutation<ServerResponse, object>({
       query: (data) => {
         return { url: "user/sign-up", method: "post", body: data, timeout: 10 };
       },
@@ -67,18 +68,34 @@ export const userApi = emptySplitApi.injectEndpoints({
 
       onCacheEntryAdded: async (
         arg,
-        { cacheDataLoaded, cacheEntryRemoved }
+        { cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) => {
         try {
-          await cacheDataLoaded;
+          const { data } = await cacheDataLoaded;
+
+          dispatch(setTotalNumberOfUsers(data.totalUsers));
         } catch (error) {
-          if (error instanceof Error) {
-            Alert.alert("error", error.message);
-          } else {
-            throw new Error("Unknown error occured");
-          }
+          ErrorAlert(error);
         }
         await cacheEntryRemoved;
+      },
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      forceRefetch(params) {
+        return (
+          params.currentArg?.page !== params.previousArg?.page ||
+          params.currentArg?.order !== params.previousArg?.order
+        );
+      },
+      merge(currentCacheData, responseData, otherArgs) {
+        if (doesItemExistInCache(currentCacheData.data, responseData.data)) {
+          return;
+        }
+        currentCacheData.data = [
+          ...currentCacheData.data,
+          ...responseData.data,
+        ];
       },
     }),
 
