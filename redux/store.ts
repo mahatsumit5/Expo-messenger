@@ -3,9 +3,11 @@ import userReducer from "./reducers/userSlice";
 import roomReducer from "./reducers/roomSlice";
 import socketReducer from "./reducers/socket.slice";
 import queryReducer from "./reducers/querySlice";
+import viewReducer from "./reducers/firendView.slice";
 import { emptySplitApi } from "./api/index";
 export const store = configureStore({
   reducer: {
+    view: viewReducer,
     query: queryReducer,
     user: userReducer,
     room: roomReducer,

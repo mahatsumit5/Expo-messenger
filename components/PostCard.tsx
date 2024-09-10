@@ -1,10 +1,9 @@
-import { View, Text, Image, Animated, StyleSheet, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
 import React, { FC } from "react";
-import TouchableIcon from "./TouchableIcon";
-import Icons from "@/constants/Icons";
+
 import HorizontalImageScroll from "./HorizontalImageScroll";
 import { router } from "expo-router";
-import { dateConverter } from "@/util";
+import { dateConverter } from "@/lib/utils";
 import PeopleAvatar from "./PeopleAvatar";
 import { Heart } from "@/lib/icons/Heart";
 import { MessageCircleIcon } from "@/lib/icons/Message";

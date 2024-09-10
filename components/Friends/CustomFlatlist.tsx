@@ -1,8 +1,9 @@
 import { View, FlatList, ViewToken, Alert } from "react-native";
 import React, { FC, useState } from "react";
-import EmptyState from "./EmptyState";
-import PeopleCard from "./PeopleCard";
+
 import { tabs } from "@/app/(tabs)/friends";
+import PeopleCard from "../PeopleCard";
+import EmptyState from "../EmptyState";
 
 export type keys = (typeof tabs)[number];
 interface props {
@@ -50,7 +51,7 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           keyExtractor={(item) => item.from.id}
           renderItem={({ item }) => {
             return (
-              <View className="w-96 items-center justify-center">
+              <View className="w-full px-2  mt-5">
                 <PeopleCard
                   user={item.from}
                   isInView={item.from.id === activeCardId}
@@ -79,7 +80,7 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           data={data as IChatRoom[]}
           renderItem={({ item }) => {
             return (
-              <View className="w-96 items-center justify-center">
+              <View className="w-full px-4  mt-5">
                 <PeopleCard
                   user={{
                     id: item.userId,
@@ -118,7 +119,7 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           keyExtractor={(item) => item.to.id}
           renderItem={({ item }) => {
             return (
-              <View className="w-96 items-center justify-center">
+              <View className="w-full px-4  mt-5">
                 <PeopleCard
                   user={item.to}
                   isInView={item.to.id === activeCardId}
@@ -147,7 +148,7 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           data={data as IUser[]}
           keyExtractor={({ id }) => id}
           renderItem={({ item }) => (
-            <View className="w-80  mt-5">
+            <View className="w-full px-4  mt-5">
               <PeopleCard
                 user={item}
                 isInView={item.id === activeCardId}

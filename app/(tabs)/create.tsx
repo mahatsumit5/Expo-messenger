@@ -14,7 +14,8 @@ import * as ImagePicker from "expo-image-picker";
 import ImageSlider from "@/components/ImageSlider";
 import { useAppSelector } from "@/hooks/hooks";
 import { useCreatePostMutation } from "@/redux";
-import { ErrorAlert, uploadImageToS3 } from "@/util";
+import { ErrorAlert } from "@/lib/utils";
+import { uploadImageToS3 } from "@/lib/amszonS3";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
 import { P } from "@/components/ui/typography";
@@ -30,7 +31,7 @@ const initialState: {
 const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
 
-  const [createPost, { isError, isLoading, status }] = useCreatePostMutation();
+  const [createPost, { isError }] = useCreatePostMutation();
   const [form, setForm] = useState(initialState);
   async function pickImage() {
     // No permissions request is necessary for launching the image library

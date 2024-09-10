@@ -6,10 +6,10 @@ const PeopleAvatar: FC<{
   profilePicture: string;
   initial: string;
   size?: string;
-}> = ({ profilePicture, initial }) => {
+}> = ({ profilePicture, initial, size = "h-10 w-10" }) => {
   return (
-    <Avatar alt=" Avatar">
-      <AvatarImage source={{ uri: profilePicture }} />
+    <Avatar alt=" Avatar" className={`${size}`}>
+      <AvatarImage source={{ uri: profilePicture }} className={`${size}`} />
       <AvatarFallback>
         <Text>{initial}</Text>
       </AvatarFallback>

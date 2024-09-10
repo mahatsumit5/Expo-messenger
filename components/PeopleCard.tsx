@@ -10,26 +10,29 @@ import {
   useDeleteSentRequestMutation,
   useSendFriendRequestMutation,
 } from "@/redux";
-import { keys } from "./CustomFlatlist";
+
 import { useAppSelector } from "@/hooks/hooks";
-import { Muted, P, Small } from "./ui/typography";
+import { H1, Lead, Muted, P, Small } from "./ui/typography";
 
 import { MessageCircleIcon, Trash2, UserPlus } from "@/lib/icons/index";
 import { Button } from "./ui/button";
 import LucidIcon from "./icon/LucidIcon";
+import { keys } from "./Friends/CustomFlatlist";
 
 const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   user,
   isInView,
   type,
 }) => {
+  const { view } = useAppSelector((store) => store.view);
+  console.log(view);
   const dynamicButton: Record<keys, React.ReactNode> = {
     allUsers: <NewUser user={user} />,
     Friends: <Friend />,
     "Sent Request": <SentReq receiver={user} />,
     Request: <FriendRequest sender={user} />,
   };
-  return (
+  return view === "card" ? (
     <Animatable.View
       className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-card`}
       animation={
@@ -47,7 +50,11 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
       }
       duration={200}
     >
-      <PeopleAvatar initial="SM" profilePicture={user.profile ?? ""} />
+      <PeopleAvatar
+        initial="SM"
+        profilePicture={user.profile ?? ""}
+        size="h-36 w-36"
+      />
       <Text className="mt-3 text-lg font-pmedium uppercase text-card-foreground">
         {user.fName} {user.lName}
       </Text>
@@ -67,9 +74,26 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
           Add your social media bio here to let people know what you do.
         </Muted>
       </View>
-      {/* to do customise according to your needs */}
       {dynamicButton[type]}
     </Animatable.View>
+  ) : (
+    <View className="bg-card flex-row justify-between items-center w-full p-2 rounded-lg">
+      <View>
+        <View className="flex-row  items-center">
+          <PeopleAvatar
+            initial="SM"
+            profilePicture={user.profile ?? ""}
+            size="h-20 w-20"
+          />
+          <Small className="uppercase text-card-foreground ml-2 mt-1 h-">
+            {user.fName} {user.lName}
+          </Small>
+        </View>
+
+        <Muted className="text-lg">{user.email}</Muted>
+      </View>
+      <View>{dynamicButton[type]}</View>
+    </View>
   );
 };
 
@@ -89,7 +113,7 @@ const NewUser: FC<{ user: IUser }> = ({ user }) => {
   }
 
   return (
-    <View className="mt-4 w-full items-center">
+    <View className="w-full items-center">
       <Button
         onPress={handleAddFriend}
         className="flex flex-row gap-2"
@@ -119,7 +143,7 @@ const Friend = () => {
   }
 
   return (
-    <View className="mt-4 w-full items-center">
+    <View className=" w-full items-center">
       <Button
         onPress={handleSendMessage}
         className="flex flex-row gap-2"
@@ -160,11 +184,10 @@ const SentReq = ({ receiver }: { receiver: IUser }) => {
     }
   }
   return (
-    <View className="mt-8 w-full items-center">
+    <View className=" w-full items-center">
       <Button
         variant={"destructive"}
         className="flex flex-row gap-2"
-        size={"sm"}
         onPress={handleDeleteRequest}
         disabled={isLoading}
       >

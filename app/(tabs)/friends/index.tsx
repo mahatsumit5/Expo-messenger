@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { useGetAllChatRoomQuery } from "@/redux";
-import HorizontalLoadingScroll from "@/components/HorizontalLoadingScroll";
-import CustomFlatlist from "@/components/CustomFlatlist";
-
+import CustomFlatlist from "@/components//Friends/CustomFlatlist";
+import { P } from "@/components/ui/typography";
+import ViewButton from "@/components/Friends/ViewButton";
 export const tabs = ["Friends", "Request", "Sent Request", "allUsers"] as const;
 
 const Friends = () => {
@@ -23,17 +23,11 @@ const Friends = () => {
     </View>
   ) : isLoading ? (
     <View className=" p-2  ">
-      <View>
-        <Text className="font-pmedium text-xl">Find New Friends</Text>
-      </View>
-      <HorizontalLoadingScroll />
-      <View>
-        <Text className="font-pmedium text-xl mt-5"> Friends</Text>
-      </View>
-      <HorizontalLoadingScroll />
+      <P>Loading.....</P>
     </View>
   ) : (
     <View className="px-2 h-full items-center  bg-background pt-5">
+      <ViewButton />
       <CustomFlatlist
         type="Friends"
         activeTab={"Friends"}

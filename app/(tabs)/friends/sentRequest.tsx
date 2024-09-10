@@ -1,7 +1,8 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import CustomFlatlist from "@/components/CustomFlatlist";
+import CustomFlatlist from "@/components/Friends/CustomFlatlist";
 import { useGetSentFriendRequestQuery } from "@/redux";
+import ViewButton from "@/components/Friends/ViewButton";
 
 const SentRequest = () => {
   const { data: sentReq } = useGetSentFriendRequestQuery({
@@ -10,6 +11,7 @@ const SentRequest = () => {
   });
   return (
     <View className="items-center bg-background h-full pt-5">
+      <ViewButton />
       <CustomFlatlist
         type="Sent Request"
         activeTab={"Sent Request"}

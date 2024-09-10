@@ -11,14 +11,18 @@ import { Search } from "./Search";
 import { EllipsisVertical } from "./Ellipsis";
 import { Phone } from "./Phone";
 import { Trash2 } from "./Trash";
-import { UserPlus } from "./AddUser";
+import { UserPlus } from "./Trash copy";
 import { House } from "./Home";
 import { Users } from "./Friends";
 import { PlusCircleIcon } from "./Create";
 import { User2 } from "./Profile";
 import { Settings } from "./Setting";
+import { Rows3 } from "./Rows";
+import { IdCard } from "./card";
 
 export {
+  IdCard,
+  Rows3,
   Settings,
   User2,
   PlusCircleIcon,
