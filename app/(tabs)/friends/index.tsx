@@ -4,7 +4,6 @@ import { useGetAllChatRoomQuery } from "@/redux";
 import CustomFlatlist from "@/components//Friends/CustomFlatlist";
 import { P } from "@/components/ui/typography";
 import ViewButton from "@/components/Friends/ViewButton";
-export const tabs = ["Friends", "Request", "Sent Request", "allUsers"] as const;
 
 const Friends = () => {
   const {

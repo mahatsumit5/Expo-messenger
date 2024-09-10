@@ -1,15 +1,16 @@
 import { View } from "react-native";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 
 import { useSendMessageMutation } from "@/redux";
 import ImagePickerandCamera from "../ImagePicker&Camera";
-import { uploadImageToS3 } from "@/util";
+import { uploadImageToS3 } from "@/lib/amszonS3";
 import { ImagePickerAsset } from "expo-image-picker";
 import { useAppSelector } from "@/hooks/hooks";
 import { Input } from "../ui/input";
 import LucidIcon from "../icon/LucidIcon";
 import { SendHorizonal } from "@/lib/icons/Send";
 import { Button } from "../ui/button";
+import LoadingState from "../button/LoadingState";
 const MessageInputField: FC<{
   author: string;
   roomId: string;
@@ -21,18 +22,21 @@ const MessageInputField: FC<{
   const [sendMessage, { isLoading }] = useSendMessageMutation();
   const { component, form } = ImagePickerandCamera();
 
-  async function handleSendMessage(content: string) {
-    const { data } = await sendMessage({
-      content,
-      author,
-      numOfMessages,
-      roomId,
-    });
-    if (data?.status) {
-      socket?.emit("send_message", data.result, roomId);
-      setMessage("");
-    }
-  }
+  const handleSendMessage = useCallback(
+    async (content: string) => {
+      const { data } = await sendMessage({
+        content,
+        author,
+        numOfMessages,
+        roomId,
+      });
+      if (data?.status) {
+        socket?.emit("send_message", data.result, roomId);
+        setMessage("");
+      }
+    },
+    [author, numOfMessages, roomId, socket, sendMessage]
+  ); // Add any dependencies that `handleSendMessage` uses
 
   useEffect(() => {
     const uploadImage = async (images: ImagePickerAsset[]) => {
@@ -47,9 +51,9 @@ const MessageInputField: FC<{
     if (form?.length) {
       uploadImage(form);
     }
-  }, [form]);
+  }, [form, handleSendMessage]);
   return (
-    <View className="p-2  flex-row relative mb-7">
+    <View className="p-2 pt-4 flex-row relative mb-4 border-t border-border">
       <Input
         className="flex-1  h-10 rounded-full p-2 bg-input"
         placeholder="enter you message"
@@ -66,12 +70,20 @@ const MessageInputField: FC<{
       {component}
       <View className="ml-2"></View>
       <Button
-        onPress={() => handleSendMessage(message)}
         className="flex  rounded-full flex-row gap-2"
         disabled={isLoading}
         variant={"outline"}
       >
-        <LucidIcon icon={SendHorizonal} onPress={() => {}} />
+        {!isLoading ? (
+          <LucidIcon
+            icon={SendHorizonal}
+            onPress={() => handleSendMessage(message)}
+            size={30}
+            className="text-secondary"
+          />
+        ) : (
+          <LoadingState />
+        )}
       </Button>
     </View>
   );

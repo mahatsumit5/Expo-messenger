@@ -3,14 +3,20 @@ import CustomFlatlist from "@/components/Friends/CustomFlatlist";
 import { useGetAllUsersQuery } from "@/redux";
 import { View } from "react-native";
 import ViewButton from "@/components/Friends/ViewButton";
+import { useAppSelector } from "@/hooks/hooks";
 
+export const takeNumberOfPeopleToDisplay = 5;
 const Peoples = () => {
+  const { searchQuery, pageForAllUsers } = useAppSelector(
+    (store) => store.query
+  );
   const { data: allUsers } = useGetAllUsersQuery({
-    page: 1,
-    take: 10,
+    page: pageForAllUsers,
+    take: takeNumberOfPeopleToDisplay,
     order: "asc",
-    search: "",
+    search: searchQuery,
   });
+  console.log("numberof users", allUsers?.totalUsers);
   return (
     <View className="items-center w-full bg-background pt-5 h-full">
       <ViewButton />
@@ -19,6 +25,7 @@ const Peoples = () => {
         type="allUsers"
         activeTab={"allUsers"}
         data={allUsers?.data!}
+        totalNumberOfUsers={allUsers?.totalUsers ?? 0}
       />
     </View>
   );

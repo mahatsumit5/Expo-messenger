@@ -13,6 +13,7 @@ const Home = () => {
   const onRefresh = async () => {
     setRefresh(true);
     await dispatch(postApi.endpoints.getPosts.initiate(0));
+    console.log("refetching");
     setRefresh(false);
   };
 

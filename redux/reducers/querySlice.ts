@@ -1,17 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SetStateAction } from "react";
+import { Alert } from "react-native";
+
 interface InitialState {
   numberOfPostToDisplay: number;
-
-  //   number of messages is static to 10 for now. Could be helpful to change if need to change any feature
   numberOfMessageToDisplay: number;
   skipNumberOfMessages: number;
+  searchQuery: string;
+  pageForAllUsers: number;
 }
 const initialState: InitialState = {
   numberOfMessageToDisplay: 20,
   numberOfPostToDisplay: 10,
-  //   inital skip is 0
   skipNumberOfMessages: 0,
+  searchQuery: "",
+  pageForAllUsers: 1,
 };
 export const querySlice = createSlice({
   name: "query",
@@ -20,7 +22,20 @@ export const querySlice = createSlice({
     setSkipNumberOfMessages: (state, { payload }: PayloadAction<number>) => {
       state.skipNumberOfMessages = payload;
     },
+
+    setPageForAllUsers: (
+      state,
+      { payload }: PayloadAction<{ numberOfpages: number }>
+    ) => {
+      console.log(payload);
+      if (payload.numberOfpages === state.pageForAllUsers) {
+        Alert.alert("info", "End reached remove later");
+        return;
+      }
+      state.pageForAllUsers = state.pageForAllUsers + 1;
+    },
   },
 });
 export default querySlice.reducer;
-export const { setSkipNumberOfMessages } = querySlice.actions;
+export const { setSkipNumberOfMessages, setPageForAllUsers } =
+  querySlice.actions;

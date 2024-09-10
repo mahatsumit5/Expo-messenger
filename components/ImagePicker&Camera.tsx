@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
-import TouchableIcon from "./TouchableIcon";
-import Icons from "@/constants/Icons";
-import * as ImagePicker from "expo-image-picker";
 
+import * as ImagePicker from "expo-image-picker";
+import { CameraIcon, ImagePlus } from "@/lib/icons/index";
+import LucidIcon from "./icon/LucidIcon";
 const ImagePickerandCamera = () => {
   const [form, setForm] = useState<ImagePicker.ImagePickerAsset[]>();
   async function pickImage() {
@@ -28,16 +28,16 @@ const ImagePickerandCamera = () => {
   return {
     form,
     component: (
-      <View className="absolute top-4 right-28 flex flex-row z-50 h-">
-        <TouchableIcon
+      <View className="absolute top-4 right-28 flex flex-row z-50 ">
+        <LucidIcon
+          icon={CameraIcon}
           onPress={openCamera}
-          iconClassName="mr-2 h-6 w-6"
-          icon={Icons.camera}
+          className="text-secondary mr-2"
         />
-        <TouchableIcon
+        <LucidIcon
+          icon={ImagePlus}
           onPress={pickImage}
-          icon={Icons.img}
-          iconClassName="h-6 w-6"
+          className="text-secondary"
         />
       </View>
     ),

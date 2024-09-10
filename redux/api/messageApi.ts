@@ -1,6 +1,5 @@
-import { ErrorAlert } from "@/util";
+import { ErrorAlert } from "@/lib/utils";
 import { emptySplitApi } from ".";
-import { Socket } from "socket.io-client";
 type sendMessagePArams = {
   content: string | File;
   roomId: string;
@@ -15,7 +14,6 @@ interface IMessageResponse {
     _count: { messages: number };
   };
 }
-type keys = "author" | "roomId" | "content";
 export const messageApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     sendMessage: builder.mutation<
@@ -76,7 +74,7 @@ export const messageApi = emptySplitApi.injectEndpoints({
       serializeQueryArgs: ({ endpointName }) => {
         return endpointName;
       },
-      merge: (cacheData, incomingData, {}) => {
+      merge: (cacheData, incomingData) => {
         console.log(incomingData);
         if (
           cacheData.result.messages[0].id === incomingData.result.messages[0].id
@@ -85,8 +83,8 @@ export const messageApi = emptySplitApi.injectEndpoints({
           return;
         }
         cacheData.result.messages = [
-          ...incomingData.result.messages,
           ...cacheData.result.messages,
+          ...incomingData.result.messages,
         ];
       },
       // Refetch when the page arg changes

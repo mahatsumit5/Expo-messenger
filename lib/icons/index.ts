@@ -20,8 +20,10 @@ import { Settings } from "./Setting";
 import { Rows3 } from "./Rows";
 import { CameraIcon } from "./Camera";
 import { IdCard } from "./card";
+import { ImagePlus } from "./AddImage";
 
 export {
+  ImagePlus,
   CameraIcon,
   IdCard,
   Rows3,

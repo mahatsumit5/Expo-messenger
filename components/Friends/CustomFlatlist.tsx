@@ -1,38 +1,30 @@
-import { View, FlatList, ViewToken, Alert } from "react-native";
+import { View, FlatList, ViewToken, RefreshControl } from "react-native";
 import React, { FC, useState } from "react";
 
 import { tabs } from "@/app/(tabs)/friends";
 import PeopleCard from "../PeopleCard";
 import EmptyState from "../EmptyState";
+import { useAppDispatch } from "@/hooks/hooks";
+import { setPageForAllUsers } from "@/redux/reducers/querySlice";
+import { takeNumberOfPeopleToDisplay } from "@/app/(tabs)/friends/peoples";
+import { emptyTitle } from "@/lib/constants";
 
 export type keys = (typeof tabs)[number];
 interface props {
   type: keys;
   activeTab: keys;
   data: IFriendReq[] | IUser[] | IChatRoom[];
+  totalNumberOfUsers?: number;
 }
 
-const emptyTitle: Record<
-  (typeof tabs)[number],
-  { title: string; subtitle: string }
-> = {
-  Request: { title: "You do not have any friend request.", subtitle: "" },
-  Friends: {
-    title: "No friends available",
-    subtitle: "Please try gain later",
-  },
-  "Sent Request": {
-    title: "No request sent",
-    subtitle: "",
-  },
-  allUsers: {
-    title: "No users found",
-    subtitle: "Try again later",
-  },
-} as const;
-const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
+const CustomFlatlist: FC<props> = ({
+  type,
+  activeTab,
+  data,
+  totalNumberOfUsers,
+}) => {
+  const dispatch = useAppDispatch();
   const [activeCardId, setActiveCard] = useState<string>("");
-
   const onViewableItemsChanged = ({
     viewableItems,
   }: {
@@ -165,8 +157,22 @@ const CustomFlatlist: FC<props> = ({ type, activeTab, data }) => {
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
           onEndReached={() => {
-            Alert.alert("Todo", "re call data ");
+            dispatch(
+              setPageForAllUsers({
+                numberOfpages: Math.ceil(
+                  totalNumberOfUsers! / takeNumberOfPeopleToDisplay
+                ),
+              })
+            );
           }}
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => {
+                // todo cannot refetch as fetching causes multiple items with same ids to be insered in cached data
+              }}
+            />
+          }
         />
       );
   }

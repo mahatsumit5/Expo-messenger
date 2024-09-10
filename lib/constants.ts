@@ -16,3 +16,24 @@ export const NAV_THEME = {
     text: "hsl(0 0% 98%)", // foreground
   },
 };
+
+export const emptyTitle: Record<
+  (typeof tabs)[number],
+  { title: string; subtitle: string }
+> = {
+  Request: { title: "You do not have any friend request.", subtitle: "" },
+  Friends: {
+    title: "No friends available",
+    subtitle: "Please try gain later",
+  },
+  "Sent Request": {
+    title: "No request sent",
+    subtitle: "",
+  },
+  allUsers: {
+    title: "No users found",
+    subtitle: "Try again later",
+  },
+} as const;
+
+export const tabs = ["Friends", "Request", "Sent Request", "allUsers"] as const;

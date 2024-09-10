@@ -16,6 +16,7 @@ import { extractInitial } from "@/lib/utils";
 import EmptyState from "@/components/EmptyState";
 import MessageInputField from "@/components/Message/MessageInputField";
 import { setSkipNumberOfMessages } from "@/redux/reducers/querySlice";
+import { messageApi } from "@/redux/api/messageApi";
 
 const Message = () => {
   const dispatch = useAppDispatch();
@@ -25,14 +26,11 @@ const Message = () => {
     (store) => store.query
   );
 
-  const { data, isLoading, refetch } = useGetMessagesQuery(
-    {
-      roomId: room?.id ?? "",
-      take: numberOfMessageToDisplay,
-      skip: skipNumberOfMessages,
-    },
-    {}
-  );
+  const { data, isLoading } = useGetMessagesQuery({
+    roomId: room?.id ?? "",
+    take: numberOfMessageToDisplay,
+    skip: skipNumberOfMessages,
+  });
   return room?.id ? (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -100,17 +98,24 @@ const Message = () => {
             )}
             onEndReached={() => {
               if (
-                skipNumberOfMessages + 10 <
+                skipNumberOfMessages + 20 <
                 Number(data?.result._count.messages)
               ) {
-                dispatch(setSkipNumberOfMessages(skipNumberOfMessages + 10));
+                dispatch(setSkipNumberOfMessages(skipNumberOfMessages + 20));
               }
             }}
             refreshControl={
               <RefreshControl
                 refreshing={isLoading}
                 onRefresh={() => {
-                  refetch();
+                  // todo cannot refetch as fetching causes multiple items with same ids to be insered in cached data
+                  dispatch(
+                    messageApi.endpoints.getMessages.initiate({
+                      roomId: room.id,
+                      take: numberOfMessageToDisplay,
+                      skip: skipNumberOfMessages,
+                    })
+                  );
                 }}
               />
             }

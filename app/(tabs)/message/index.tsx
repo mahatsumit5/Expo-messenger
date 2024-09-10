@@ -6,8 +6,8 @@ import PeopleAvatar from "@/components/PeopleAvatar";
 import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { setCurrentRoom } from "@/redux/reducers/roomSlice";
-import { P } from "@/components/ui/typography";
-import { CameraIcon } from "@/lib/icons/index";
+import { Large, P } from "@/components/ui/typography";
+import { CameraIcon, EllipsisVertical } from "@/lib/icons/index";
 import LucidIcon from "@/components/icon/LucidIcon";
 const Message = () => {
   const { socket } = useAppSelector((store) => store.socket);
@@ -38,7 +38,7 @@ const Message = () => {
         data={data?.data}
         renderItem={({ item }) => (
           <Pressable
-            className={`${hover ? "bg-card" : "bg-muted"}`}
+            className={`${hover ? "bg-card" : ""}`}
             onPressIn={() => setHover(true)}
             onPressOut={() => setHover(false)}
             onPress={() => handleOnPress(item)}
@@ -49,18 +49,27 @@ const Message = () => {
                   <PeopleAvatar
                     initial="SM"
                     profilePicture={item.profile ?? ""}
-                    size="h-10 w-10"
+                    size="h-14 w-14"
                   />
                   <View className="mx-2">
-                    <P className="font-pmedium ">
+                    <Large className=" ">
                       {item.fName} {item.lName}
-                    </P>
-                    <P className=" font-pregular">{item.lastMessage}</P>
+                    </Large>
+                    <View>
+                      <P className=" font-pregular">{item.lastMessage}</P>
+                    </View>
                   </View>
                 </View>
               </View>
-              <View>
-                <LucidIcon icon={CameraIcon} />
+              <View className="flex-row gap-3">
+                <LucidIcon
+                  icon={CameraIcon}
+                  onPress={() => {
+                    console.log("object");
+                    return 1;
+                  }}
+                />
+                <LucidIcon icon={EllipsisVertical} />
               </View>
             </View>
           </Pressable>

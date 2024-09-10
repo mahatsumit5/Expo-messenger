@@ -21,7 +21,7 @@ const MessageLayout = () => {
     switch (type) {
       case "index":
         return (
-          <SafeAreaView className="bg-background">
+          <SafeAreaView className="bg-header ">
             <View className="p-2 ">
               <View className="flex-row items-center">
                 <LucidIcon
@@ -46,7 +46,7 @@ const MessageLayout = () => {
         );
       case "room":
         return room?.id ? (
-          <SafeAreaView className="bg-muted">
+          <SafeAreaView className="bg-header">
             <View className="p-2 px-4 flex-row justify-between items-center">
               <View className="flex-row items-center">
                 <LucidIcon

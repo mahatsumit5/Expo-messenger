@@ -5,7 +5,7 @@ import SearchField from "@/components/Message/SearchField";
 
 const Search = () => {
   return (
-    <View className="p-4">
+    <View className="p-4 bg-background h-full">
       <SearchField />
     </View>
   );

@@ -1,7 +1,6 @@
-import { ImagePickerAsset } from "expo-image-picker";
 import { emptySplitApi } from ".";
-import * as AWSS3 from "react-native-aws3";
 import { Alert } from "react-native";
+import { ErrorAlert } from "@/lib/utils";
 interface Response extends ServerResponse {
   posts: IPost[];
   totalNumberOfPosts: number;
@@ -24,8 +23,6 @@ export interface IDeletePost {
   post: IPost;
 }
 
-type keys = "title" | "id" | "content" | "images";
-
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query<
@@ -44,11 +41,7 @@ export const postApi = emptySplitApi.injectEndpoints({
           const { data } = await cacheDataLoaded;
           console.log(data);
         } catch (error) {
-          if (error instanceof Error) {
-            Alert.alert("error", error.message);
-          } else {
-            throw new Error("Unknown error occured");
-          }
+          ErrorAlert(error);
         }
         await cacheEntryRemoved;
       },
@@ -63,7 +56,6 @@ export const postApi = emptySplitApi.injectEndpoints({
         };
       },
       merge: (cacheData, incomingData) => {
-        console.log("this is cache data");
         cacheData.posts.push(...incomingData.posts);
         cacheData.totalNumberOfPosts =
           cacheData.totalNumberOfPosts + incomingData.posts.length;
