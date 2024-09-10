@@ -38,7 +38,7 @@ const Message = () => {
         data={data?.data}
         renderItem={({ item }) => (
           <Pressable
-            className={`${hover ? "bg-card" : ""}`}
+            className={`${hover ? "bg-card" : ""} mt-4`}
             onPressIn={() => setHover(true)}
             onPressOut={() => setHover(false)}
             onPress={() => handleOnPress(item)}
@@ -49,7 +49,7 @@ const Message = () => {
                   <PeopleAvatar
                     initial="SM"
                     profilePicture={item.profile ?? ""}
-                    size="h-14 w-14"
+                    size="h-16 w-16"
                   />
                   <View className="mx-2">
                     <Large className=" ">

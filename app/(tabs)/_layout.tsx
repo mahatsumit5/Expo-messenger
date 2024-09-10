@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Alert } from "react-native";
 import React, { useEffect } from "react";
 import { router, Tabs } from "expo-router";
 import Icons from "@/constants/Icons";
@@ -61,7 +61,6 @@ const TabsLayout = () => {
     socket.emit("join_your_room", user.id);
 
     socket.on("typing", (email) => {
-      console.log(email, "is typing");
       dispatch(setTyping({ person: email, typing: true }));
     });
     socket.on("stopped_typing", (email) => {
@@ -79,8 +78,13 @@ const TabsLayout = () => {
         data.postId
       );
     });
+    socket.on("getFriendRequest", (data: IFriendReq) => {
+      console.log(data);
+      schedulePushNotification("Notification", "You have a new friend request");
+    });
 
     socket.on("send_message_client", (message: IMessage) => {
+      console.log(message);
       schedulePushNotification("New message incoming.", message.content);
       dispatch(
         messageApi.util.updateQueryData(
@@ -226,43 +230,32 @@ const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
 };
 
 const TabsHeader: React.FC = () => {
-  const route = useRoute();
   const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
 
-  const logout = async () => {
-    await removeToken();
-    router.push("/(auth)/sign-in");
-  };
   const SunIcon = Sun;
   return (
     <>
-      <View className="flex flex-row justify-between  items-center gap-2 bg-background h-fit px-2 pt-16 pb-2 border-b border-border">
-        <Image source={Icons.icon} className="h-10 w-10" resizeMode="contain" />
-        <Large>Messenger</Large>
-        {route.name === "profile" ? (
-          <TouchableIcon icon={Icons.logout} onPress={logout} />
-        ) : (
-          <View className="flex flex-row items-center">
-            <LucidIcon
-              icon={Search}
-              onPress={() => router.navigate("/search/test")}
-            />
-            <Button variant={"ghost"} onPress={toggleColorScheme}>
-              {!isDarkColorScheme ? <SunIcon size={25} /> : <Moon size={25} />}
-            </Button>
-            <LucidIcon
-              icon={MessageCircleIcon}
-              onPress={() => {
-                router.replace("/(tabs)/message");
-              }}
-            />
-          </View>
-        )}
+      <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2">
+        <Image source={Icons.icon} className="h-12 w-12" resizeMode="contain" />
+        <Large className="font-brushell text-primary text-4xl">ChatApp</Large>
+
+        <View className="flex flex-row items-center">
+          <LucidIcon
+            icon={Search}
+            onPress={() => router.navigate("/search/test")}
+          />
+          <Button variant={"ghost"} onPress={toggleColorScheme}>
+            {!isDarkColorScheme ? <SunIcon size={25} /> : <Moon size={25} />}
+          </Button>
+          <LucidIcon
+            icon={MessageCircleIcon}
+            onPress={() => {
+              router.replace("/(tabs)/message");
+            }}
+          />
+        </View>
       </View>
-      <StatusBar
-        style={isDarkColorScheme ? "light" : "dark"}
-        backgroundColor={isDarkColorScheme ? "white" : "#EAF6FF"}
-      />
+      <StatusBar style={isDarkColorScheme ? "light" : "dark"} animated />
     </>
   );
 };

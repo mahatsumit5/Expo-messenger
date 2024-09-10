@@ -1,10 +1,8 @@
 import { View, Text, Alert, ActivityIndicator } from "react-native";
 import React, { FC } from "react";
 import PeopleAvatar from "./PeopleAvatar";
-import Icons from "@/constants/Icons";
 import * as Animatable from "react-native-animatable";
 import { router } from "expo-router";
-import SmallIconButton from "./SmallconButton";
 import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
@@ -14,10 +12,11 @@ import {
 import { useAppSelector } from "@/hooks/hooks";
 import { Muted, P, Small } from "./ui/typography";
 
-import { MessageCircleIcon, Trash2, UserPlus } from "@/lib/icons/index";
+import { MessageCircleIcon, Trash2, UserPlus, Check } from "@/lib/icons/index";
 import { Button } from "./ui/button";
 import LucidIcon from "./icon/LucidIcon";
 import { keys } from "./Friends/CustomFlatlist";
+import LoadingState from "./button/LoadingState";
 
 const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   user,
@@ -213,7 +212,7 @@ const SentReq = ({ receiver }: { receiver: IUser }) => {
 const FriendRequest = ({ sender }: { sender: IUser }) => {
   const { user } = useAppSelector((store) => store.user);
   const [acceptRequest] = useAcceptFriendReqMutation();
-  const [deleteRequest] = useDeleteSentRequestMutation();
+  const [deleteRequest, { isLoading }] = useDeleteSentRequestMutation();
   async function handleDeleteRequest() {
     try {
       const { data } = await deleteRequest({
@@ -243,24 +242,40 @@ const FriendRequest = ({ sender }: { sender: IUser }) => {
     }
   }
   return (
-    <View className="mt-8 w-full items-center flex-row px-16 justify-between">
-      <SmallIconButton
-        icon={Icons.check}
+    <View className="mt-2 w-full items-center flex-row px-16 justify-between">
+      <Button
+        variant={"secondary"}
+        size={"sm"}
+        className="flex-row gap-2 justify-center"
         onPress={handleAcceptRequest}
-        title="Accept "
-        disabled={false}
-        variant="bg-success"
-        className=""
-      />
+        disabled={isLoading}
+      >
+        <LucidIcon icon={Check} className="text-primary-foreground" size={18} />
+        {!isLoading ? (
+          <Small className="text-primary-foreground">Accept</Small>
+        ) : (
+          <LoadingState />
+        )}
+      </Button>
 
-      <SmallIconButton
-        icon={Icons.deleteIcon}
+      <Button
+        variant={"destructive"}
+        size={"sm"}
+        className="flex-row justify-center gap-2"
         onPress={handleDeleteRequest}
-        title="Cancel "
-        disabled={false}
-        variant="bg-destructive"
-        className=""
-      />
+        disabled={isLoading}
+      >
+        <LucidIcon
+          icon={Trash2}
+          className="text-primary-foreground"
+          size={18}
+        />
+        {!isLoading ? (
+          <Small className="text-primary-foreground">Delete</Small>
+        ) : (
+          <LoadingState />
+        )}
+      </Button>
     </View>
   );
 };

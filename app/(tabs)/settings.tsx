@@ -1,16 +1,10 @@
-import { View, Text, Button } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import React, { useEffect } from "react";
 import { schedulePushNotification } from "@/hooks/useNotification.hook";
 import * as Location from "expo-location";
-import { ErrorAlert } from "@/util";
-import { useColorScheme } from "nativewind";
+import { ErrorAlert } from "@/lib/utils";
 const Settings = () => {
-  const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme();
-  // schedulePushNotification("You have a new notification", "hello");
-  const [location, setLocation] = useState<Location.LocationObject | null>(
-    null
-  );
-  const [errorMessage, setErrorMessage] = useState(null);
+  schedulePushNotification("You have a new notification", "hello");
 
   useEffect(() => {
     try {
@@ -19,9 +13,7 @@ const Settings = () => {
         if (status !== "granted") {
           throw new Error("Request denied.Location ");
         }
-        const ocation = await Location.getCurrentPositionAsync({});
-        console.log(ocation);
-        setLocation(ocation);
+        await Location.getCurrentPositionAsync({});
       })();
     } catch (error) {
       ErrorAlert(error);

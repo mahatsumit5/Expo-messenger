@@ -45,6 +45,7 @@ export default function RootLayout() {
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+    Brushell: require("../assets/fonts/BrushellSilhouette.ttf"),
   });
 
   async function authenticate() {

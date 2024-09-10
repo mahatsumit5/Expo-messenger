@@ -15,13 +15,17 @@ const ImageSlider: FC<{ images: ImagePickerAsset[]; onPress?: () => void }> = ({
       horizontal
       keyExtractor={(item) => item.uri}
       renderItem={({ item }) => (
-        <View className="items-center  relative ">
-          <Image source={{ uri: item.uri }} className="h-72 rounded-md w-96" />
+        <View className="h-44 w-60 relative items-center">
+          <Image
+            source={{ uri: item.uri }}
+            className="h-full rounded-md w-full"
+            resizeMode="cover"
+          />
         </View>
       )}
       ListEmptyComponent={() => (
-        <View className=" h-48  justify-center ">
-          <Button variant={"ghost"} className="gap-2">
+        <View className=" h-48  justify-center bg-card rounded-xl">
+          <Button variant={"ghost"} className="gap-2 ">
             <LucidIcon icon={PlusCircleIcon} size={30} onPress={onPress} />
             <Large>Select image</Large>
           </Button>

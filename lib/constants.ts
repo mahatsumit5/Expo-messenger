@@ -1,3 +1,5 @@
+import { ImagePickerAsset } from "expo-image-picker";
+
 export const NAV_THEME = {
   light: {
     background: "hsl(0 0% 100%)", // background
@@ -37,3 +39,12 @@ export const emptyTitle: Record<
 } as const;
 
 export const tabs = ["Friends", "Request", "Sent Request", "allUsers"] as const;
+export const initialState: {
+  images: ImagePickerAsset[];
+  title: string;
+  content: string;
+} = {
+  images: [],
+  title: "",
+  content: "",
+};

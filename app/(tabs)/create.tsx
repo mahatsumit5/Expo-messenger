@@ -18,21 +18,15 @@ import { ErrorAlert } from "@/lib/utils";
 import { uploadImageToS3 } from "@/lib/amszonS3";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
-import { P } from "@/components/ui/typography";
-
-const initialState: {
-  images: ImagePicker.ImagePickerAsset[];
-  title: string;
-  content: string;
-} = {
-  images: [],
-  title: "",
-  content: "",
-};
+import { Muted, P, Small } from "@/components/ui/typography";
+import CustomButton from "@/components/button/ShadButton";
+import { initialState } from "@/lib/constants";
+import { CameraIcon, ImagePlus } from "@/lib/icons/index";
+import LoadingState from "@/components/button/LoadingState";
 const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
 
-  const [createPost, { isError }] = useCreatePostMutation();
+  const [createPost, { isError, isLoading }] = useCreatePostMutation();
   const [form, setForm] = useState(initialState);
   async function pickImage() {
     // No permissions request is necessary for launching the image library
@@ -105,30 +99,44 @@ const Profile = () => {
                 inputHeight="h-[150px]"
               />
             </View>
-            <View className="absolute top-4 right-0 flex flex-row">
-              <TouchableIcon
+            <View className="absolute top-1 gap-2 right-0 flex flex-row">
+              <CustomButton
+                icon={CameraIcon}
                 onPress={openCamera}
-                iconClassName="mr-5 h-8 w-8"
-                icon={Icons.camera}
+                size={25}
+                iconClassName=""
+                variant={"outline"}
               />
-              <TouchableIcon
+              <CustomButton
+                icon={ImagePlus}
                 onPress={pickImage}
-                icon={Icons.img}
-                iconClassName="h-8 w-8"
+                size={25}
+                iconClassName=""
+                variant={"outline"}
               />
             </View>
 
-            <View className="w-96 bg-card items-center rounded-lg mx-auto">
-              <ImageSlider images={form.images} onPress={pickImage} />
-            </View>
+            {/* <View className="w-96 bg-card items-center rounded-lg mx-auto"> */}
+            <ImageSlider images={form.images} onPress={pickImage} />
+            {/* </View> */}
 
             <View>
               <Button
                 onPress={handleSubmit}
-                disabled={!form.title || !form.content}
+                disabled={!form.title || !form.content || isLoading}
                 className="mt-5"
+                variant={"default"}
               >
-                <P className="font-pbold text-primary-foreground">Create</P>
+                {!isLoading ? (
+                  <P className="font-pbold text-primary-foreground">Create</P>
+                ) : (
+                  <View className="flex-row justify-center gap-4">
+                    <Muted className="text-primary-foreground text-sm">
+                      Please wait..
+                    </Muted>
+                    <LoadingState />
+                  </View>
+                )}
               </Button>
             </View>
           </View>
