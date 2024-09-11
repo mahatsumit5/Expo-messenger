@@ -1,16 +1,19 @@
-import { View, Text, Alert } from "react-native";
+import { View, Text } from "react-native";
 import React, { FC } from "react";
 
 import HorizontalImageScroll from "./HorizontalImageScroll";
 import { router } from "expo-router";
-import { dateConverter, hasUserLikedThePost } from "@/lib/utils";
+import {
+  dateConverter,
+  getLikedIdByUser,
+  hasUserLikedThePost,
+} from "@/lib/utils";
 import PeopleAvatar from "./PeopleAvatar";
 import { Heart, HeartHandshake } from "@/lib/icons/index";
 import { MessageCircleIcon } from "@/lib/icons/Message";
 import LucidIcon from "./icon/LucidIcon";
 import { Dropdown } from "@/components/Dropdown";
-import { useLikePostMutation } from "@/redux";
-import { P } from "./ui/typography";
+import { useLikePostMutation, useRemoveLikeMutation } from "@/redux";
 import { useAppSelector } from "@/hooks/hooks";
 
 const PostCard: FC<{ post: IPost }> = ({
@@ -26,10 +29,14 @@ const PostCard: FC<{ post: IPost }> = ({
   },
 }) => {
   const { user } = useAppSelector((store) => store.user);
-  const [likePost, { isLoading }] = useLikePostMutation();
-  const handleLikePost = async () => {
-    await likePost(id);
-  };
+
+  const [likePost] = useLikePostMutation();
+  const [removeLike] = useRemoveLikeMutation();
+  const likeId = getLikedIdByUser(likes, user?.id!);
+  const handleLikePost = async () => await likePost(id);
+
+  const handleUnLikePost = async () => await removeLike(likeId! ?? "");
+
   return (
     <View className="bg-card mt-5 p-4 mx-2 rounded-xl">
       {/* header */}
@@ -49,6 +56,7 @@ const PostCard: FC<{ post: IPost }> = ({
           <Dropdown />
         </View>
       </View>
+
       {/* content */}
       <View className="mt-2 mb-2 flex-1 ">
         <Text className="font-pmedium text-xl text-card-foreground">
@@ -61,13 +69,14 @@ const PostCard: FC<{ post: IPost }> = ({
 
       {/* Image */}
       <HorizontalImageScroll images={images} />
+
       {/* comment Section */}
       <View className="mt-2 flex flex-row w-full items-center justify-start gap-3">
         <View className="flex flex-row">
           {hasUserLikedThePost(likes, user?.id!) ? (
             <LucidIcon
               icon={HeartHandshake}
-              onPress={handleLikePost}
+              onPress={handleUnLikePost}
               className="text-destructive"
             />
           ) : (

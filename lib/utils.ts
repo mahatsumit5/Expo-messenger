@@ -62,3 +62,6 @@ export function hasUserLikedThePost(
   // Check if any loggedin user ID exists in the user IDs
   return userIds.has(userId);
 }
+export function getLikedIdByUser(likes: ILikedPost[], userId: string) {
+  return likes.find((item) => item.userId === userId)?.id;
+}

@@ -137,7 +137,7 @@ export const postApi = emptySplitApi.injectEndpoints({
     removeLike: builder.mutation<ILikedPost, string>({
       query: (likeId) => {
         return {
-          url: `remove-like`,
+          url: `post/remove-like`,
           method: "put",
           body: { likeId },
         };
@@ -167,7 +167,7 @@ export const postApi = emptySplitApi.injectEndpoints({
             })
           );
         } catch (error) {
-          console.log(error);
+          ErrorAlert(error);
         }
       },
     }),
