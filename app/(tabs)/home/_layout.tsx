@@ -8,7 +8,7 @@ const HomeLayout = () => {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen
           name="[comment]"
-          options={{ headerShown: false, presentation: "modal" }}
+          options={{ headerShown: false, presentation: "formSheet" }}
         />
       </Stack>
     </>

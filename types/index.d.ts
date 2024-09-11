@@ -52,6 +52,11 @@ declare interface IPost {
     comments: number;
   };
 }
+declare interface ILikedPost {
+  id: string;
+  postId: string;
+  userId: string;
+}
 
 declare interface IComment {
   id: string;

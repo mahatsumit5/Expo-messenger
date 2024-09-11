@@ -52,3 +52,13 @@ export function doesItemExistInCache(
   // Check if any incoming data ID exists in the cache IDs
   return incomingData.some((user) => cacheIds.has(user.id));
 }
+export function hasUserLikedThePost(
+  likes: ILikedPost[],
+  userId: string
+): boolean {
+  // Create a Set of IDs from the likes data for fast lookup
+  const userIds = new Set(likes.map(({ userId }) => userId));
+
+  // Check if any loggedin user ID exists in the user IDs
+  return userIds.has(userId);
+}

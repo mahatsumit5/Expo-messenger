@@ -1,27 +1,6 @@
 import { emptySplitApi } from ".";
 import { Alert } from "react-native";
 import { ErrorAlert } from "@/lib/utils";
-interface Response extends ServerResponse {
-  posts: IPost[];
-  totalNumberOfPosts: number;
-}
-
-export interface createPostParams {
-  title: string;
-  content: string;
-  id: string;
-  images: string[];
-}
-
-export interface ICreatePostRes {
-  status: boolean;
-  result: IPost;
-}
-export interface IDeletePost {
-  status: boolean;
-  message: string;
-  post: IPost;
-}
 
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -38,12 +17,12 @@ export const postApi = emptySplitApi.injectEndpoints({
         { cacheDataLoaded, cacheEntryRemoved }
       ) => {
         try {
-          const { data } = await cacheDataLoaded;
-          console.log(data);
+          await cacheDataLoaded;
         } catch (error) {
           ErrorAlert(error);
+        } finally {
+          await cacheEntryRemoved;
         }
-        await cacheEntryRemoved;
       },
 
       transformErrorResponse(baseQueryReturnValue, meta, arg) {
@@ -65,10 +44,13 @@ export const postApi = emptySplitApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
+
+    // get post by user
     getPostsByUser: builder.query<Response, string>({
       query: (userId) => `post/user/${userId}`,
     }),
 
+    // create a new post
     createPost: builder.mutation<ICreatePostRes, createPostParams>({
       query: (data) => {
         return {
@@ -99,6 +81,7 @@ export const postApi = emptySplitApi.injectEndpoints({
       },
     }),
 
+    // delete post
     deletePost: builder.mutation<IDeletePost, string>({
       query: (postId) => {
         return { url: `post/${postId}`, method: "delete" };
@@ -115,77 +98,116 @@ export const postApi = emptySplitApi.injectEndpoints({
             })
           );
         } catch (error) {
-          if (error instanceof Error) {
-            Alert.alert("error", error.message);
-          } else {
-            throw new Error("Unknown error occured");
-          }
+          ErrorAlert(error);
         }
       },
     }),
-    // likePost: builder.mutation<ILikedPost, string>({
-    //   query: (postId) => {
-    //     return { url: "like", method: "put", body: { postId } };
-    //   },
-    //   transformResponse: (res: ILikePostResponse) => res.likedPost,
-    //   onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
-    //     try {
-    //       const { data } = await queryFulfilled;
 
-    //       dispatch(
-    //         postApi.util.updateQueryData("getPosts", 0, (draft) => {
-    //           return {
-    //             ...draft,
-    //             posts: draft.posts.map((post) => {
-    //               if (post.id === data.postId) {
-    //                 return { ...post, likes: [...post.likes, data] };
-    //               } else {
-    //                 return post;
-    //               }
-    //             }),
-    //           };
-    //         })
-    //       );
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   },
-    // }),
-    // removeLike: builder.mutation<ILikedPost, string>({
-    //   query: (likeId) => {
-    //     return {
-    //       url: `remove-like`,
-    //       method: "put",
-    //       body: { likeId },
-    //     };
-    //   },
-    //   transformResponse: (res: IRemovedLikeRes) => res.deletedLike,
-    //   onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
-    //     try {
-    //       const { data } = await queryFulfilled;
+    // like post
+    likePost: builder.mutation<ILikedPost, string>({
+      query: (postId) => {
+        return { url: "post/like", method: "put", body: { postId } };
+      },
+      transformResponse: (res: ILikePostResponse) => res.likedPost,
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
 
-    //       dispatch(
-    //         postApi.util.updateQueryData("getPosts", 0, (draft) => {
-    //           return {
-    //             ...draft,
-    //             posts: draft.posts.map((post) => {
-    //               if (post.id === data.postId) {
-    //                 return {
-    //                   ...post,
-    //                   likes: post.likes.filter((like) => like.id !== data.id),
-    //                 };
-    //               } else {
-    //                 return post;
-    //               }
-    //             }),
-    //           };
-    //         })
-    //       );
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   },
-    // }),
+          dispatch(
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.map((post) => {
+                  if (post.id === data.postId) {
+                    return { ...post, likes: [...post.likes, data] };
+                  } else {
+                    return post;
+                  }
+                }),
+              };
+            })
+          );
+        } catch (error) {
+          ErrorAlert(error);
+        }
+      },
+    }),
+
+    // remove like
+    removeLike: builder.mutation<ILikedPost, string>({
+      query: (likeId) => {
+        return {
+          url: `remove-like`,
+          method: "put",
+          body: { likeId },
+        };
+      },
+      transformResponse: (res: IRemovedLikeRes) => res.deletedLike,
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.map((post) => {
+                  if (post.id === data.postId) {
+                    return {
+                      ...post,
+                      likes: post.likes.filter(
+                        (like: ILikedPost) => like.id !== data.id
+                      ),
+                    };
+                  } else {
+                    return post;
+                  }
+                }),
+              };
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
   }),
   overrideExisting: true,
 });
+
+interface IRemovedLikeRes {
+  status: boolean;
+  message: string;
+  deletedLike: ILikedPost;
+}
+interface ILikePostResponse {
+  status: boolean;
+  message: string;
+  likedPost: ILikedPost;
+}
+interface ILikedPost {
+  id: string;
+  postId: string;
+  userId: string;
+}
+interface Response extends ServerResponse {
+  posts: IPost[];
+  totalNumberOfPosts: number;
+}
+
+export interface createPostParams {
+  title: string;
+  content: string;
+  id: string;
+  images: string[];
+}
+
+export interface ICreatePostRes {
+  status: boolean;
+  result: IPost;
+}
+export interface IDeletePost {
+  status: boolean;
+  message: string;
+  post: IPost;
+}

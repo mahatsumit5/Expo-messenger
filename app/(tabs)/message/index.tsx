@@ -66,7 +66,6 @@ const Message = () => {
                   icon={CameraIcon}
                   onPress={() => {
                     console.log("object");
-                    return 1;
                   }}
                 />
                 <LucidIcon icon={EllipsisVertical} />

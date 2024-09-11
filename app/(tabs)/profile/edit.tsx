@@ -16,6 +16,7 @@ import Icons from "@/constants/Icons";
 import { useAppSelector } from "@/hooks/hooks";
 import { uploadImageToS3 } from "@/util";
 import { useUpdateUserMutation } from "@/redux";
+import { ErrorAlert } from "@/lib/utils";
 type imageType = {
   cover: ImagePicker.ImagePickerAsset | null;
   profile: ImagePicker.ImagePickerAsset | null;
@@ -78,7 +79,7 @@ const Edit = () => {
         profile: profile ?? form.profile,
       });
     } catch (error) {
-      console.log(error);
+      ErrorAlert(error);
     } finally {
       setloading(false);
     }

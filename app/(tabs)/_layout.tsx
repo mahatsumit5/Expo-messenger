@@ -34,6 +34,8 @@ type props = {
 };
 
 const TabsLayout = () => {
+  const { isDarkColorScheme } = useColorScheme();
+
   const { user } = useAppSelector((store) => store.user);
   const { numberOfMessageToDisplay, skipNumberOfMessages } = useAppSelector(
     (store) => store.query
@@ -79,12 +81,10 @@ const TabsLayout = () => {
       );
     });
     socket.on("getFriendRequest", (data: IFriendReq) => {
-      console.log(data);
       schedulePushNotification("Notification", "You have a new friend request");
     });
 
     socket.on("send_message_client", (message: IMessage) => {
-      console.log(message);
       schedulePushNotification("New message incoming.", message.content);
       dispatch(
         messageApi.util.updateQueryData(
@@ -114,6 +114,7 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             display: route.name === "message" ? "none" : "flex",
+            backgroundColor: isDarkColorScheme ? "#2A2A3C" : "#E6E6E6",
           },
         })}
       >

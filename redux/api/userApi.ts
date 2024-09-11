@@ -110,7 +110,6 @@ export const userApi = emptySplitApi.injectEndpoints({
       }
     >({
       query: (data) => {
-        console.log(data);
         return { url: "user/update-user", method: "put", body: data };
       },
     }),

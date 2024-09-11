@@ -32,7 +32,11 @@ const Home = () => {
           />
         )}
         refreshControl={
-          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={onRefresh}
+            className="text-foreground"
+          />
         }
         bouncesZoom
         bounces

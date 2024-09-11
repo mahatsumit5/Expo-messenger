@@ -40,7 +40,7 @@ const MessageInputField: FC<{
 
   useEffect(() => {
     const uploadImage = async (images: ImagePickerAsset[]) => {
-      const url = await uploadImageToS3(images);
+      const url = (await uploadImageToS3(images)) as [];
       if (url.length) {
         for (let index = 0; index < url.length; index++) {
           const imageUrl = url[index];

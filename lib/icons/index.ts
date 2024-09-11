@@ -22,8 +22,10 @@ import { CameraIcon } from "./Camera";
 import { IdCard } from "./card";
 import { ImagePlus } from "./AddImage";
 import { MailPlus } from "./MailPlus";
+import { HeartHandshake } from "./HeartFill";
 
 export {
+  HeartHandshake,
   MailPlus,
   ImagePlus,
   CameraIcon,

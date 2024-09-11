@@ -1,5 +1,6 @@
 import { ImagePickerAsset } from "expo-image-picker";
 import { RNS3 } from "react-native-aws3";
+import { ErrorAlert } from "./utils";
 
 export const uploadImageToS3 = async (
   data: ImagePickerAsset[] | ImagePickerAsset
@@ -39,7 +40,6 @@ export const uploadImageToS3 = async (
       return headers.location as string;
     }
   } catch (error) {
-    console.log(error);
-    throw new Error("Unable tp upload image to s3");
+    ErrorAlert(error);
   }
 };

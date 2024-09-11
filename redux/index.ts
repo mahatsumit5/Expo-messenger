@@ -17,8 +17,14 @@ export const {
   useCreatePostMutation,
   useDeletePostMutation,
   useGetPostsByUserQuery,
+  useLikePostMutation,
+  useRemoveLikeMutation,
 } = postApi;
-export const { useGetCommentsQuery } = commentApi;
+export const {
+  useGetCommentsQuery,
+  usePostCommentMutation,
+  useDeleteCommentMutation,
+} = commentApi;
 export const {
   useSendFriendRequestMutation,
   useGetSentFriendRequestQuery,
