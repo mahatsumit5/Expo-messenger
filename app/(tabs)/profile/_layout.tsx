@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
 
@@ -16,8 +15,8 @@ const ProfileLayout = () => {
       <Stack.Screen
         name="edit"
         options={{
-          headerShown: true,
-          presentation: "card",
+          // headerShown: true,
+          presentation: "modal",
           headerBackTitle: "Profile",
           headerTitle: "Edit Profile",
           headerBackButtonMenuEnabled: true,

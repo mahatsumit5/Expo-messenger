@@ -5,18 +5,22 @@ import {
   KeyboardTypeOptions,
   ScrollView,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import React, { FC, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import CustomButton from "@/components/CustomButton";
-import TouchableIcon from "@/components/TouchableIcon";
-import Icons from "@/constants/Icons";
+
 import { useAppSelector } from "@/hooks/hooks";
-import { uploadImageToS3 } from "@/util";
+import { uploadImageToS3 } from "@/lib/amszonS3";
 import { useUpdateUserMutation } from "@/redux";
 import { ErrorAlert } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Large } from "@/components/ui/typography";
+import LucidIcon from "@/components/icon/LucidIcon";
+import { ImagePlus } from "@/lib/icons/index";
+import { Button } from "@/components/ui/button";
+import LoadingState from "@/components/button/LoadingState";
 type imageType = {
   cover: ImagePicker.ImagePickerAsset | null;
   profile: ImagePicker.ImagePickerAsset | null;
@@ -24,7 +28,7 @@ type imageType = {
 const Edit = () => {
   const { user } = useAppSelector((store) => store.user);
 
-  const [updateuser, { isError, isLoading }] = useUpdateUserMutation();
+  const [updateuser, { isLoading }] = useUpdateUserMutation();
   const initialState = {
     fName: user?.fName,
     lName: user?.lName,
@@ -85,21 +89,21 @@ const Edit = () => {
     }
   }
   return (
-    <KeyboardAvoidingView behavior="height" className="flex-1">
-      <View className="px-4 mb-5">
+    <KeyboardAvoidingView behavior="height" className="flex-1 bg-background">
+      <ScrollView className="px-4 mb-5 bg-background">
         {/* Avatar */}
 
         <View className="flex mt-5 flex-row  justify-between items-center">
-          <Text className="w-fit  text-sm font-psemibold text-foreground">
+          <Large className="w-fit  font-psemibold text-foreground">
             Avatar
-          </Text>
+          </Large>
 
           <View className="flex-1 justify-start max-w-[220px] ">
             <View className="h-24 w-24 rounded-full shadow-lg  items-center bg-slate-300 justify-center">
               {!images.profile ? (
-                <TouchableIcon
-                  icon={Icons.add}
+                <LucidIcon
                   onPress={() => handlePickImage("profile")}
+                  icon={ImagePlus}
                 />
               ) : (
                 <Image
@@ -143,17 +147,20 @@ const Edit = () => {
             setForm({ ...form, email: e });
           }}
         />
-        <InputFieldComponent
+        <Large className="mt-5">Bio</Large>
+
+        <Textarea
           keyboardType="default"
-          title="Bio"
           placeholder="Enter your bio"
           value={form.bio ?? ""}
           editable={true}
           onChangeText={(e) => {
             setForm({ ...form, bio: e });
           }}
-          inputHeight="h-28"
+          className="bg-input mt-2 rounded-xl"
+          placeholderTextColor={"gray"}
         />
+
         <InputFieldComponent
           keyboardType="default"
           title="New Password"
@@ -178,18 +185,17 @@ const Edit = () => {
         />
 
         {!images.cover ? (
-          <View className="w-full h-36 items-center justify-center bg-slate-300 rounded-md  mt-5 ">
-            <TouchableIcon
+          <View className="w-full h-44 items-center justify-center bg-card rounded-md  mt-5 ">
+            <LucidIcon
+              icon={ImagePlus}
               onPress={() => handlePickImage("cover")}
-              icon={Icons.add}
-              iconClassName="w-8 h-8"
             />
-            <Text className="text-slate-600 font-pregular mt-3">
+            <Text className="text-card-foreground font-pregular mt-3">
               Choose your cover image
             </Text>
           </View>
         ) : (
-          <View className="h-36 w-full mt-5 rounded-md">
+          <View className="h-44 w-full mt-5 rounded-md">
             <Image
               source={{ uri: images.cover.uri }}
               className="w-full h-36 rounded-md"
@@ -197,17 +203,18 @@ const Edit = () => {
             />
           </View>
         )}
-
-        <View className="mt-5">
-          <CustomButton
-            title="Save"
-            isLoading={loading}
-            onPress={handleSave}
-            disabled={false}
-            buttonColor="bg-success"
-          />
-        </View>
-      </View>
+        <Button
+          className="mt-2 rounded-lg "
+          onPress={handleSave}
+          disabled={false}
+        >
+          {isLoading ? (
+            <LoadingState />
+          ) : (
+            <Large className="text-primary-foreground">Save</Large>
+          )}
+        </Button>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -218,23 +225,16 @@ type props = {
   keyboardType: KeyboardTypeOptions;
   placeholder: string;
   value: string;
-  inputHeight?: string;
   onChangeText: (e: string) => void;
   editable: boolean;
   secureTextEntry?: boolean;
 };
-const InputFieldComponent: FC<props> = ({
-  title,
-  inputHeight = "h-8",
-  ...rest
-}) => {
+const InputFieldComponent: FC<props> = ({ title, ...rest }) => {
   return (
-    <View className="mt-5 flex flex-row items-center justify-between">
-      <Text className="w-fit  text-sm font-psemibold text-foreground">
-        {title}
-      </Text>
-      <TextInput
-        className={`  border p-2 rounded-md border-primary flex-1 max-w-[220px] ${inputHeight} placeholder:text-black bg-input text-foreground`}
+    <View className="mt-5 ">
+      <Large className="  font-psemibold text-foreground  ">{title}</Large>
+      <Input
+        className="w-full bg-input rounded-xl mt-3"
         {...rest}
         placeholderTextColor={"gray"}
       />

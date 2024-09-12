@@ -25,10 +25,11 @@ const Inputfield: FC<props> = ({
         placeholder={placeholder}
         value={value}
         onChangeText={onChange}
-        className="bg-input placeholder:text-input-placeholder mt-5 border border-border rounded-xl"
+        className="bg-input placeholder:text-input-placeholder mt-5 rounded-xl"
         keyboardAppearance="dark"
         keyboardType={keyboardType}
         placeholderTextColor={"gray"}
+        spellCheck
       />
     </View>
   );

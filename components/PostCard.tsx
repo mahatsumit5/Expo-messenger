@@ -52,7 +52,7 @@ const PostCard: FC<{ post: IPost }> = ({
   const handleUnLikePost = async () => await removeLike(likeId! ?? "");
 
   return (
-    <View className="bg-card mt-5 p-4 mx-2 rounded-xl">
+    <View className="bg-card mt-5 p-4 mx-2 rounded-xl border border-border shadow-md shadow-shadow">
       {/* header */}
       <View className="flex justify-between items-center flex-row  p-2 ">
         <View className="justify-start flex flex-row gap-2">

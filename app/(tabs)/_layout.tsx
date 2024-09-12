@@ -244,7 +244,7 @@ const TabsHeader: React.FC = () => {
   const SunIcon = Sun;
   return (
     <>
-      <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2">
+      <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2  border-b border-border">
         <Image source={Icons.icon} className="h-12 w-12" resizeMode="contain" />
         <Large className="font-brushell text-primary text-4xl">ChatApp</Large>
 

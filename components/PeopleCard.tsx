@@ -32,7 +32,7 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   };
   return view === "card" ? (
     <Animatable.View
-      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-card`}
+      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-card shadow-sm shadow-shadow`}
       animation={
         isInView
           ? {

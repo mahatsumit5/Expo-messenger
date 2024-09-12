@@ -6,7 +6,7 @@ const LoadingState = () => {
     <ActivityIndicator
       animating={true}
       size={"small"}
-      className="text-secondary"
+      className="text-primary-foreground"
     />
   );
 };
