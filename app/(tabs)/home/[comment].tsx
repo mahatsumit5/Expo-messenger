@@ -10,9 +10,10 @@ import ErrorComment from "@/components/Comment/ErrorComment";
 import CommentLoading from "@/components/Comment/CommentLoading";
 import { SingleComment } from "@/components/Comment/SingleComment";
 import { InputField } from "@/components/Comment/CommentInputField";
+import { useAppSelector } from "@/hooks/hooks";
 const Comment = () => {
   const { comment } = useLocalSearchParams();
-
+  const { postCreatorUserId } = useAppSelector((store) => store.query);
   const {
     data: comments,
     isError,
@@ -53,7 +54,7 @@ const Comment = () => {
         />
       </View>
       <View>
-        <InputField />
+        <InputField postCreatorId={postCreatorUserId} />
       </View>
     </KeyboardAvoidingView>
   );

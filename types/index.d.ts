@@ -66,5 +66,6 @@ declare interface IComment {
   createdAt: string; // ISO 8601 string
   updatedAt: string; // ISO 8601 string
   author: IUser;
-  likes: string[]; // array of like IDs or identifiers (assuming likes are identified by strings)
+  likes: string[];
+  // array of like IDs or identifiers (assuming likes are identified by strings)
 }

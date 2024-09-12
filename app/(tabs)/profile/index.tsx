@@ -12,6 +12,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import LucidIcon from "@/components/icon/LucidIcon";
 import { Edit } from "@/lib/icons/Edit";
 import { LogOutIcon } from "@/lib/icons/Logout";
+import { H3, Large } from "@/components/ui/typography";
 const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
   const { data: posts } = useGetPostsByUserQuery(user?.id as string);
@@ -81,9 +82,9 @@ const Profile = () => {
                     )}
                   </View>
                   <View>
-                    <Text className="font-pmedium text-lg">
+                    <H3 className="font-pmedium  text-foreground">
                       {user?.fName} {user?.lName}
-                    </Text>
+                    </H3>
                   </View>
 
                   <View className="flex flex-row  items-center justify-center ">

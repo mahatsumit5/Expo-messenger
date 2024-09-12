@@ -61,9 +61,12 @@ const MessageInputField: FC<{
         onChangeText={(e) => setMessage(e)}
         value={message}
         onFocus={() => {
+          console.log("asdfsas");
+
           socket?.emit("typing", roomId, email);
         }}
         onBlur={() => {
+          console.log("asdf");
           socket?.emit("stopped_typing", roomId, email);
         }}
       />

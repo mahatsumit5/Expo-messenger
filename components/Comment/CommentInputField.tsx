@@ -10,20 +10,29 @@ import { useAppSelector } from "@/hooks/hooks";
 import PeopleAvatar from "../PeopleAvatar";
 import { ErrorAlert } from "@/lib/utils";
 
-interface props {}
-const InputField: FC<props> = () => {
+interface props {
+  postCreatorId: string;
+}
+const InputField: FC<props> = ({ postCreatorId }) => {
   const SendIcon = SendHorizonal;
   const { comment } = useLocalSearchParams();
+
   const { user } = useAppSelector((state) => state.user);
+  const { socket } = useAppSelector((state) => state.socket);
+
   const [postComment, { isLoading }] = usePostCommentMutation();
+
   const [commentInput, setCommentInput] = useState<string>("");
   async function onPress() {
     try {
-      await postComment({
+      const { data } = await postComment({
         postId: comment as string,
         content: commentInput,
         userId: user?.id!,
       });
+      if (data && socket) {
+        socket.emit("newComment", { ...data, to: postCreatorId });
+      }
     } catch (error) {
       ErrorAlert(error);
     } finally {

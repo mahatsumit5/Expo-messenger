@@ -12,7 +12,7 @@ const HorizontalImageScroll: FC<props> = ({ images }) => {
       keyExtractor={(item) => item}
       renderItem={({ item }) => (
         <Animatable.View
-          className="items-center mr-5 h-96 w-[360px]"
+          className="items-center  h-96 w-[360px] justify-center"
           animation={
             item === activeImage
               ? {
@@ -30,7 +30,7 @@ const HorizontalImageScroll: FC<props> = ({ images }) => {
         >
           <Image
             source={{ uri: item }}
-            className="w-full h-full rounded-lg shadow-lg"
+            className="w-full h-full rounded-md "
             resizeMode="cover"
           />
         </Animatable.View>

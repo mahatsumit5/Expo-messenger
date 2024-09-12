@@ -1,10 +1,8 @@
-import { View, Text, Image, Alert } from "react-native";
+import { View, Text, Image } from "react-native";
 import React, { useEffect } from "react";
 import { router, Tabs } from "expo-router";
 import Icons from "@/constants/Icons";
-import { useRoute } from "@react-navigation/native";
-import { removeToken } from "@/util";
-import TouchableIcon from "@/components/TouchableIcon";
+
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { io } from "socket.io-client";
 import { setSocket, setTyping } from "@/redux/reducers/socket.slice";
@@ -52,17 +50,19 @@ const TabsLayout = () => {
       },
       transports: ["websocket"],
     });
-    dispatch(setSocket(socket));
-    socket.on("connec_error", (err) => {
+
+    socket.on("connect_error", (err) => {
+      dispatch(setSocket(null));
       console.log(err);
     });
     socket.on("connect", () => {
       console.log("You are connected with id", socket.id);
+      dispatch(setSocket(socket));
+      socket.emit("join_your_room", user.id);
     });
 
-    socket.emit("join_your_room", user.id);
-
     socket.on("typing", (email) => {
+      console.log("typing");
       dispatch(setTyping({ person: email, typing: true }));
     });
     socket.on("stopped_typing", (email) => {
@@ -73,11 +73,17 @@ const TabsLayout = () => {
       // dispatch(setOnlineUsers(onlineUsers));
     });
     socket.on("getLikedNotification", (data) => {
-      console.log(
-        "user with id",
-        data.userId,
-        "liked your post with id",
-        data.postId
+      console.log(data);
+      schedulePushNotification(
+        "Notification",
+        `${data.user.fName} ${data.user.lName} liked your post.`
+      );
+    });
+    socket.on("getNewCommentNotification", (data) => {
+      console.log(data);
+      schedulePushNotification(
+        "Notification",
+        `${data.author.fName} ${data.author.lName} commented your post.`
       );
     });
     socket.on("getFriendRequest", (data: IFriendReq) => {
@@ -102,7 +108,9 @@ const TabsLayout = () => {
       );
     });
 
-    socket.on("disconnect", () => {});
+    socket.on("disconnect", () => {
+      dispatch(setSocket(null));
+    });
     return () => {
       socket.close();
     };

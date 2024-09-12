@@ -14,7 +14,8 @@ import { MessageCircleIcon } from "@/lib/icons/Message";
 import LucidIcon from "./icon/LucidIcon";
 import { Dropdown } from "@/components/Dropdown";
 import { useLikePostMutation, useRemoveLikeMutation } from "@/redux";
-import { useAppSelector } from "@/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { setPostCreatorUserId } from "@/redux/reducers/querySlice";
 
 const PostCard: FC<{ post: IPost }> = ({
   post: {
@@ -28,12 +29,25 @@ const PostCard: FC<{ post: IPost }> = ({
     comments,
   },
 }) => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((store) => store.user);
+  const { socket } = useAppSelector((store) => store.socket);
 
   const [likePost] = useLikePostMutation();
   const [removeLike] = useRemoveLikeMutation();
   const likeId = getLikedIdByUser(likes, user?.id!);
-  const handleLikePost = async () => await likePost(id);
+  const handleLikePost = async () => {
+    const { data } = await likePost(id);
+
+    if (data && socket) {
+      console.log("this is socket", socket);
+      socket.emit("send_like_notification", {
+        to: userId,
+        user,
+        postId: id,
+      });
+    }
+  };
 
   const handleUnLikePost = async () => await removeLike(likeId! ?? "");
 
@@ -95,6 +109,7 @@ const PostCard: FC<{ post: IPost }> = ({
           <LucidIcon
             icon={MessageCircleIcon}
             onPress={() => {
+              dispatch(setPostCreatorUserId(userId));
               router.navigate({
                 pathname: "/(tabs)/home/[comment]",
                 params: {

@@ -9,6 +9,7 @@ interface InitialState {
   takeNumberOfPeopleToDisplay: number;
   totalNumberOfUsers: number;
   order: "asc" | "desc";
+  postCreatorUserId: string;
 }
 const initialState: InitialState = {
   numberOfMessageToDisplay: 20,
@@ -19,6 +20,7 @@ const initialState: InitialState = {
   takeNumberOfPeopleToDisplay: 5,
   totalNumberOfUsers: 0,
   order: "asc",
+  postCreatorUserId: "",
 };
 export const querySlice = createSlice({
   name: "query",
@@ -35,6 +37,9 @@ export const querySlice = createSlice({
     setTotalNumberOfUsers: (state, { payload }: PayloadAction<number>) => {
       state.totalNumberOfUsers = payload;
     },
+    setPostCreatorUserId: (state, { payload }: PayloadAction<string>) => {
+      state.postCreatorUserId = payload;
+    },
     setOrder: (
       state,
       { payload }: PayloadAction<(typeof initialState)["order"]>
@@ -49,4 +54,5 @@ export const {
   setSkipNumberOfMessages,
   setPageForAllUsers,
   setTotalNumberOfUsers,
+  setPostCreatorUserId,
 } = querySlice.actions;
