@@ -61,7 +61,11 @@ const Profile = () => {
                 </View>
               )}
               <View className="absolute top-5 right-5">
-                <LucidIcon icon={LogOutIcon} onPress={logout} />
+                <LucidIcon
+                  icon={LogOutIcon}
+                  onPress={logout}
+                  className="text-primary"
+                />
               </View>
               {/* information */}
               <View className="items-center absolute top-1/3 w-full">
@@ -108,6 +112,7 @@ const Profile = () => {
                     router.navigate("/profile/edit");
                   }}
                   icon={Edit}
+                  className="text-primary"
                 />
               </View>
             </View>

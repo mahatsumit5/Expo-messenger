@@ -122,7 +122,7 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             display: route.name === "message" ? "none" : "flex",
-            backgroundColor: isDarkColorScheme ? "#2A2A3C" : "#E6E6E6",
+            backgroundColor: isDarkColorScheme ? "#313135" : "#E6E6E6",
           },
         })}
       >
@@ -226,14 +226,16 @@ const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
   const Icon = icon;
   return (
     <View className="items-center justify-center gap-1 ">
-      <Icon size={25} className={focused ? "text-primary" : ""} />
-      <Text
+      <Icon size={25} className={focused ? "text-primary" : "text-secondary"} />
+      {/* <Text
         className={`${
-          focused ? " font-pbold text-primary" : "font-pregular text-foreground"
+          focused
+            ? " font-pbold text-primary scale-110 transition-all "
+            : "font-pregular text-secondary"
         } text-xs `}
       >
         {name}
-      </Text>
+      </Text> */}
     </View>
   );
 };
@@ -245,22 +247,30 @@ const TabsHeader: React.FC = () => {
   return (
     <>
       <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2  border-b border-border">
-        <Image source={Icons.icon} className="h-12 w-12" resizeMode="contain" />
-        <Large className="font-brushell text-primary text-4xl">ChatApp</Large>
+        {/* <Image source={Icons.icon} className="h-12 w-12" resizeMode="contain" /> */}
+        <Large className="font-brushell text-primary/70 text-2xl p-2">
+          ChatApp
+        </Large>
 
         <View className="flex flex-row items-center">
           <LucidIcon
             icon={Search}
             onPress={() => router.navigate("/search/test")}
+            className="text-secondary"
           />
           <Button variant={"ghost"} onPress={toggleColorScheme}>
-            {!isDarkColorScheme ? <SunIcon size={25} /> : <Moon size={25} />}
+            {!isDarkColorScheme ? (
+              <SunIcon size={25} className="text-secondary" />
+            ) : (
+              <Moon size={25} className="text-primary" />
+            )}
           </Button>
           <LucidIcon
             icon={MessageCircleIcon}
             onPress={() => {
               router.replace("/(tabs)/message");
             }}
+            className="text-secondary"
           />
         </View>
       </View>

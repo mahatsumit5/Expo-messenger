@@ -13,7 +13,7 @@ const ShadButton: FC<props> = ({
 }) => {
   const Icon = icon;
   return (
-    <Button className="flex-row gap-2" variant={variant} onPress={onPress}>
+    <Button className="flex-row gap-2 " variant={variant} onPress={onPress}>
       <Icon className={iconClassName} size={size} />
       <Small>{title}</Small>
     </Button>

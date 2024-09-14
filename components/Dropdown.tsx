@@ -22,7 +22,7 @@ export function Dropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size={"icon"}>
-          <Icon />
+          <Icon className="text-secondary" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64 native:w-72">

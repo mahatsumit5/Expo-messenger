@@ -117,6 +117,7 @@ const PostCard: FC<{ post: IPost }> = ({
                 },
               });
             }}
+            className="text-secondary"
           />
           <Text className="font-pmedium text-md ml-2 text-card-foreground underline">
             {comments.length}

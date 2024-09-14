@@ -99,11 +99,12 @@ const Edit = () => {
           </Large>
 
           <View className="flex-1 justify-start max-w-[220px] ">
-            <View className="h-24 w-24 rounded-full shadow-lg  items-center bg-slate-300 justify-center">
+            <View className="h-24 w-24 rounded-full shadow-lg  items-center bg-secondary justify-center">
               {!images.profile ? (
                 <LucidIcon
                   onPress={() => handlePickImage("profile")}
                   icon={ImagePlus}
+                  className="text-primary"
                 />
               ) : (
                 <Image

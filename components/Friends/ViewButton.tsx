@@ -21,6 +21,7 @@ const ViewButton = () => {
           onPress={() => {
             handlePress("card");
           }}
+          className="text-primary"
         />
       </Button>
       <Button size={"icon"} variant={"outline"}>
@@ -29,6 +30,7 @@ const ViewButton = () => {
           onPress={() => {
             handlePress("row");
           }}
+          className="text-primary"
         />
       </Button>
     </View>

@@ -104,14 +104,14 @@ const Profile = () => {
                 icon={CameraIcon}
                 onPress={openCamera}
                 size={25}
-                iconClassName=""
+                iconClassName="text-secondary"
                 variant={"outline"}
               />
               <CustomButton
                 icon={ImagePlus}
                 onPress={pickImage}
                 size={25}
-                iconClassName=""
+                iconClassName="text-secondary"
                 variant={"outline"}
               />
             </View>

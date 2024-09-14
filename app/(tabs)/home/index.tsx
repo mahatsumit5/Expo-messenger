@@ -20,7 +20,7 @@ const Home = () => {
   return isError ? (
     <Text>Error Occured</Text>
   ) : (
-    <View className="bg-background">
+    <View className="bg-background pb-4">
       <FlatList
         data={posts?.posts}
         keyExtractor={(item: IPost) => item.id}
