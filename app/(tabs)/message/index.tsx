@@ -67,12 +67,16 @@ const Message = () => {
                   onPress={() => {
                     console.log("object");
                   }}
+                  className="text-primary"
                 />
-                <LucidIcon icon={EllipsisVertical} />
+                <LucidIcon icon={EllipsisVertical} className="text-primary" />
               </View>
             </View>
           </Pressable>
         )}
+        onEndReached={() => {
+          console.log("end reached");
+        }}
       />
     </View>
   );

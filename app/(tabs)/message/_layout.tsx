@@ -29,6 +29,7 @@ const MessageLayout = () => {
                     icon={ChevronLeft}
                     onPress={() => router.navigate("/(tabs)/home")}
                     size={30}
+                    className="text-primary"
                   />
                   <PeopleAvatar
                     initial={extractInitial(
@@ -45,7 +46,7 @@ const MessageLayout = () => {
                     <P className=" font-plight mx-2">{user?.email}</P>
                   </View>
                 </View>
-                <LucidIcon icon={MailPlus} size={25} />
+                <LucidIcon icon={MailPlus} size={25} className="text-primary" />
               </View>
               <SearchField />
             </View>
@@ -60,6 +61,8 @@ const MessageLayout = () => {
                   icon={ChevronLeft}
                   onPress={() => router.navigate("/(tabs)/home")}
                   size={30}
+                  className="
+          text-primary"
                 />
                 <PeopleAvatar
                   initial="SM"

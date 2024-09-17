@@ -12,7 +12,7 @@ const SearchField = () => {
         placeholder="Search..."
       />
       <View className="absolute right-4 top-9 -translate-y-1/2">
-        <LucidIcon icon={Search} onPress={() => {}} />
+        <LucidIcon icon={Search} onPress={() => {}} className="text-primary" />
       </View>
     </View>
   );

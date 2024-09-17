@@ -26,7 +26,7 @@ export default function MaterialTopTabsLayout() {
       initialRouteName="index"
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: "grey",
+        tabBarInactiveTintColor: colors.text,
         tabBarLabelStyle: {
           fontSize: 14,
           textTransform: "capitalize",
