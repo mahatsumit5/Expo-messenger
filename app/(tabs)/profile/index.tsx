@@ -7,12 +7,11 @@ import { router } from "expo-router";
 import { useGetPostsByUserQuery } from "@/redux";
 import PostCard from "@/components/PostCard";
 import EmptyState from "@/components/EmptyState";
-import { StatusBar } from "expo-status-bar";
 import { useAppSelector } from "@/hooks/hooks";
 import LucidIcon from "@/components/icon/LucidIcon";
 import { Edit } from "@/lib/icons/Edit";
 import { LogOutIcon } from "@/lib/icons/Logout";
-import { H3, Large } from "@/components/ui/typography";
+import { H3 } from "@/components/ui/typography";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
