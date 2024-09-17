@@ -10,6 +10,7 @@ interface InitialState {
   totalNumberOfUsers: number;
   order: "asc" | "desc";
   postCreatorUserId: string;
+  pageForChatRoom: number;
 }
 const initialState: InitialState = {
   numberOfMessageToDisplay: 20,
@@ -21,6 +22,7 @@ const initialState: InitialState = {
   totalNumberOfUsers: 0,
   order: "asc",
   postCreatorUserId: "",
+  pageForChatRoom: 1,
 };
 export const querySlice = createSlice({
   name: "query",
@@ -46,13 +48,21 @@ export const querySlice = createSlice({
     ) => {
       state.order = payload;
     },
+    setQuery: (state, { payload }: PayloadAction<string>) => {
+      state.searchQuery = payload;
+    },
+    setPageForChatRoom(state, { payload }: PayloadAction<number>) {
+      state.pageForChatRoom = payload;
+    },
   },
 });
 export default querySlice.reducer;
 export const {
+  setPageForChatRoom,
   setOrder,
   setSkipNumberOfMessages,
   setPageForAllUsers,
   setTotalNumberOfUsers,
   setPostCreatorUserId,
+  setQuery,
 } = querySlice.actions;

@@ -1,4 +1,4 @@
-import { View, FlatList, Pressable } from "react-native";
+import { View, FlatList, Pressable, RefreshControl } from "react-native";
 import React, { useState } from "react";
 
 import { useGetAllChatRoomQuery } from "@/redux";
@@ -9,15 +9,28 @@ import { setCurrentRoom } from "@/redux/reducers/roomSlice";
 import { Large, P } from "@/components/ui/typography";
 import { CameraIcon, EllipsisVertical } from "@/lib/icons/index";
 import LucidIcon from "@/components/icon/LucidIcon";
+import {
+  setPageForAllUsers,
+  setPageForChatRoom,
+  setQuery,
+} from "@/redux/reducers/querySlice";
+import LoadingRoom from "@/components/Message/LoadingRoom";
 const Message = () => {
-  const { socket } = useAppSelector((store) => store.socket);
-  const { data } = useGetAllChatRoomQuery({
-    page: 1,
-    search: "",
-    take: 10,
-  });
   const dispatch = useAppDispatch();
 
+  const { socket } = useAppSelector((store) => store.socket);
+  const { searchQuery, pageForChatRoom } = useAppSelector(
+    (store) => store.query
+  );
+  const { data, isLoading, isFetching, refetch, isError } =
+    useGetAllChatRoomQuery(
+      {
+        page: pageForChatRoom,
+        search: searchQuery,
+        take: 10,
+      },
+      { refetchOnMountOrArgChange: true }
+    );
   const [hover, setHover] = useState(false);
 
   const handleOnPress = (item: IChatRoom) => {
@@ -32,7 +45,9 @@ const Message = () => {
       },
     });
   };
-  return (
+  return isLoading || isFetching ? (
+    <LoadingRoom />
+  ) : !isError ? (
     <View className="bg-background h-full ">
       <FlatList
         data={data?.data}
@@ -75,9 +90,28 @@ const Message = () => {
           </Pressable>
         )}
         onEndReached={() => {
-          console.log("end reached");
+          // dispatch(setPageForChatRoom(pageForChatRoom + 1));
         }}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={() => {
+              dispatch(setPageForAllUsers(1));
+              dispatch(setQuery(""));
+              refetch();
+            }}
+          />
+        }
+        ListEmptyComponent={() => (
+          <View>
+            <Large>No rooms available</Large>
+          </View>
+        )}
       />
+    </View>
+  ) : (
+    <View>
+      <Large>Error</Large>
     </View>
   );
 };
