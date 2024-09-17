@@ -13,6 +13,7 @@ import LucidIcon from "@/components/icon/LucidIcon";
 import { Edit } from "@/lib/icons/Edit";
 import { LogOutIcon } from "@/lib/icons/Logout";
 import { H3, Large } from "@/components/ui/typography";
+import CustomStatusBar from "@/components/CustomStatusBAr";
 const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
   const { data: posts } = useGetPostsByUserQuery(user?.id as string);
@@ -25,7 +26,6 @@ const Profile = () => {
   return (
     <View className="h-full  bg-background">
       {/* Avatar */}
-
       <View className=" items-center">
         <FlatList
           data={posts?.posts}
@@ -119,7 +119,7 @@ const Profile = () => {
           )}
         />
       </View>
-      <StatusBar hidden={true} backgroundColor="" style="light" />
+      <CustomStatusBar hidden />
     </View>
   );
 };

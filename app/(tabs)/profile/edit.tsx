@@ -99,7 +99,7 @@ const Edit = () => {
           </Large>
 
           <View className="flex-1 justify-start max-w-[220px] ">
-            <View className="h-24 w-24 rounded-full shadow-lg  items-center bg-secondary justify-center">
+            <View className="h-24 w-24 rounded-full shadow-lg  items-center bg-input justify-center">
               {!images.profile ? (
                 <LucidIcon
                   onPress={() => handlePickImage("profile")}
@@ -186,7 +186,7 @@ const Edit = () => {
         />
 
         {!images.cover ? (
-          <View className="w-full h-44 items-center justify-center bg-card rounded-md  mt-5 ">
+          <View className="w-full h-44 items-center justify-center bg-input rounded-md  mt-5 ">
             <LucidIcon
               icon={ImagePlus}
               onPress={() => handlePickImage("cover")}

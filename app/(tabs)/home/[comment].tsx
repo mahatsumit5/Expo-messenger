@@ -18,15 +18,16 @@ const Comment = () => {
     data: comments,
     isError,
     isLoading,
+    isFetching,
   } = useGetCommentsQuery(comment as string);
 
   return isError ? (
     <ErrorComment />
-  ) : isLoading ? (
+  ) : isLoading || isFetching ? (
     <CommentLoading />
   ) : (
     <KeyboardAvoidingView
-      className=" h-full justify-between "
+      className=" h-full justify-between bg-background"
       behavior="padding"
       keyboardVerticalOffset={80}
     >
@@ -53,7 +54,7 @@ const Comment = () => {
           scrollEnabled={true}
         />
       </View>
-      <View>
+      <View className="bg-input">
         <InputField postCreatorId={postCreatorUserId} />
       </View>
     </KeyboardAvoidingView>

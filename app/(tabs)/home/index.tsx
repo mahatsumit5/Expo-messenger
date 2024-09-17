@@ -5,6 +5,7 @@ import PostCard from "@/components/PostCard";
 import { useGetPostsQuery } from "@/redux";
 import EmptyState from "@/components/EmptyState";
 import { postApi } from "@/redux/api/postApi";
+import CustomStatusBar from "@/components/CustomStatusBAr";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,7 @@ const Home = () => {
         bounces
         refreshing
       />
+      <CustomStatusBar />
     </View>
   );
 };

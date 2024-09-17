@@ -24,7 +24,7 @@ const ImageSlider: FC<{ images: ImagePickerAsset[]; onPress?: () => void }> = ({
         </View>
       )}
       ListEmptyComponent={() => (
-        <View className=" h-48  justify-center bg-card rounded-xl">
+        <View className=" h-48  justify-center bg-input rounded-xl">
           <Button variant={"ghost"} className="gap-2 ">
             <LucidIcon
               icon={PlusCircleIcon}

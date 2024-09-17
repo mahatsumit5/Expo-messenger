@@ -75,7 +75,7 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
       {dynamicButton[type]}
     </Animatable.View>
   ) : (
-    <View className="bg-card flex-row justify-between items-center w-full p-2 rounded-lg">
+    <View className="bg-card flex-row justify-between items-center w-full p-2 py-4 rounded-lg shadow-md shadow-shadow">
       <View>
         <View className="flex-row  items-center">
           <PeopleAvatar

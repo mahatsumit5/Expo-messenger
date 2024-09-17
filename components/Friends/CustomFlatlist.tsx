@@ -78,7 +78,7 @@ const CustomFlatlist: FC<props> = ({
           data={data as IChatRoom[]}
           renderItem={({ item }) => {
             return (
-              <View className="w-full px-4  mt-5">
+              <View className="w-full p-2  mt-5">
                 <PeopleCard
                   user={{
                     id: item.userId,
@@ -146,7 +146,7 @@ const CustomFlatlist: FC<props> = ({
           data={data as IUser[]}
           keyExtractor={({ id }) => id}
           renderItem={({ item }) => (
-            <View className="w-full px-4  mt-5">
+            <View className="w-full p-2  mt-5">
               <PeopleCard
                 user={item}
                 isInView={item.id === activeCardId}
