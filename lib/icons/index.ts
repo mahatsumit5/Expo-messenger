@@ -23,8 +23,9 @@ import { IdCard } from "./card";
 import { ImagePlus } from "./AddImage";
 import { MailPlus } from "./MailPlus";
 import { HeartHandshake } from "./HeartFill";
-
+import { X } from "./Close";
 export {
+  X,
   HeartHandshake,
   MailPlus,
   ImagePlus,

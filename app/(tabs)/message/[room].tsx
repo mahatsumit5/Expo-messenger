@@ -17,6 +17,7 @@ import EmptyState from "@/components/EmptyState";
 import MessageInputField from "@/components/Message/MessageInputField";
 import { setSkipNumberOfMessages } from "@/redux/reducers/querySlice";
 import { messageApi } from "@/redux/api/messageApi";
+import { router } from "expo-router";
 
 const Message = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ const Message = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       className="bg-background"
+      keyboardVerticalOffset={90}
     >
       <View className=" flex-col h-full justify-between pb-4">
         <View className="p-2 flex-1 bg-background h-[90%]">
@@ -64,10 +66,17 @@ const Message = () => {
                       item.author === room.userId
                         ? "bg-slate-200  "
                         : "bg-primary "
-                    } rounded-lg mx-2`}
+                    } rounded-xl mx-2`}
                   >
                     {item.content.includes("https://cfw-image-bucket.s3") ? (
-                      <Pressable>
+                      <Pressable
+                        onPress={() => {
+                          router.navigate({
+                            pathname: "/(tabs)/message/image/[uri]",
+                            params: { uri: item.content },
+                          });
+                        }}
+                      >
                         <Image
                           source={{ uri: item.content }}
                           className="h-48 w-48 rounded-md"

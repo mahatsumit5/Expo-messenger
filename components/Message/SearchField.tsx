@@ -12,7 +12,7 @@ const SearchField = () => {
   return (
     <View className="h-20 py-4  relative ">
       <Input
-        className="bg-input h-12 rounded-full border border-input shadow-md shadow-shadow"
+        className="bg-input h-12 rounded-xl "
         placeholder="Search..."
         onChangeText={(e) => {
           setQueryString(e);

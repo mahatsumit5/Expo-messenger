@@ -9,11 +9,7 @@ import { setCurrentRoom } from "@/redux/reducers/roomSlice";
 import { Large, P } from "@/components/ui/typography";
 import { CameraIcon, EllipsisVertical } from "@/lib/icons/index";
 import LucidIcon from "@/components/icon/LucidIcon";
-import {
-  setPageForAllUsers,
-  setPageForChatRoom,
-  setQuery,
-} from "@/redux/reducers/querySlice";
+import { setPageForAllUsers, setQuery } from "@/redux/reducers/querySlice";
 import LoadingRoom from "@/components/Message/LoadingRoom";
 const Message = () => {
   const dispatch = useAppDispatch();
@@ -48,35 +44,34 @@ const Message = () => {
   return isLoading || isFetching ? (
     <LoadingRoom />
   ) : !isError ? (
-    <View className="bg-background h-full ">
+    <View className="bg-background h-full px-2">
       <FlatList
         data={data?.data}
         renderItem={({ item }) => (
           <Pressable
-            className={`${hover ? "bg-card" : ""} mt-4`}
+            className={`${hover ? "bg-input rounded-xl" : ""} mt-4 `}
             onPressIn={() => setHover(true)}
             onPressOut={() => setHover(false)}
             onPress={() => handleOnPress(item)}
           >
-            <View className="flex flex-row justify-between items-center px-2   py-2">
+            <View className="flex flex-row justify-betweeen items-center  w-full   py-2 ">
               <View>
-                <View className="flex-row items-center">
-                  <PeopleAvatar
-                    initial="SM"
-                    profilePicture={item.profile ?? ""}
-                    size="h-16 w-16"
-                  />
-                  <View className="mx-2">
-                    <Large className=" ">
-                      {item.fName} {item.lName}
-                    </Large>
-                    <View>
-                      <P className=" font-pregular">{item.lastMessage}</P>
-                    </View>
-                  </View>
-                </View>
+                <PeopleAvatar
+                  initial="SM"
+                  profilePicture={item.profile ?? ""}
+                  size="h-16 w-16"
+                />
               </View>
-              <View className="flex-row gap-3">
+
+              <View className="flex-row items-center justify-between  w-[320px]">
+                <View className="mx-2">
+                  <Large className=" ">
+                    {item.fName} {item.lName}
+                  </Large>
+
+                  <P className=" font-pregular">{item.lastMessage}</P>
+                </View>
+
                 <LucidIcon
                   icon={CameraIcon}
                   onPress={() => {
@@ -84,7 +79,6 @@ const Message = () => {
                   }}
                   className="text-primary"
                 />
-                <LucidIcon icon={EllipsisVertical} className="text-primary" />
               </View>
             </View>
           </Pressable>

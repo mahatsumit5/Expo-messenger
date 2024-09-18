@@ -32,12 +32,12 @@ const ImagePickerandCamera = () => {
         <LucidIcon
           icon={CameraIcon}
           onPress={openCamera}
-          className="text-secondary mr-4"
+          className="text-primary mr-4"
         />
         <LucidIcon
           icon={ImagePlus}
           onPress={pickImage}
-          className="text-secondary"
+          className="text-primary"
         />
       </View>
     ),

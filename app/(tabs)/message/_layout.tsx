@@ -10,7 +10,7 @@ import LucidIcon from "@/components/icon/LucidIcon";
 import { ChevronLeft } from "@/lib/icons/Back";
 import { extractInitial } from "@/lib/utils";
 import { P } from "@/components/ui/typography";
-import { Phone, MailPlus } from "@/lib/icons/index";
+import { Phone, MailPlus, EllipsisVertical } from "@/lib/icons/index";
 const MessageLayout = () => {
   const { user, isLoggedIn } = useAppSelector((store) => store.user);
   const { room } = useAppSelector((store) => store.room);
@@ -21,7 +21,7 @@ const MessageLayout = () => {
     switch (type) {
       case "index":
         return (
-          <SafeAreaView className="bg-header ">
+          <SafeAreaView className="bg-header border-b border-border">
             <View className="px-2">
               <View className="flex-row justify-between items-center ">
                 <View className="flex-row items-center">
@@ -54,12 +54,12 @@ const MessageLayout = () => {
         );
       case "room":
         return room?.id ? (
-          <SafeAreaView className="bg-header">
+          <SafeAreaView className="bg-header border-b border-border">
             <View className="p-2 px-4 flex-row justify-between items-center">
               <View className="flex-row items-center">
                 <LucidIcon
                   icon={ChevronLeft}
-                  onPress={() => router.navigate("/(tabs)/home")}
+                  onPress={() => router.back()}
                   size={30}
                   className="
           text-primary"
@@ -76,13 +76,20 @@ const MessageLayout = () => {
                   <P className=" font-plight mx-2">{room?.email}</P>
                 </View>
               </View>
-              <View>
+              <View className="flex-row gap-2">
                 <LucidIcon
                   icon={Phone}
                   onPress={() => {
                     Alert.alert("Calling", "Calling now.Please wait....");
                   }}
                   className="text-secondary"
+                  size={20}
+                />
+
+                <LucidIcon
+                  icon={EllipsisVertical}
+                  className="text-primary"
+                  size={20}
                 />
               </View>
             </View>
@@ -107,6 +114,13 @@ const MessageLayout = () => {
           options={{
             headerShown: true,
             header: () => header({ type: "room" }),
+          }}
+        />
+        <Stack.Screen
+          name="image/[uri]"
+          options={{
+            headerShown: false,
+            presentation: "card",
           }}
         />
       </Stack>

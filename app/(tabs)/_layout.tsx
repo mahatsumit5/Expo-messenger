@@ -248,7 +248,7 @@ const TabsHeader: React.FC = () => {
     <>
       <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2  border-b border-border">
         {/* <Image source={Icons.icon} className="h-12 w-12" resizeMode="contain" /> */}
-        <Large className="font-brushell text-primary/70 text-2xl p-2">
+        <Large className="font-brushell text-foreground text-3xl p-2">
           ChatApp
         </Large>
 
@@ -260,7 +260,7 @@ const TabsHeader: React.FC = () => {
           />
           <Button variant={"ghost"} onPress={toggleColorScheme}>
             {!isDarkColorScheme ? (
-              <SunIcon size={25} className="text-secondary" />
+              <SunIcon size={25} className="text-yellow-500" />
             ) : (
               <Moon size={25} className="text-primary" />
             )}

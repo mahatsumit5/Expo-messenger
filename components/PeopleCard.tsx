@@ -32,7 +32,7 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
   };
   return view === "card" ? (
     <Animatable.View
-      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-card shadow-sm shadow-shadow`}
+      className={` p-2 w-full rounded-md items-center justify-start flex py-8 bg-card `}
       animation={
         isInView
           ? {
@@ -75,20 +75,22 @@ const PeopleCard: FC<{ user: IUser; isInView: boolean; type: keys }> = ({
       {dynamicButton[type]}
     </Animatable.View>
   ) : (
-    <View className="bg-card flex-row justify-between items-center w-full p-2 py-4 rounded-lg shadow-md shadow-shadow">
+    <View className="bg-card flex-row justify-between items-center w-full p-4 rounded-lg ">
       <View>
-        <View className="flex-row  items-center">
+        <View className="flex-row  items-center gap-2">
           <PeopleAvatar
             initial="SM"
             profilePicture={user.profile ?? ""}
-            size="h-20 w-20"
+            size="h-16 w-16"
           />
-          <Small className="uppercase text-card-foreground ml-2 mt-1 h-">
-            {user.fName} {user.lName}
-          </Small>
-        </View>
+          <View>
+            <Small className="uppercase text-card-foreground">
+              {user.fName} {user.lName}
+            </Small>
 
-        <Muted className="text-lg">{user.email}</Muted>
+            <Muted className="">{user.email}</Muted>
+          </View>
+        </View>
       </View>
       <View>{dynamicButton[type]}</View>
     </View>
@@ -145,14 +147,13 @@ const Friend = () => {
       <Button
         onPress={handleSendMessage}
         className="flex flex-row gap-2"
-        variant={"default"}
+        variant={"outline"}
       >
         <LucidIcon
           icon={MessageCircleIcon}
           onPress={handleSendMessage}
-          className="text-primary-foreground"
+          className="text-primary"
         />
-        <P className="text-primary-foreground font-pbold">Message</P>
       </Button>
     </View>
   );
