@@ -8,7 +8,6 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Inputfield from "@/components/Inputfield";
 import Icons from "@/constants/Icons";
 import { Link } from "expo-router";
@@ -24,7 +23,7 @@ const SignUp = () => {
     lName: "",
   });
 
-  const [signUp, { isError, isLoading }] = useSignUpMutation();
+  const [signUp, { isLoading }] = useSignUpMutation();
   const handleSubmit = async () => {
     try {
       await signUp(form).unwrap();
@@ -37,7 +36,7 @@ const SignUp = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className=" bg-background h-full  justify-start"
+      className=" bg-background h-full  justify-start lg:w-[570px] mx-auto"
     >
       <View className="px-4 my-6 w-full justify-center mx-auto  pt-16">
         <Image source={Icons.icon} resizeMode="contain" className="w-12 h-20" />

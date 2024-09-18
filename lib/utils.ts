@@ -38,7 +38,7 @@ export const ErrorAlert = (error: unknown) => {
   if (error instanceof Error) {
     Alert.alert("error", error.message);
   } else {
-    throw new Error("Unknown error occured");
+    Alert.alert("Unknown error occured");
   }
 };
 

@@ -26,7 +26,7 @@ const Friends = () => {
       <P>Loading.....</P>
     </View>
   ) : (
-    <View className="px-2 h-full items-center  bg-background pt-5">
+    <View className="px-2 h-full items-center  bg-background pt-5 lg:max-w-[570px] mx-auto">
       <ViewButton />
       <CustomFlatlist
         type="Friends"

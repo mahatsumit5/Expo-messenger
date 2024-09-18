@@ -10,7 +10,7 @@ import Inputfield from "@/components/Inputfield";
 import Icons from "@/constants/Icons";
 import { Link, router } from "expo-router";
 import { useLoginMutation } from "../../redux/index";
-import { ErrorAlert } from "@/util";
+import { ErrorAlert } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useColorScheme } from "@/lib/useColorScheme";
 import { H2 } from "@/components/ui/typography";
@@ -32,8 +32,8 @@ const SignIn = () => {
     }
   };
   return (
-    <KeyboardAvoidingView behavior="padding">
-      <View className="bg-background h-full  justify-center ">
+    <KeyboardAvoidingView behavior="padding" className="lg:w-[570px] mx-auto">
+      <View className="bg-background h-full  justify-center  ">
         <View className="px-4 my-6 w-full justify-center mx-auto">
           <Image
             source={Icons.icon}

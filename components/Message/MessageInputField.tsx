@@ -11,12 +11,14 @@ import LucidIcon from "../icon/LucidIcon";
 import { SendHorizonal } from "@/lib/icons/Send";
 import { Button } from "../ui/button";
 import LoadingState from "../button/LoadingState";
+import { useColorScheme } from "@/lib/useColorScheme";
 const MessageInputField: FC<{
   author: string;
   roomId: string;
   numOfMessages: number;
   email: string;
 }> = ({ author, roomId, numOfMessages, email }) => {
+  const { isDarkColorScheme } = useColorScheme();
   const { socket } = useAppSelector((store) => store.socket);
   const [message, setMessage] = useState("");
   const [sendMessage, { isLoading }] = useSendMessageMutation();
@@ -55,7 +57,7 @@ const MessageInputField: FC<{
   return (
     <View className="p-2 pt-4 flex-row relative mb-4 border-t border-border">
       <Input
-        className="flex-1  h-10 rounded-full p-2 bg-input"
+        className="flex-1  h-8 rounded-lg p-2 bg-input"
         placeholder="enter you message"
         placeholderTextColor={"gray"}
         onChangeText={(e) => setMessage(e)}
@@ -66,6 +68,7 @@ const MessageInputField: FC<{
         onBlur={() => {
           socket?.emit("stopped_typing", roomId, email);
         }}
+        keyboardAppearance={isDarkColorScheme ? "dark" : "light"}
       />
       {component}
       <View className="ml-2"></View>

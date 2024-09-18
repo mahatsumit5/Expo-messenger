@@ -74,9 +74,12 @@ const Profile = () => {
     }
   }
   return !isError ? (
-    <KeyboardAvoidingView behavior="padding" className="mt-1 bg-card">
+    <KeyboardAvoidingView
+      behavior="padding"
+      className="mt-1 bg-card lg:w-[570px] lg:mx-auto"
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View className="px-2 relative bg-card h-full ">
+        <View className="px-2 relative bg-card h-full  ">
           <View className="my-10">
             <View className="mb-10">
               <Inputfield

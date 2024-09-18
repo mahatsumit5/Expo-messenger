@@ -89,7 +89,7 @@ const Edit = () => {
     }
   }
   return (
-    <KeyboardAvoidingView behavior="height" className="flex-1 bg-background">
+    <KeyboardAvoidingView behavior="height" className="flex-1 bg-background ">
       <ScrollView className="px-4 mb-5 bg-background">
         {/* Avatar */}
 

@@ -4,14 +4,9 @@ import { ErrorAlert } from "@/lib/utils";
 
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getPosts: builder.query<
-      {
-        posts: IPost[];
-        totalNumberOfPosts: number;
-      },
-      number
-    >({
-      query: (skip) => `post?skip=${skip}&&take=10`,
+    // Get all post
+    getPosts: builder.query<GetPostRes, number>({
+      query: (page) => `post?page=${page}&&take=10`,
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved }
@@ -210,4 +205,8 @@ export interface IDeletePost {
   status: boolean;
   message: string;
   post: IPost;
+}
+interface GetPostRes {
+  posts: IPost[];
+  totalNumberOfPosts: number;
 }

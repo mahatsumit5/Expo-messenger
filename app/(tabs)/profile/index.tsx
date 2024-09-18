@@ -23,7 +23,7 @@ const Profile = () => {
   };
 
   return (
-    <View className="h-full  bg-background">
+    <View className="h-full  bg-background lg:max-w-[570px] mx-auto">
       {/* Avatar */}
       <View className=" items-center">
         <FlatList

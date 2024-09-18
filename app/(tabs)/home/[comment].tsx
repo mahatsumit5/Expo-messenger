@@ -27,7 +27,7 @@ const Comment = () => {
     <CommentLoading />
   ) : (
     <KeyboardAvoidingView
-      className=" h-full justify-between bg-background"
+      className=" h-full justify-between bg-background border border-border lg:bg-card"
       behavior="padding"
       keyboardVerticalOffset={80}
     >

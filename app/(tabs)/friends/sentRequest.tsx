@@ -14,7 +14,7 @@ const SentRequest = () => {
     search: "",
   });
   return (
-    <View className="items-center bg-background h-full pt-5">
+    <View className="items-center bg-background h-full pt-5 lg:max-w-[570px] mx-auto">
       <ViewButton />
       <CustomFlatlist
         type="Sent Request"

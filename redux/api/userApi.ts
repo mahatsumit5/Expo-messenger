@@ -2,7 +2,6 @@ import { storeData } from "@/util";
 import { setUser } from "../reducers/userSlice";
 import { emptySplitApi } from "./index";
 import { doesItemExistInCache, ErrorAlert } from "@/lib/utils";
-import { Alert } from "react-native";
 import { setTotalNumberOfUsers } from "../reducers/querySlice";
 
 interface Response extends ServerResponse {
@@ -52,6 +51,7 @@ export const userApi = emptySplitApi.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(setUser({ user: data as IUser, isLoggedIn: true }));
         } catch (error) {
+          console.log(error);
           ErrorAlert(error);
         }
       },

@@ -64,7 +64,7 @@ const Message = () => {
                   <View
                     className={`${
                       item.author === room.userId
-                        ? "bg-slate-200  "
+                        ? "bg-secondary"
                         : "bg-primary "
                     } rounded-xl mx-2`}
                   >

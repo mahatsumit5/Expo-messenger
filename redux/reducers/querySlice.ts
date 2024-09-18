@@ -11,6 +11,7 @@ interface InitialState {
   order: "asc" | "desc";
   postCreatorUserId: string;
   pageForChatRoom: number;
+  pageForHomePage: number;
 }
 const initialState: InitialState = {
   numberOfMessageToDisplay: 20,
@@ -23,6 +24,7 @@ const initialState: InitialState = {
   order: "asc",
   postCreatorUserId: "",
   pageForChatRoom: 1,
+  pageForHomePage: 1,
 };
 export const querySlice = createSlice({
   name: "query",

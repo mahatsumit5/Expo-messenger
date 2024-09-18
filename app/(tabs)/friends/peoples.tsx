@@ -22,7 +22,7 @@ const Peoples = () => {
     { refetchOnMountOrArgChange: true }
   );
   return (
-    <View className="items-center w-full bg-background pt-5 h-full">
+    <View className="items-center w-full bg-background pt-5 h-full lg:max-w-[570px] mx-auto">
       <ViewButton />
 
       <CustomFlatlist
