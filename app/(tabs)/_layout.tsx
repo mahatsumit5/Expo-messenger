@@ -227,7 +227,7 @@ const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
   return (
     <View className="items-center justify-center gap-1 ">
       <Icon size={25} className={focused ? "text-primary" : "text-secondary"} />
-      {/* <Text
+      <Text
         className={`${
           focused
             ? " font-pbold text-primary scale-110 transition-all "
@@ -235,7 +235,7 @@ const TabIcon: React.FC<props> = ({ icon, color, name, focused }) => {
         } text-xs `}
       >
         {name}
-      </Text> */}
+      </Text>
     </View>
   );
 };

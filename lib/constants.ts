@@ -2,7 +2,7 @@ import { ImagePickerAsset } from "expo-image-picker";
 
 export const NAV_THEME = {
   light: {
-    background: "hsl(0 0% 100%)", // background
+    background: "hsl(240, 24%, 96%)", // background
     border: "hsl(240 5.9% 90%)", // border
     card: "hsl(240 20% 92%)", // card
     notification: "hsl(0 84.2% 60.2%)", // destructive
@@ -10,7 +10,7 @@ export const NAV_THEME = {
     text: "hsl(240 10% 3.9%)", // foreground
   },
   dark: {
-    background: "hsl(240 17% 26%)", // background
+    background: "hsl(240, 3%, 1%)", // background
     border: "hsl(240 3.7% 15.9%)", // border
     card: "hsl(240 25% 15.9%)", // card
     notification: "hsl(0 72% 51%)", // destructive

@@ -21,6 +21,7 @@ module.exports = {
       },
       colors: {
         border: "hsl(var(--border))",
+        subtitle: "hsl(var(--subtitle))",
         header: "hsl(var(--header))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

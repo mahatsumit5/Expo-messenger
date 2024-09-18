@@ -26,19 +26,20 @@ export default function MaterialTopTabsLayout() {
       initialRouteName="index"
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.text,
+        tabBarInactiveTintColor: "gray",
         tabBarLabelStyle: {
           fontSize: 14,
           textTransform: "capitalize",
-          fontWeight: "bold",
+          fontWeight: "600",
         },
 
+        animationEnabled: true,
         tabBarScrollEnabled: true,
         tabBarItemStyle: {
           width: "auto",
           minWidth: 100,
           padding: 0,
-          // backgroundColor: colors.card,
+          backgroundColor: colors.background,
         },
       }}
     >

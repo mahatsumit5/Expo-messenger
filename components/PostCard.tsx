@@ -8,6 +8,7 @@ import {
   getLikedIdByUser,
   hasUserLikedThePost,
 } from "@/lib/utils";
+
 import PeopleAvatar from "./PeopleAvatar";
 import { Heart, HeartHandshake } from "@/lib/icons/index";
 import { MessageCircleIcon } from "@/lib/icons/Message";
