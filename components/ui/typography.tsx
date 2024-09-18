@@ -197,7 +197,7 @@ const Muted = React.forwardRef<TextRef, SlottableTextProps>(
     const Component = asChild ? Slot.Text : RNText;
     return (
       <Component
-        className={cn("text-sm text-input web:select-text", className)}
+        className={cn("text-sm text-muted web:select-text", className)}
         ref={ref}
         {...props}
       />

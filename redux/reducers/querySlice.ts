@@ -56,10 +56,14 @@ export const querySlice = createSlice({
     setPageForChatRoom(state, { payload }: PayloadAction<number>) {
       state.pageForChatRoom = payload;
     },
+    setPageForHomePage(state, { payload }: PayloadAction<number>) {
+      state.pageForHomePage = payload;
+    },
   },
 });
 export default querySlice.reducer;
 export const {
+  setPageForHomePage,
   setPageForChatRoom,
   setOrder,
   setSkipNumberOfMessages,

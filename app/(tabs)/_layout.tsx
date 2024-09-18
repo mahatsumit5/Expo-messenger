@@ -1,8 +1,7 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import React, { useEffect } from "react";
 import { router, Tabs } from "expo-router";
-import Icons from "@/constants/Icons";
-
+import { Dimensions } from "react-native";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import { io } from "socket.io-client";
 import { setSocket, setTyping } from "@/redux/reducers/socket.slice";
@@ -10,13 +9,21 @@ import { messageApi } from "@/redux/api/messageApi";
 import { schedulePushNotification } from "@/hooks/useNotification.hook";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "@/lib/useColorScheme";
-import { Sun, Moon, Search, MessageCircleIcon } from "@/lib/icons/index";
+import {
+  Sun,
+  Moon,
+  Search,
+  MessageCircleIcon,
+  Edit,
+  LogOutIcon,
+} from "@/lib/icons/index";
 import { PortalHost } from "@rn-primitives/portal";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 import LucidIcon from "@/components/icon/LucidIcon";
 import { Button } from "@/components/ui/button";
 import { Large } from "@/components/ui/typography";
 import { LucideIcon } from "lucide-react-native";
+import { removeToken } from "@/util";
 import {
   House,
   Users,
@@ -30,6 +37,8 @@ type props = {
   name: string;
   icon: LucideIcon;
 };
+
+const { width } = Dimensions.get("window");
 
 const TabsLayout = () => {
   const { isDarkColorScheme } = useColorScheme();
@@ -122,7 +131,9 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             display: route.name === "message" ? "none" : "flex",
-            backgroundColor: isDarkColorScheme ? "#313135" : "#E6E6E6",
+            backgroundColor: isDarkColorScheme ? "#020203" : "#E6E6E6",
+            width: width > 400 ? 570 : "auto",
+            margin: width > 400 ? "auto" : 0,
           },
         })}
       >
@@ -176,7 +187,7 @@ const TabsLayout = () => {
         <Tabs.Screen
           name="profile"
           options={{
-            headerShown: false,
+            headerShown: true,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 color={color}
@@ -185,7 +196,7 @@ const TabsLayout = () => {
                 name="Profile"
               />
             ),
-            header: () => <TabsHeader />,
+            header: () => <ProfileHeader />,
           }}
         />
         <Tabs.Screen
@@ -246,7 +257,7 @@ const TabsHeader: React.FC = () => {
   const SunIcon = Sun;
   return (
     <>
-      <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2  border-b border-border">
+      <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2  border-b border-border lg:w-[570px] lg:mx-auto">
         {/* <Image source={Icons.icon} className="h-12 w-12" resizeMode="contain" /> */}
         <Large className="font-brushell text-foreground text-3xl p-2">
           ChatApp
@@ -275,6 +286,36 @@ const TabsHeader: React.FC = () => {
         </View>
       </View>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} animated />
+    </>
+  );
+};
+const ProfileHeader: React.FC = () => {
+  const logout = async () => {
+    await removeToken();
+    router.push("/(auth)/sign-in");
+  };
+  return (
+    <>
+      <View className="flex flex-row justify-between  items-center gap-2 bg-header h-fit px-2 pt-16  py-2  border-b border-border lg:w-[570px] lg:mx-auto">
+        <Large className="font-brushell text-foreground text-3xl p-2">
+          Profile
+        </Large>
+
+        <View className="flex-row gap-2">
+          <LucidIcon
+            onPress={() => {
+              router.navigate("/profile/edit");
+            }}
+            icon={Edit}
+            className="text-primary mr-5"
+          />
+          <LucidIcon
+            icon={LogOutIcon}
+            className="text-primary"
+            onPress={logout}
+          />
+        </View>
+      </View>
     </>
   );
 };

@@ -1,23 +1,23 @@
 import { Text, FlatList, RefreshControl, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import PostCard from "@/components/PostCard";
 import { useGetPostsQuery } from "@/redux";
 import EmptyState from "@/components/EmptyState";
-import { postApi } from "@/redux/api/postApi";
 import CustomStatusBar from "@/components/CustomStatusBAr";
+import { setPageForHomePage } from "@/redux/reducers/querySlice";
+import { postApi } from "@/redux/api/postApi";
 
+const numberOfPostsToDisplay = 2;
 const Home = () => {
   const { pageForHomePage } = useAppSelector((store) => store.query);
   const dispatch = useAppDispatch();
-  const { data: posts, isError } = useGetPostsQuery(pageForHomePage);
-  const [refresh, setRefresh] = useState(false);
-  const onRefresh = async () => {
-    setRefresh(true);
-    await dispatch(postApi.endpoints.getPosts.initiate(0));
-    console.log("refetching");
-    setRefresh(false);
-  };
+  const {
+    data: posts,
+    isError,
+    isLoading,
+    refetch,
+  } = useGetPostsQuery({ page: pageForHomePage, take: numberOfPostsToDisplay });
 
   return isError ? (
     <Text>Error Occured</Text>
@@ -35,14 +35,26 @@ const Home = () => {
         )}
         refreshControl={
           <RefreshControl
-            refreshing={refresh}
-            onRefresh={onRefresh}
+            refreshing={isLoading}
+            onRefresh={() => {
+              dispatch(
+                postApi.endpoints.getPosts.initiate({
+                  page: 1,
+                  take: numberOfPostsToDisplay,
+                })
+              );
+            }}
             className="text-foreground"
           />
         }
-        bouncesZoom
-        bounces
-        refreshing
+        onEndReached={() => {
+          if (
+            numberOfPostsToDisplay * pageForHomePage <
+            posts?.totalNumberOfPosts!
+          ) {
+            dispatch(setPageForHomePage(pageForHomePage + 1));
+          }
+        }}
       />
       <CustomStatusBar />
     </View>

@@ -10,6 +10,7 @@ const ProfileLayout = () => {
           headerShown: false,
           title: "Profile",
           headerTitle: "Profile",
+          headerBackButtonMenuEnabled: true,
         }}
       />
       <Stack.Screen

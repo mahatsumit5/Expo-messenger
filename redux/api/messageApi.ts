@@ -70,12 +70,13 @@ export const messageApi = emptySplitApi.injectEndpoints({
           ErrorAlert(error);
         }
         await cacheEntryRemoved;
-      }, // Serialize the query args to ensure correct cacheKey generation
+      },
+      // Serialize the query args to ensure correct cacheKey generation
       serializeQueryArgs: ({ endpointName }) => {
         return endpointName;
       },
       merge: (cacheData, incomingData) => {
-        console.log(incomingData);
+        // checking if data already exist in cache
         if (
           cacheData.result.messages[0].id === incomingData.result.messages[0].id
         ) {

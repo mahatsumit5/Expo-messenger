@@ -2,28 +2,21 @@ import { View, Text, Image, FlatList } from "react-native";
 import React from "react";
 import { avatar, coverImg } from "@/constants/images";
 
-import { removeToken } from "@/util";
-import { router } from "expo-router";
 import { useGetPostsByUserQuery } from "@/redux";
 import PostCard from "@/components/PostCard";
 import EmptyState from "@/components/EmptyState";
 import { useAppSelector } from "@/hooks/hooks";
 import LucidIcon from "@/components/icon/LucidIcon";
-import { Edit } from "@/lib/icons/Edit";
-import { LogOutIcon } from "@/lib/icons/Logout";
+import { Edit, LogOutIcon } from "@/lib/icons/index";
+
 import { H3 } from "@/components/ui/typography";
 import CustomStatusBar from "@/components/CustomStatusBAr";
 const Profile = () => {
   const { user } = useAppSelector((store) => store.user);
   const { data: posts } = useGetPostsByUserQuery(user?.id as string);
 
-  const logout = async () => {
-    await removeToken();
-    router.push("/(auth)/sign-in");
-  };
-
   return (
-    <View className="h-full  bg-background lg:max-w-[570px] mx-auto">
+    <View className="h-full  bg-background lg:max-w-[570px] mx-auto ">
       {/* Avatar */}
       <View className=" items-center">
         <FlatList
@@ -59,13 +52,7 @@ const Profile = () => {
                   />
                 </View>
               )}
-              <View className="absolute top-5 right-5">
-                <LucidIcon
-                  icon={LogOutIcon}
-                  onPress={logout}
-                  className="text-primary"
-                />
-              </View>
+
               {/* information */}
               <View className="items-center absolute top-1/3 w-full">
                 <View className="w-full  p-2 items-center gap-2">
@@ -104,21 +91,11 @@ const Profile = () => {
                   My Posts
                 </Text>
               </View>
-              {/* edit button */}
-              <View className="  items-end px-4">
-                <LucidIcon
-                  onPress={() => {
-                    router.navigate("/profile/edit");
-                  }}
-                  icon={Edit}
-                  className="text-primary"
-                />
-              </View>
             </View>
           )}
         />
       </View>
-      <CustomStatusBar hidden />
+      <CustomStatusBar />
     </View>
   );
 };

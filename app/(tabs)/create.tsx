@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Inputfield from "@/components/Inputfield";
-import TouchableIcon from "@/components/TouchableIcon";
-import Icons from "@/constants/Icons";
+
 import * as ImagePicker from "expo-image-picker";
 import ImageSlider from "@/components/ImageSlider";
 import { useAppSelector } from "@/hooks/hooks";
@@ -18,7 +17,7 @@ import { ErrorAlert } from "@/lib/utils";
 import { uploadImageToS3 } from "@/lib/amszonS3";
 import { router } from "expo-router";
 import { Button } from "@/components/ui/button";
-import { Muted, P, Small } from "@/components/ui/typography";
+import { Muted, P } from "@/components/ui/typography";
 import CustomButton from "@/components/button/ShadButton";
 import { initialState } from "@/lib/constants";
 import { CameraIcon, ImagePlus } from "@/lib/icons/index";
@@ -79,7 +78,7 @@ const Profile = () => {
       className="mt-1 bg-card lg:w-[570px] lg:mx-auto"
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View className="px-2 relative bg-card h-full  ">
+        <View className="px-2 relative  h-full  ">
           <View className="my-10">
             <View className="mb-10">
               <Inputfield

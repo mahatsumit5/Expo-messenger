@@ -1,12 +1,15 @@
 import { emptySplitApi } from ".";
 import { Alert } from "react-native";
 import { ErrorAlert } from "@/lib/utils";
-
+interface GetPostParams {
+  page: number;
+  take: number;
+}
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     // Get all post
-    getPosts: builder.query<GetPostRes, number>({
-      query: (page) => `post?page=${page}&&take=10`,
+    getPosts: builder.query<GetPostRes, GetPostParams>({
+      query: ({ page, take }) => `post?page=${page}&&take=${take}`,
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved }
@@ -29,10 +32,19 @@ export const postApi = emptySplitApi.injectEndpoints({
           totalNumberOfPosts: response.totalNumberOfPosts,
         };
       },
+      // Serialize the query args to ensure correct cacheKey generation
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
       merge: (cacheData, incomingData) => {
-        cacheData.posts.push(...incomingData.posts);
-        cacheData.totalNumberOfPosts =
-          cacheData.totalNumberOfPosts + incomingData.posts.length;
+        if (cacheData.posts[0].id === incomingData.posts[0].id) {
+          cacheData = cacheData;
+          console.log("same data");
+          return;
+        }
+        console.log(incomingData);
+
+        cacheData.posts = [...cacheData.posts, ...incomingData.posts];
       },
       // Refetch when the page arg changes
       forceRefetch({ currentArg, previousArg }) {
@@ -59,12 +71,16 @@ export const postApi = emptySplitApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            postApi.util.updateQueryData("getPosts", 0, (draft) => {
-              return {
-                totalNumberOfPosts: draft.totalNumberOfPosts + 1,
-                posts: [data.result, ...draft.posts],
-              };
-            })
+            postApi.util.updateQueryData(
+              "getPosts",
+              { take: 5, page: 1 },
+              (draft) => {
+                return {
+                  totalNumberOfPosts: draft.totalNumberOfPosts + 1,
+                  posts: [data.result, ...draft.posts],
+                };
+              }
+            )
           );
         } catch (error) {
           if (error instanceof Error) {
@@ -85,12 +101,16 @@ export const postApi = emptySplitApi.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(
-            postApi.util.updateQueryData("getPosts", 0, (draft) => {
-              return {
-                ...draft,
-                posts: draft.posts.filter((post) => post.id !== data.post.id),
-              };
-            })
+            postApi.util.updateQueryData(
+              "getPosts",
+              { take: 5, page: 1 },
+              (draft) => {
+                return {
+                  ...draft,
+                  posts: draft.posts.filter((post) => post.id !== data.post.id),
+                };
+              }
+            )
           );
         } catch (error) {
           ErrorAlert(error);
@@ -109,18 +129,22 @@ export const postApi = emptySplitApi.injectEndpoints({
           const { data } = await queryFulfilled;
 
           dispatch(
-            postApi.util.updateQueryData("getPosts", 0, (draft) => {
-              return {
-                ...draft,
-                posts: draft.posts.map((post) => {
-                  if (post.id === data.postId) {
-                    return { ...post, likes: [...post.likes, data] };
-                  } else {
-                    return post;
-                  }
-                }),
-              };
-            })
+            postApi.util.updateQueryData(
+              "getPosts",
+              { take: 5, page: 1 },
+              (draft) => {
+                return {
+                  ...draft,
+                  posts: draft.posts.map((post) => {
+                    if (post.id === data.postId) {
+                      return { ...post, likes: [...post.likes, data] };
+                    } else {
+                      return post;
+                    }
+                  }),
+                };
+              }
+            )
           );
         } catch (error) {
           ErrorAlert(error);
@@ -143,23 +167,27 @@ export const postApi = emptySplitApi.injectEndpoints({
           const { data } = await queryFulfilled;
 
           dispatch(
-            postApi.util.updateQueryData("getPosts", 0, (draft) => {
-              return {
-                ...draft,
-                posts: draft.posts.map((post) => {
-                  if (post.id === data.postId) {
-                    return {
-                      ...post,
-                      likes: post.likes.filter(
-                        (like: ILikedPost) => like.id !== data.id
-                      ),
-                    };
-                  } else {
-                    return post;
-                  }
-                }),
-              };
-            })
+            postApi.util.updateQueryData(
+              "getPosts",
+              { take: 5, page: 1 },
+              (draft) => {
+                return {
+                  ...draft,
+                  posts: draft.posts.map((post) => {
+                    if (post.id === data.postId) {
+                      return {
+                        ...post,
+                        likes: post.likes.filter(
+                          (like: ILikedPost) => like.id !== data.id
+                        ),
+                      };
+                    } else {
+                      return post;
+                    }
+                  }),
+                };
+              }
+            )
           );
         } catch (error) {
           ErrorAlert(error);
